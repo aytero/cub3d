@@ -1,0 +1,17 @@
+R 1920 1080
+
+NO ./north_texture
+SO
+WE
+EA
+S ./sprite
+
+F 220,100,0 //floor color
+C 225,30,0 //ceiling color
+
+1111111
+1000001
+10N0001
+1001001
+1001001
+1111111

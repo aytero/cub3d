@@ -1,1 +1,1 @@
-# cub3d
+# mlx-playgroung
