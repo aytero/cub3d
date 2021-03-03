@@ -33,6 +33,8 @@
 # define BUFFER_SIZE 1
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
+# define HEIGHT 540
+# define WIDTH 600
 
 /* define buf size in gnl
 */
@@ -50,6 +52,8 @@ typedef struct	s_all
 	void		*mlx;
 	void		*win;
 	void		*img;
+	void 		*tex_img;
+	int 		*tex_data;
 	int 		img_width;
 	int 		img_height;
 	int 		*addr;
@@ -94,7 +98,7 @@ typedef struct	s_all
 	int 		color;
 	int 		**texture;
 //	int 		buf[TEX_HEIGHT][TEX_WIDTH];
-	int 		**buf;
+	int 		buf[HEIGHT][WIDTH];
 
 	int 		line_height;//height of line to draw on screen
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/03 04:22:35 by lpeggy            #+#    #+#             */
+/*   Updated: 2021/03/03 04:22:39 by lpeggy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
+#include <stdio.h>
 
 /*
 void 	image()
@@ -29,13 +42,16 @@ void 	tex_mem(t_all *all)
 	int		j;
 
 	i = 0;
-	while (i++ < all->win_height)
+	while (i < all->win_height)
 	{
 		j = 0;
-		while (j++ < all->win_width)
+		while (j < all->win_width)
+		{
 			all->buf[i][j] = 0;
+			j++;
+		}
+		i++;
 	}
-
 //	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * TEX_HEIGHT * TEX_WIDTH);
 	//if (!(all->texture = (int **)malloc(sizeof(int *) * 4)))// 4 - num of textures
 		//all->error = 1;
@@ -58,17 +74,24 @@ void 	tex_mem(t_all *all)
 
 void	load_image(t_all *all, int *texture, char *path)
 {
+	printf("what\n");
 	all->img = mlx_xpm_file_to_image(all->mlx, path, &all->img_width, &all->img_height);
+	printf("nu\n");
 	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel, &all->line_len, &all->endian);
+	printf("that\n");
 	int y = 0;
 	int x;
-	while (y++ < all->img_height)
+	while (y < all->img_height)
 	{
 		x = 0;
-		while (x++ < all->img_width)
+		while (x < all->img_width)
+		{
 			texture[all->img_width * y + x] = all->addr[all->img_width * y + x];//where the texture var goes?
+			x++;
+		}
+		y++;
 	}
-	mlx_destroy_image(all->mlx, all->img);
+	mlx_destroy_image(all->mlx, all->tex_img);
 }
 
 void	load_texture(t_all *all)

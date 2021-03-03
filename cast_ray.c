@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cast_ray.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/03 04:22:58 by lpeggy            #+#    #+#             */
+/*   Updated: 2021/03/03 04:23:00 by lpeggy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	cast_rays(t_all *all, int x)
@@ -84,15 +96,14 @@ void 	draw_calc(t_all *all, int x)//rename to drawline_calc
 		all->draw_end = all->line_height / 2 + all->win_height / 2;
 		if (all->draw_end >= all->win_height || all->draw_end < 0)// added 2nd condition
 			all->draw_end = all->win_height - 1;
-//	(void)x;
-		while (all->draw_start < all->draw_end)
+	(void)x;
+/*		while (all->draw_start < all->draw_end)
 		{
 			pixel_put(all, x, all->draw_start, 0x00FF00);
 			all->draw_start++;
-		}
+		} */
 }
 
-/*
 // TODO
 void 	tex_calculations(t_all *all, int x)
 {
@@ -131,4 +142,3 @@ void	draw(t_all *all)
 	}
 //	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 }
-*/

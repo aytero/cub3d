@@ -62,7 +62,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f libmlx.dylib
+#	rm -f libmlx.dylib
 #	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
 
