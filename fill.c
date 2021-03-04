@@ -23,7 +23,7 @@ void 	fill(t_all *all)
 	{
 		x = -1;
 		while (x++ < all->win_width)
-			pixel_put(all, x, y, 0xb0b0b0);
+			pixel_put(all, x, y, 0x3b3b3b);
 	}
 	while (++y < all->win_height)
 	{

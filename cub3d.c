@@ -55,8 +55,8 @@ int		main(int argc, char **argv)
 //	}
 	//check argv;
 	parse_map(&all, argv[1]);
-	tex_mem(&all);
-	load_texture(&all);
+//	tex_mem(&all);
+//	load_texture(&all);
 	all.mlx = mlx_init();
 	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "cub3d");
 //	all.img = mlx_new_image(all.mlx, all.win_width, all.win_height);

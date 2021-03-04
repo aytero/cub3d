@@ -47,13 +47,23 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
+typedef struct 	s_tex
+{
+	//int 		*texture;
+	void		*img;
+	int 		img_width;
+	int 		img_height;
+	int 		*addr;
+	int			bits_per_pixel;
+	int			line_len;
+	int			endian;
+}				t_tex;
+
 typedef struct	s_all
 {
 	void		*mlx;
 	void		*win;
 	void		*img;
-	void 		*tex_img;
-	int 		*tex_data;
 	int 		img_width;
 	int 		img_height;
 	int 		*addr;
@@ -89,6 +99,7 @@ typedef struct	s_all
 	int 		hit;//was there a wall hit?
 	int 		side;//was a NS or a EW wall hit?
 
+	t_tex		*tex;
 	int 		tex_num;
 	double 		wall_x;
 	int 		tex_x;
@@ -107,11 +118,10 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
-
 void	draw(t_all *all);
 void 	tex_calculations(t_all *all, int x);
 void 	tex_mem(t_all *all);
-void	load_image(t_all *all, int *texture, char *path);
+void	load_image(t_all *all, t_tex *texture, char *path);
 void	load_texture(t_all *all);
 void			ft_cleanlst_fd(t_lst **head, int fd);
 int				ft_strchr_n(char *s);

@@ -96,12 +96,15 @@ void 	draw_calc(t_all *all, int x)//rename to drawline_calc
 		all->draw_end = all->line_height / 2 + all->win_height / 2;
 		if (all->draw_end >= all->win_height || all->draw_end < 0)// added 2nd condition
 			all->draw_end = all->win_height - 1;
-	(void)x;
-/*		while (all->draw_start < all->draw_end)
+//	(void)x;
+		while (all->draw_start < all->draw_end)
 		{
-			pixel_put(all, x, all->draw_start, 0x00FF00);
+			if (all->side == 1)
+				pixel_put(all, x, all->draw_start, 0xb0b0b0);
+			else
+				pixel_put(all, x, all->draw_start, 0x9c9c9c);
 			all->draw_start++;
-		} */
+		}
 }
 
 // TODO

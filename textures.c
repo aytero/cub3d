@@ -37,22 +37,9 @@ all->tex1_addr = mlx_get_data_addr(all->tex1, all->bits_per_pixel, all->line_len
 
 void 	tex_mem(t_all *all)
 {
-
 	int		i;
-	int		j;
 
-	i = 0;
-	while (i < all->win_height)
-	{
-		j = 0;
-		while (j < all->win_width)
-		{
-			all->buf[i][j] = 0;
-			j++;
-		}
-		i++;
-	}
-//	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * TEX_HEIGHT * TEX_WIDTH);
+	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
 	//if (!(all->texture = (int **)malloc(sizeof(int *) * 4)))// 4 - num of textures
 		//all->error = 1;
 	all->texture = (int **)malloc(sizeof(int *) * 4);
@@ -62,42 +49,38 @@ void 	tex_mem(t_all *all)
 		all->texture[i] = (int *)malloc(sizeof(int) * TEX_HEIGHT * TEX_WIDTH);
 		//if - error
 	}
-	i = 0;
-	while (i++ < 4)
-	{
-		j = 0;
-		while (j++ < TEX_HEIGHT * TEX_WIDTH)
-			all->texture[i][j] = 0;
-	}
-	//	ft_memset(all->texture, 0, sizeof(all->texture[0][0]) * 4 * TEX_WIDTH * TEX_HEIGHT);
+	ft_memset(all->texture, 0, sizeof(all->texture[0][0]) * 4 * TEX_HEIGHT * TEX_WIDTH);
 }
 
-void	load_image(t_all *all, int *texture, char *path)
+void	load_image(t_all *all, t_tex *tex, char *path)
 {
+	all->tex = ft_calloc(4, sizeof(t_tex));
 	printf("what\n");
-	all->img = mlx_xpm_file_to_image(all->mlx, path, &all->img_width, &all->img_height);
+	tex->img = mlx_xpm_file_to_image(all->mlx, path, &tex->img_width, &tex->img_height);
 	printf("nu\n");
-	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel, &all->line_len, &all->endian);
+	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel, &tex->line_len, &tex->endian);
 	printf("that\n");
+	/*
 	int y = 0;
 	int x;
-	while (y < all->img_height)
+	while (y < tex->img_height)
 	{
 		x = 0;
-		while (x < all->img_width)
+		while (x < tex->img_width)
 		{
-			texture[all->img_width * y + x] = all->addr[all->img_width * y + x];//where the texture var goes?
+			tex->texture[tex->img_width * y + x] = tex->addr[tex->img_width * y + x];//where the texture var goes?
 			x++;
 		}
 		y++;
 	}
-	mlx_destroy_image(all->mlx, all->tex_img);
+	mlx_destroy_image(all->mlx, tex->img);
+	 */
 }
 
 void	load_texture(t_all *all)
 {
-	load_image(all, all->texture[0], "textures/beige.xpm");
-	load_image(all, all->texture[1], "textures/dark_green.xpm");
-	load_image(all, all->texture[2], "textures/light_green.xpm");
-	load_image(all, all->texture[3], "textures/brown.xpm");
+	load_image(all, all->tex, "textures/beige.xpm");
+	load_image(all, all->tex + 1, "textures/dark_green.xpm");
+	load_image(all, all->tex + 2, "textures/light_green.xpm");
+	load_image(all, all->tex + 3, "textures/brown.xpm");
 }
