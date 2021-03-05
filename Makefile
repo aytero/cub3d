@@ -19,7 +19,7 @@ SRC = cub3d.c\
 	   deal_key.c\
 	   exit_cube.c\
 	   pixel_put.c\
-	   cast_ray.c\
+	   cast_rays.c\
 	   fill.c\
 	   get_next_line.c\
 	   get_next_line_utils.c\

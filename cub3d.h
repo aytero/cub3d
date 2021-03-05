@@ -36,9 +36,6 @@
 # define HEIGHT 540
 # define WIDTH 600
 
-/* define buf size in gnl
-*/
-
 typedef struct		s_lst
 {
 	int				fd;
@@ -61,6 +58,8 @@ typedef struct 	s_tex
 
 typedef struct	s_all
 {
+	t_tex		*tex;
+
 	void		*mlx;
 	void		*win;
 	void		*img;
@@ -99,7 +98,6 @@ typedef struct	s_all
 	int 		hit;//was there a wall hit?
 	int 		side;//was a NS or a EW wall hit?
 
-	t_tex		*tex;
 	int 		tex_num;
 	double 		wall_x;
 	int 		tex_x;
@@ -118,17 +116,17 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
-void	draw(t_all *all);
-void 	tex_calculations(t_all *all, int x);
-void 	tex_mem(t_all *all);
-void	load_image(t_all *all, t_tex *texture, char *path);
-void	load_texture(t_all *all);
+void			draw(t_all *all);
+void			tex_calculations(t_all *all, int x);
+void			tex_mem(t_all *all);
+void			load_image(t_all *all, t_tex *texture, char *path);
+void			load_texture(t_all *all);
 void			ft_cleanlst_fd(t_lst **head, int fd);
 int				ft_strchr_n(char *s);
 t_lst			*ft_lstnew_fd(int fd);
 int				get_next_line(int fd, char **line);
 void 			fill(t_all *all);
-void 	tex_calculations(t_all *all, int x);
+void 			tex_calculations(t_all *all, int x);
 void		 	draw_calc(t_all *all, int x);
 //void 			draw(t_all *all);
 //void			map(t_data *data);

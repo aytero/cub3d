@@ -12,12 +12,14 @@
 
 #include "cub3d.h"
 
+/*
 static void get_params(t_all *all, char ***map)
 {
 	(void)all;
 	if (***map == 'R')
 		(**map)++;
 }
+*/
 
 static char	*read_map(int fd, char *tab)
 {
@@ -47,7 +49,7 @@ void		parse_map(t_all *all, char *file)
 	}
 	tab = read_map(fd, tab);
 	all->map = ft_split(tab, '\n');
-	get_params(all, &all->map);
+//	get_params(all, &all->map);
 	close(fd);
 	free(tab);
 }
