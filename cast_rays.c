@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include <unistd.h>
 
 static void 	init_rc(t_all *all, int x)
 {
@@ -68,12 +69,12 @@ void 	draw_calc(t_all *all, int x)
 	while (all->draw_start < all->draw_end)
 	{
 		if (all->side == 1)
-			pixel_put(all, x, all->draw_start, 0xb0b0b0);
+			pixel_put(all, x, all->draw_start, 0xFFFFFF);//b0b0b0
 		else
-			pixel_put(all, x, all->draw_start, 0x9c9c9c);
+			pixel_put(all, x, all->draw_start, 0xfbbfff);//9c9c9c
 		all->draw_start++;
 	}
- */
+*/
 }
 
 // TODO
@@ -81,7 +82,11 @@ void 	tex_calculations(t_all *all, int x)
 {
 	int 	y;
 
-	all->tex_num = all->map[all->map_x][all->map_y] - 1;
+	if (all->side == 1)
+		all->tex_num = all->map[all->map_x][all->map_y] - 48;
+	else
+		all->tex_num = all->map[all->map_x][all->map_y] - 47;
+//	all->tex_num = all->map[all->map_x][all->map_y] - 48;//cast ?
 	if (all->side == 0)
 		all->wall_x = all->plr_y + all->perp_wall_dist * all->ray_dir_y;
 	else
@@ -92,15 +97,18 @@ void 	tex_calculations(t_all *all, int x)
 		all->tex_x = TEX_WIDTH - all->tex_x - 1;
 	if (all->side == 1 && all->ray_dir_y < 0)
 		all->tex_x = TEX_WIDTH - all->tex_x - 1;
-	all->step = 1.0 * TEX_HEIGHT / all->line_height;
+	all->step = 1.0 * TEX_HEIGHT / all->line_height;//
+
 	all->tex_pos = (all->draw_start - all->win_height / 2 + all->line_height / 2) * all->step;
 	y = all->draw_start;
 	while (y < all->draw_end)
 	{
 		all->tex_y = (int)all->tex_pos & (TEX_HEIGHT - 1);
 		all->tex_pos += all->step;
+//		write(1, "3\n", 2);
 	//	all->buf[y][x] = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//rm all->color from struct
-		all->color = all->texture[all->tex_eum][TEX_HEIGHT * all->tex_y + all->tex_x]//!!!!!
+		all->color = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//seg bc tex_num
+//		write(1, "1\n", 2);
 		all->buf[y][x] = all->color;
 		y++;
 	}
@@ -112,11 +120,15 @@ void	draw(t_all *all)
 	int 	x;
 
 	y = 0;
-	while (y++ < all->win_height)
+	while (y < all->win_height)
 	{
 		x = 0;
-		while (x++ < all->win_width)
-			all->addr[y * all->win_width + x] = all->buf[y][x];
+		while (x < all->win_width)
+		{
+			all->addr[all->win_width * y + x] = all->buf[y][x];
+			x++;
+		}
+		y++;
 	}
 //	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 }
