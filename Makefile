@@ -67,3 +67,4 @@ fclean: clean
 	make fclean -C $(LIBFTDIR)
 
 re: fclean all
+	make clean -C $(MLXDIR)

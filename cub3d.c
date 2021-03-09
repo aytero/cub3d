@@ -22,6 +22,7 @@ int		hook_frame(t_all *all)
 			&all->line_len, &all->endian); //why use casting to int?
 
 //	fill(all);
+//	ft_memset(all->addr, 0, sizeof(all->addr[0]) * HEIGHT * WIDTH);
 	while (x < all->win_width)
 	{
 		cast_rays(all, x);
@@ -29,8 +30,8 @@ int		hook_frame(t_all *all)
 		tex_calculations(all, x);
 		x++;
 	}
-	draw(all);
-	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
+//	draw(all);
+//	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 //	mlx_destroy_image(all->mlx, all->img);
 	return (0);
@@ -59,7 +60,7 @@ int		main(int argc, char **argv)
 	parse_map(&all, argv[1]);
 	all.mlx = mlx_init();
 //	ft_memset(all.buf, 0, sizeof(all.buf[0][0]) * HEIGHT * WIDTH);
-	tex_mem(&all);
+//	tex_mem(&all);
 	load_texture(&all);
 	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "cub3d");
 

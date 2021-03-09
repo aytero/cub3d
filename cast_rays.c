@@ -41,10 +41,10 @@ void	cast_rays(t_all *all, int x)
 	all->delta_dist_y = fabs(1 / all->ray_dir_y);
 
 	all->side_dist_x = all->ray_dir_x >= 0 ? (all->map_x + 1.0 - all->plr_x) * all->delta_dist_x
-										   : (all->plr_x - all->map_x) * all->delta_dist_x;
+			: (all->plr_x - all->map_x) * all->delta_dist_x;
 	all->step_x = all->ray_dir_x >= 0 ? 1 : -1;
 	all->side_dist_y = all->ray_dir_y >= 0 ? (all->map_y + 1.0 - all->plr_y) * all->delta_dist_y
-										   : (all->plr_y - all->map_y) * all->delta_dist_y;
+			: (all->plr_y - all->map_y) * all->delta_dist_y;
 	all->step_y = all->ray_dir_y >= 0 ? 1 : -1;
 //	if (calc_hit(all) <= 0)
 //		return ;
@@ -62,16 +62,20 @@ void 	draw_calc(t_all *all, int x)
 	if (all->draw_start < 0)
 		all->draw_start = 0;
 	all->draw_end = all->line_height / 2 + all->win_height / 2;
-	if (all->draw_end >= all->win_height || all->draw_end < 0)// added 2nd condition
+	if (all->draw_end >= all->win_height)// || all->draw_end < 0)// added 2nd condition
 		all->draw_end = all->win_height - 1;
 	(void)x;
 /*
 	while (all->draw_start < all->draw_end)
 	{
-		if (all->side == 1)
-			pixel_put(all, x, all->draw_start, 0xFFFFFF);//b0b0b0
+		if (all->side == 0 && all->step_x > 0)
+				pixel_put(all, x, all->draw_start, 0x595959);
+		else if (all->side == 0 && all->step_x <= 0)
+				pixel_put(all, x, all->draw_start, 0xb0b0b0);
+		else if (all->side == 1 && all->step_y > 0)
+			pixel_put(all, x, all->draw_start, 0x9c9c9c);//9c9c9c
 		else
-			pixel_put(all, x, all->draw_start, 0xfbbfff);//9c9c9c
+			pixel_put(all, x, all->draw_start, 0xd1d1d1);
 		all->draw_start++;
 	}
 */
@@ -80,37 +84,57 @@ void 	draw_calc(t_all *all, int x)
 // TODO
 void 	tex_calculations(t_all *all, int x)
 {
-	int 	y;
+//	int 	y;
 
-	if (all->side == 1)
-		all->tex_num = all->map[all->map_x][all->map_y] - 48;
+	if (all->side == 1 && all->step_y > 0)
+			all->tex_id = 0;
+//			all->tex_num = all->map[all->map_x][all->map_y] - 48;
+	else if (all->side == 1 && all->step_y < 0)
+			all->tex_id = 1;
+//			all->tex_num = all->map[all->map_x][all->map_y] - 47;
+	else if (all->side == 0 && all->step_x > 0)
+			all->tex_id = 2;
+//			all->tex_num = all->map[all->map_x][all->map_y] - 46;
 	else
-		all->tex_num = all->map[all->map_x][all->map_y] - 47;
+			all->tex_id = 3;//causes seg f
+//			all->tex_num = all->map[all->map_x][all->map_y] - 45;
 //	all->tex_num = all->map[all->map_x][all->map_y] - 48;//cast ?
+//	find_tex_id(all);
+	all->tex_id = 2;
 	if (all->side == 0)
 		all->wall_x = all->plr_y + all->perp_wall_dist * all->ray_dir_y;
 	else
 		all->wall_x = all->plr_x + all->perp_wall_dist * all->plr_dir_x;
 	all->wall_x -= floor(all->wall_x);
-	all->tex_x = (int)(all->wall_x * (double)TEX_WIDTH);
-	if (all->side == 0 && all->ray_dir_x > 0)
-		all->tex_x = TEX_WIDTH - all->tex_x - 1;
-	if (all->side == 1 && all->ray_dir_y < 0)
-		all->tex_x = TEX_WIDTH - all->tex_x - 1;
-	all->step = 1.0 * TEX_HEIGHT / all->line_height;//
 
-	all->tex_pos = (all->draw_start - all->win_height / 2 + all->line_height / 2) * all->step;
-	y = all->draw_start;
-	while (y < all->draw_end)
+	all->tex_x = (int)all->wall_x * all->tex[all->tex_id].img_width;
+//	all->tex_x = (int)(all->wall_x * (double)TEX_WIDTH);
+	if (all->side == 0 && all->ray_dir_x > 0)
+	//	all->tex_x = TEX_WIDTH - all->tex_x - 1;
+		all->tex_x = all->tex[all->tex_id].img_width - all->tex_x - 1;
+	if (all->side == 1 && all->ray_dir_y < 0)
+	//	all->tex_x = TEX_WIDTH - all->tex_x - 1;
+		all->tex_x = all->tex[all->tex_id].img_width - all->tex_x - 1;
+//	all->step = 1.0 * TEX_HEIGHT / all->line_height;//
+	all->step = 1.0 * all->tex[all->tex_id].img_height / all->line_height;
+
+	all->tex_pos = (all->draw_start - all->win_height / 2.0 + all->line_height / 2.0) * all->step;
+//	y = all->draw_start;
+	while (all->draw_start <=  all->draw_end)
 	{
-		all->tex_y = (int)all->tex_pos & (TEX_HEIGHT - 1);
+		if ((int)all->tex_pos >= all->tex[all->tex_id].img_height)
+			all->tex_y = (int)all->tex_pos & (all->tex[all->tex_id].img_height - 1);
+		else
+			all->tex_y = all->tex_pos;
 		all->tex_pos += all->step;
+		all->addr[all->win_height * all->draw_start + x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * all->tex_y + x];
 //		write(1, "3\n", 2);
-	//	all->buf[y][x] = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//rm all->color from struct
-		all->color = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//seg bc tex_num
+//		all->buf[y][x] = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//rm all->color from struct
+//		all->addr[all->win_width * y + x] = all->texture[all->tex_num][TEX_HEIGHT * all->tex_y + all->tex_x];//seg bc tex_num
 //		write(1, "1\n", 2);
-		all->buf[y][x] = all->color;
-		y++;
+//		all->buf[y][x] = all->color;
+//		y++;
+		all->draw_start++;
 	}
 }
 

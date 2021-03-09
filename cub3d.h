@@ -58,7 +58,7 @@ typedef struct 	s_tex
 
 typedef struct	s_all
 {
-	t_tex		tex;
+	t_tex		*tex;
 
 	void		*mlx;
 	void		*win;
@@ -108,6 +108,8 @@ typedef struct	s_all
 	int 		**texture;
 //	int 		texture[TEX_HEIGHT][TEX_WIDTH];
 	int 		buf[HEIGHT][WIDTH];
+//	int 		**buf;
+	int 		tex_id;
 
 	int 		line_height;//height of line to draw on screen
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
@@ -116,10 +118,11 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
+void	find_tex_id(t_all *all);
 void			draw(t_all *all);
 void			tex_calculations(t_all *all, int x);
 void			tex_mem(t_all *all);
-void			load_image(t_all *all, int *texture, char *path, t_tex *tex);
+void			load_image(t_all *all, t_tex *tex, char *path);
 void			load_texture(t_all *all);
 void			ft_cleanlst_fd(t_lst **head, int fd);
 int				ft_strchr_n(char *s);
