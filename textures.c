@@ -55,13 +55,24 @@ void 	tex_mem(t_all *all)
 
 void	find_tex_id(t_all *all)
 {
-	all->tex_id = all->tex_num;//
-	if (all->tex_id > 1)
-		return ;
+//	all->tex_id = all->tex_num % 4;//
+//	if (all->tex_id > 1)
+//		return ;
+/*
+	all->tex_id = 0;
 	if (all->side == 0)
-		all->tex_id = (all->step_x == 1) ? all->tex_id : all->tex_id + all->tex_num;
+		all->tex_id = (all->step_x == 1) ? all->tex_id : all->tex_id + 1;
 	else if (all->side == 1)//y-side
-		all->tex_id = (all->step_y == 1) ? all->tex_id + all->tex_num + 2 : all->tex_id;
+		all->tex_id = (all->step_y == 1) ? all->tex_id + 2 : all->tex_id + 3;
+	*/
+	if (all->side == 1 && all->step_y > 0)
+		all->tex_id = 0;
+	else if (all->side == 1 && all->step_y < 0)
+		all->tex_id = 1;
+	else if (all->side == 0 && all->step_x > 0)
+		all->tex_id = 2;
+	else
+		all->tex_id = 3;
 }
 
 void	load_image(t_all *all, t_tex *tex, char *path)
@@ -87,13 +98,13 @@ void	load_image(t_all *all, t_tex *tex, char *path)
 
 void	load_texture(t_all *all)
 {
-	all->tex = ft_calloc(4, sizeof(t_tex));
-//	all->tex = (void *)malloc(sizeof(t_tex) * 4);
-//	ft_memset(all->tex, 0, sizeof(t_tex) * 4);
-	load_image(all, all->tex, "textures/beige.xpm");
-	load_image(all, all->tex + 1, "textures/dark_green.xpm");
-	load_image(all, all->tex + 2, "textures/light_green.xpm");
-	load_image(all, all->tex + 3, "textures/brown.xpm");
+//	all->tex = ft_calloc(4, sizeof(t_tex));
+	all->tex = malloc(sizeof(t_tex) * 4);
+	ft_memset(all->tex, 0, sizeof(t_tex) * 4);
+	load_image(all, all->tex, "textures/star.xpm");
+	load_image(all, all->tex + 1, "textures/quartz_pillar_top.xpm");
+	load_image(all, all->tex + 2, "textures/brain_coral_block.xpm");
+	load_image(all, all->tex + 3, "textures/frosted_ice.xpm");
 	/*
 	t_tex	tex;
 

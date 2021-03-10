@@ -22,7 +22,7 @@ int		hook_frame(t_all *all)
 			&all->line_len, &all->endian); //why use casting to int?
 
 //	fill(all);
-//	ft_memset(all->addr, 0, sizeof(all->addr[0]) * HEIGHT * WIDTH);
+	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
 	while (x < all->win_width)
 	{
 		cast_rays(all, x);
@@ -30,8 +30,7 @@ int		hook_frame(t_all *all)
 		tex_calculations(all, x);
 		x++;
 	}
-//	draw(all);
-//	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
+	draw(all);
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 //	mlx_destroy_image(all->mlx, all->img);
 	return (0);
@@ -42,14 +41,14 @@ int		main(int argc, char **argv)
 	t_all all;
 
 	(void)argc;
-	//zero_flags(data);
+	ft_bzero(&all, sizeof(all));
 	all.win_width = 600;
 	all.win_height = 540;
 	all.plr_x = 5;
     all.plr_y = 7;  //x and y start position
-    all.plr_dir_x = -1;
-    all.plr_dir_y = 0; //initial direction vector
-    all.plane_x = 0;
+    all.plr_dir_x = -1.0;
+    all.plr_dir_y = 0.0; //initial direction vector
+    all.plane_x = 0.0;
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
 //	if (argc != 2)
 //	{

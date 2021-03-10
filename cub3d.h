@@ -58,8 +58,6 @@ typedef struct 	s_tex
 
 typedef struct	s_all
 {
-	t_tex		*tex;
-
 	void		*mlx;
 	void		*win;
 	void		*img;
@@ -98,7 +96,7 @@ typedef struct	s_all
 	int 		hit;//was there a wall hit?
 	int 		side;//was a NS or a EW wall hit?
 
-	int 		tex_num;
+	t_tex		*tex;
 	double 		wall_x;
 	int 		tex_x;
 	double 		tex_pos;

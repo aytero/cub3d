@@ -65,6 +65,6 @@ fclean: clean
 #	rm -f libmlx.dylib
 #	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
+	make clean -C $(MLXDIR)
 
 re: fclean all
-	make clean -C $(MLXDIR)

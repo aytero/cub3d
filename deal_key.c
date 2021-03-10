@@ -17,10 +17,10 @@ static void rotate(t_all *all, double angle)
 	double old_plane_x = all->plane_x;
 	double old_dir_x = all->plr_dir_x;
 
-		all->plr_dir_x = all->plr_dir_x * cos(angle) - all->plr_dir_y * sin(angle);
-		all->plr_dir_y = old_dir_x * sin(angle) + all->plr_dir_y * cos(angle);
-		all->plane_x = all->plane_x * cos(angle) - all->plane_y * sin(angle);
-		all->plane_y = old_plane_x * sin(angle) + all->plane_y * cos(angle);
+	all->plr_dir_x = all->plr_dir_x * cos(angle) - all->plr_dir_y * sin(angle);
+	all->plr_dir_y = old_dir_x * sin(angle) + all->plr_dir_y * cos(angle);
+	all->plane_x = all->plane_x * cos(angle) - all->plane_y * sin(angle);
+	all->plane_y = old_plane_x * sin(angle) + all->plane_y * cos(angle);
 }
 
 static void	move(t_all *all, double angle)//x & y are messed up; mb int -> unsigned int
