@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <unistd.h>
 
+/*
 void 	tex_mem(t_all *all)
 {
 	int		i = 0;
@@ -52,19 +52,10 @@ void 	tex_mem(t_all *all)
  	}
 //	ft_memset(all->texture, 0, sizeof(all->texture[0][0]) * TEX_HEIGHT * TEX_WIDTH);
 }
+*/
 
 void	find_tex_id(t_all *all)
 {
-//	all->tex_id = all->tex_num % 4;//
-//	if (all->tex_id > 1)
-//		return ;
-/*
-	all->tex_id = 0;
-	if (all->side == 0)
-		all->tex_id = (all->step_x == 1) ? all->tex_id : all->tex_id + 1;
-	else if (all->side == 1)//y-side
-		all->tex_id = (all->step_y == 1) ? all->tex_id + 2 : all->tex_id + 3;
-	*/
 	if (all->side == 1 && all->step_y > 0)
 		all->tex_id = 0;
 	else if (all->side == 1 && all->step_y < 0)
@@ -98,9 +89,9 @@ void	load_image(t_all *all, t_tex *tex, char *path)
 
 void	load_texture(t_all *all)
 {
-//	all->tex = ft_calloc(4, sizeof(t_tex));
-	all->tex = malloc(sizeof(t_tex) * 4);
-	ft_memset(all->tex, 0, sizeof(t_tex) * 4);
+	all->tex = ft_calloc(4, sizeof(t_tex));
+//	all->tex = malloc(sizeof(t_tex) * 4);
+//	ft_memset(all->tex, 0, sizeof(t_tex) * 4);
 	load_image(all, all->tex, "textures/star.xpm");
 	load_image(all, all->tex + 1, "textures/quartz_pillar_top.xpm");
 	load_image(all, all->tex + 2, "textures/brain_coral_block.xpm");

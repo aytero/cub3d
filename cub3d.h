@@ -31,8 +31,6 @@
 # define D 2
 # define ESC 53
 # define BUFFER_SIZE 1
-# define TEX_WIDTH 64
-# define TEX_HEIGHT 64
 # define HEIGHT 540
 # define WIDTH 600
 
@@ -97,12 +95,6 @@ typedef struct	s_all
 	int 		side;//was a NS or a EW wall hit?
 
 	t_tex		*tex;
-	double 		wall_x;
-	int 		tex_x;
-	double 		tex_pos;
-	int 		tex_y;
-	double 		step;
-	int 		color;
 	int 		**texture;
 //	int 		texture[TEX_HEIGHT][TEX_WIDTH];
 	int 		buf[HEIGHT][WIDTH];
@@ -116,9 +108,9 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
+void 	fill_buffer(t_all *all, int tex_x, double step);
 void	find_tex_id(t_all *all);
 void			draw(t_all *all);
-void			tex_calculations(t_all *all, int x);
 void			tex_mem(t_all *all);
 void			load_image(t_all *all, t_tex *tex, char *path);
 void			load_texture(t_all *all);
@@ -127,11 +119,10 @@ int				ft_strchr_n(char *s);
 t_lst			*ft_lstnew_fd(int fd);
 int				get_next_line(int fd, char **line);
 void 			fill(t_all *all);
-void 			tex_calculations(t_all *all, int x);
-void		 	draw_calc(t_all *all, int x);
-//void 			draw(t_all *all);
+void 			tex_calc(t_all *all);
+void		 	draw_calc(t_all *all);
 //void			map(t_data *data);
-void			cast_rays(t_all *all, int x);
+void			cast_rays(t_all *all);
 int				deal_key(int keycode, t_all *all);
 int				exit_cube(t_all *all);
 void			pixel_put(t_all *all, int x, int y, int color);
