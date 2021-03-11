@@ -91,14 +91,15 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 	int 	tex_y;
 	double 	tex_pos;
 
+//	tex_pos = (all->draw_start - all->draw_end) * step;
 	tex_pos = (all->draw_start - all->win_height / 2.0 + all->line_height / 2.0) * step;
 	while (all->draw_start < all->draw_end)// <= causes digital artifacts
 	{
-	//	all->tex_y = (int)all->tex_pos & (all->tex[all->tex_id].img_height - 1);
-		if ((int)tex_pos >= all->tex[all->tex_id].img_height)
-			tex_y = (int)tex_pos % all->tex[all->tex_id].img_height - 1;//
-		else
-			tex_y = (int)tex_pos;
+		tex_y = (int)tex_pos & (all->tex[all->tex_id].img_height - 1);
+	//	if ((int)tex_pos >= all->tex[all->tex_id].img_height)
+	//		tex_y = (int)tex_pos % all->tex[all->tex_id].img_height - 1;//
+	//	else
+	//		tex_y = (int)tex_pos;
 		tex_pos += step;
 //		all->addr[all->line_len / 4 * y + x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];
 		all->buf[all->draw_start][all->x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];

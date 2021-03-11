@@ -21,7 +21,7 @@ int		hook_frame(t_all *all)
 	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel,
 			&all->line_len, &all->endian); //why use casting to int?
 
-//	fill(all);
+	fill(all);
 	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->win_height * all->win_width);
 	while (all->x < all->win_width)
 	{
@@ -60,7 +60,7 @@ int		main(int argc, char **argv)
 	all.mlx = mlx_init();
 //	tex_mem(&all);
 	load_texture(&all);
-	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "cub3d");
+	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
 
 	mlx_hook(all.win, 2, 1L, deal_key, &all);
 	mlx_hook(all.win, 17, 0L, exit_cube, &all);

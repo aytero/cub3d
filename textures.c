@@ -70,38 +70,13 @@ void	load_image(t_all *all, t_tex *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(all->mlx, path, &tex->img_width, &tex->img_height);
 	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel, &tex->line_len, &tex->endian);
-/*
-	int y = 0;
-	int x;
-	while (y < tex->img_height)
-	{
-		x = 0;
-		while (x < tex->img_width)
-		{
-			texture[tex->img_width * y + x] = tex->addr[tex->img_width * y + x];//where the texture var goes? - pointer
-			x++;
-		}
-		y++;
-	}
-	mlx_destroy_image(all->mlx, tex->img);
-*/
 }
 
 void	load_texture(t_all *all)
 {
 	all->tex = ft_calloc(4, sizeof(t_tex));
-//	all->tex = malloc(sizeof(t_tex) * 4);
-//	ft_memset(all->tex, 0, sizeof(t_tex) * 4);
 	load_image(all, all->tex, "textures/star.xpm");
 	load_image(all, all->tex + 1, "textures/quartz_pillar_top.xpm");
 	load_image(all, all->tex + 2, "textures/brain_coral_block.xpm");
 	load_image(all, all->tex + 3, "textures/frosted_ice.xpm");
-	/*
-	t_tex	tex;
-
-	load_image(all, all->texture[0], "textures/beige.xpm", &tex);
-	load_image(all, all->texture[1], "textures/dark_green.xpm", &tex);
-	load_image(all, all->texture[2], "textures/light_green.xpm", &tex);
-	load_image(all, all->texture[3], "textures/brown.xpm", &tex);
-	*/
 }
