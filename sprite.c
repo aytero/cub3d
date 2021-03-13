@@ -1,20 +1,35 @@
 #include "cub3d.h"
 
-void 	sort_sprites(t_all *all, int *sprt_buf)
+void 	sort_sprites(t_all *all)
 {
 	int 	i;
+	int 	j;
+	int 	tmp;
 
-	i = 0;
+	i = 1;
 	while (i < all->num_sprites)
 	{
-		sprite_order = i;
-		sprite_distance = pow(all->plr_x - sprite[i].all->x, 2) + pow(all->plr_y - sprite[i].all->y, 2);
+		j = i + 1;
+		while (j < all->num_sprites)
+		{
+			if (all->sprite[i].dist < all->sprite[j].dist)
+			{
+				tmp = all->sprite[i].dist;
+				all->sprite[i].dist = all->sprite[j].dist;
+				all->sprite[j].dist = tmp;
+				tmp = all->sprite[i].order;
+				all->sprite[i].order = all->sprite[j].order;
+				all->sprite[j].order = tmp;
+			}
+			j++;
+		}
+		i++;
 	}
 }
 
 void 	sprite(t_all *all)
 {
-	int 	*sprt_buf;
+	double	depth_buf[all->win_width];
 	int		i;
 	double 	sprite_x;
 	double 	sprite_y;
@@ -28,12 +43,25 @@ void 	sprite(t_all *all)
 	int 	draw_start_x;
 	int 	draw_end_x;
 	int 	sprt_width;
+	int 	sprt_tex_x;
+	int 	sprt_tex_y;
+	int		d;
+
+	int 	sprite_order;
+	double 	sprite_dist;
 
 	unsigned int color;
 
-	sprt_buf[all->x] = all->perp_wall_dist;
+	depth_buf[all->x] = all->perp_wall_dist;
 
-	sort_sprites(all, sprt_buf);
+	i = 0;
+	while (i < all->num_sprites)
+	{
+		sprite_order = i;
+		sprite_dist = pow(all->plr_x - all->sprite[i].all->x, 2) + pow(all->plr_y - all->sprite[i].all->y, 2);
+	}
+
+	sort_sprites(all);
 	i = 0;
 	while (i < all->num_sprites)
 	{
@@ -66,8 +94,8 @@ void 	sprite(t_all *all)
 		//loop through every vertical stripe
 		while (draw_start_x < draw_end_x)
 		{
-			sprt_tex_x = int(256 * (draw_start_x - (-sprt_width / 2 + sprite_screen_x)) * 64 / sprt_width) / 256;
-			if (transform_y > 0 && draw_start_x < all->win_width && transform_y < sprt_buf[draw_start_x])
+			sprt_tex_x = (int)(256 * (draw_start_x - (-sprt_width / 2 + sprite_screen_x)) * 64 / sprt_width) / 256;
+			if (transform_y > 0 && draw_start_x < all->win_width && transform_y < depth_buf[draw_start_x])
 			//loop for every pixel of the stripe
 				while (draw_start_y < draw_end_y)
 				{
@@ -75,7 +103,7 @@ void 	sprite(t_all *all)
 					sprt_tex_y = ((d * 64) / sprt_height) / 256;
 					color = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * sprt_tex_y + sprt_tex_x];
 					if ((color & 0x00FFFF) != 0)
-						buf[all->y][draw_start_y] = color;
+						all->buf[all->y][draw_start_y] = color;
 				}
 			//skip invisible pixel
 			//

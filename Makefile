@@ -23,7 +23,9 @@ SRC = cub3d.c\
 	   fill.c\
 	   get_next_line.c\
 	   get_next_line_utils.c\
-	   textures.c
+	   textures.c\
+	   sprite.c\
+	   buf_pixel.c
 
 SRCO = $(SRC:.c=.o)
 
@@ -31,9 +33,9 @@ CC = gcc
 
 LIBFT = $(LIBFTDIR)libft.a
 
-MLX = $(MLXDIR)libmlx.dylib
+MLX = $(MLXDIR)libmlx.a
 
-MLXDIR = ./minilibx_mms/
+MLXDIR = ./minilibx_opengl/
 
 LIBFTDIR = ./libft/
 
@@ -44,14 +46,14 @@ FLAGS = -Wall -Werror -Wextra -g
 all: $(NAME)
 
 $(NAME): $(SRCO) $(LIBFT) $(MLX)
-	$(CC) -L./minilibx_mms -framework OpenGL -framework AppKit -lmlx -lz -L$(LIBFTDIR) -lft $(SRCO) -o $(NAME)
+	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit -lmlx -lz -L$(LIBFTDIR) -lft $(SRCO) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFTDIR)
 
 $(MLX):
 	make -C $(MLXDIR)
-	cp $(MLXDIR)libmlx.dylib ./
+	cp $(MLXDIR)libmlx.a ./
 
 %.o:%.c $(HEADER)
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@

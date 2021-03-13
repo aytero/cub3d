@@ -105,9 +105,12 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
+	int 		num_sprites;
+
 	char		**map;
 }				t_all;
 
+void 	buf_pixel(t_all *all, int x, int y, int color);
 void 	fill_buffer(t_all *all, int tex_x, double step);
 void	find_tex_id(t_all *all);
 void			draw(t_all *all);

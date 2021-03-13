@@ -21,8 +21,8 @@ int		hook_frame(t_all *all)
 	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel,
 			&all->line_len, &all->endian); //why use casting to int?
 
-	fill(all);
 	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->win_height * all->win_width);
+	fill(all);
 	while (all->x < all->win_width)
 	{
 		cast_rays(all);
