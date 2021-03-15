@@ -62,8 +62,10 @@ void	find_tex_id(t_all *all)
 		all->tex_id = 1;
 	else if (all->side == 0 && all->step_x > 0)
 		all->tex_id = 2;
-	else
+	else if (all->side == 0 && all->step_x < 0)
 		all->tex_id = 3;
+	else
+		all->tex_id = 4;//sprite
 }
 
 void	load_image(t_all *all, t_tex *tex, char *path)
@@ -74,9 +76,10 @@ void	load_image(t_all *all, t_tex *tex, char *path)
 
 void	load_texture(t_all *all)
 {
-	all->tex = ft_calloc(4, sizeof(t_tex));
+	all->tex = ft_calloc(5, sizeof(t_tex));//nbr tex
 	load_image(all, all->tex, "textures/star.xpm");
 	load_image(all, all->tex + 1, "textures/quartz_pillar_top.xpm");
 	load_image(all, all->tex + 2, "textures/brain_coral_block.xpm");
 	load_image(all, all->tex + 3, "textures/frosted_ice.xpm");
+	load_image(all, all->tex + 4, "textures/red_mushroom.xpm");
 }

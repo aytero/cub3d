@@ -28,6 +28,7 @@ int		hook_frame(t_all *all)
 		cast_rays(all);
 		draw_calc(all);
 		tex_calc(all);
+		sprite(all);
 		all->x++;
 	}
 	draw(all);
@@ -50,6 +51,8 @@ int		main(int argc, char **argv)
     all.plr_dir_y = 0.0; //initial direction vector
     all.plane_x = 0.0;
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
+
+	all.sprt.nbr_sprites = 4;
 //	if (argc != 2)
 //	{
 		//write error;
@@ -63,6 +66,7 @@ int		main(int argc, char **argv)
 	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
 
 	mlx_hook(all.win, 2, 1L, deal_key, &all);
+//m	mlx_hook(all.win, 3, 1L, deal_key, &all);
 	mlx_hook(all.win, 17, 0L, exit_cube, &all);
 	mlx_loop_hook(all.mlx, hook_frame, &all);
 	mlx_loop(all.mlx);

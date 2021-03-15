@@ -38,10 +38,12 @@ void	cast_rays(t_all *all)
 
 	all->delta_dist_y = fabs(1 / all->ray_dir_y);
 	all->delta_dist_x = fabs(1 / all->ray_dir_x);
-	all->side_dist_x = all->ray_dir_x >= 0 ? (all->map_x + 1.0 - all->plr_x) * all->delta_dist_x
+	all->side_dist_x = all->ray_dir_x >= 0
+			? (all->map_x + 1.0 - all->plr_x) * all->delta_dist_x
 			: (all->plr_x - all->map_x) * all->delta_dist_x;
 	all->step_x = all->ray_dir_x >= 0 ? 1 : -1;
-	all->side_dist_y = all->ray_dir_y >= 0 ? (all->map_y + 1.0 - all->plr_y) * all->delta_dist_y
+	all->side_dist_y = all->ray_dir_y >= 0
+			? (all->map_y + 1.0 - all->plr_y) * all->delta_dist_y
 			: (all->plr_y - all->map_y) * all->delta_dist_y;
 	all->step_y = all->ray_dir_y >= 0 ? 1 : -1;
 //	if (calc_hit(all) <= 0)
@@ -52,9 +54,11 @@ void	cast_rays(t_all *all)
 void 	draw_calc(t_all *all)
 {
 	if (all->side == 0)
-		all->perp_wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x) / 2.0) / all->ray_dir_x;
+		all->perp_wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x)
+				/ 2.0) / all->ray_dir_x;
 	else
-		all->perp_wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y) / 2.0) / all->ray_dir_y;
+		all->perp_wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y)
+				/ 2.0) / all->ray_dir_y;
 	all->line_height = (int)(all->win_height / all->perp_wall_dist);
 	all->draw_start = all->win_height / 2 - all->line_height / 2;
 	all->draw_end = all->win_height / 2 + all->line_height / 2;
@@ -92,7 +96,8 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 	double 	tex_pos;
 
 //	tex_pos = (all->draw_start - all->draw_end) * step;
-	tex_pos = (all->draw_start - all->win_height / 2.0 + all->line_height / 2.0) * step;
+	tex_pos = (all->draw_start - all->win_height / 2.0 + all->line_height / 2.0)
+			* step;
 	while (all->draw_start < all->draw_end)// <= causes digital artifacts
 	{
 		tex_y = (int)tex_pos & (all->tex[all->tex_id].img_height - 1);
@@ -102,7 +107,9 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 	//		tex_y = (int)tex_pos;
 		tex_pos += step;
 //		all->addr[all->line_len / 4 * y + x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];
-		all->buf[all->draw_start][all->x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];
+		all->buf[all->draw_start][all->x]
+			= all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height
+			* tex_y + tex_x];
 //		all->buf[y][x] = all->color;
 		all->draw_start++;
 	}

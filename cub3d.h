@@ -30,7 +30,7 @@
 # define S 1
 # define D 2
 # define ESC 53
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 4096
 # define HEIGHT 540
 # define WIDTH 600
 
@@ -41,6 +41,36 @@ typedef struct		s_lst
 	int				content;
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct	s_sprt_cords
+{
+	double		x;
+	double		y;
+}				t_sprt_cords;
+
+typedef struct	s_sprite
+{
+	int 		nbr_sprites;
+	int 		*order;
+	double 		*dist;
+	double		*depth_buf;
+	double sprite_x;
+	double sprite_y;
+//	double inv_det;
+	double transform_x;
+	double transform_y;
+	int screen_x;
+	int draw_start_y;
+	int draw_end_y;
+	int draw_start_x;
+	int draw_end_x;
+	int height;
+	int width;
+	//int tex_x;
+	//int tex_y;
+//	int d;
+//	unsigned int color;
+}					t_sprite;
 
 typedef struct 	s_tex
 {
@@ -105,11 +135,17 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
-	int 		num_sprites;
+	t_sprite	sprt;
+	t_sprt_cords	*sprt_cords;
 
 	char		**map;
 }				t_all;
 
+void 	sprite_calc(t_all *all, int i);
+void 	sprite_sort(t_all *all);
+void 	sprite_draw(t_all *all);
+void 	tmp_init_sprite(t_all *all);
+void 			sprite(t_all *all);
 void 	buf_pixel(t_all *all, int x, int y, int color);
 void 	fill_buffer(t_all *all, int tex_x, double step);
 void	find_tex_id(t_all *all);

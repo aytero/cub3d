@@ -1,112 +1,136 @@
 #include "cub3d.h"
+#include <unistd.h>
 
-void 	sort_sprites(t_all *all)
+void 	sprite_sort(t_all *all)
 {
 	int 	i;
 	int 	j;
-	int 	tmp;
+	double	tmp;
 
-	i = 1;
-	while (i < all->num_sprites)
+	i = -1;
+	while (++i < all->sprt.nbr_sprites)
 	{
-		j = i + 1;
-		while (j < all->num_sprites)
+		all->sprt.order[i] = i;
+		all->sprt.dist[i] = pow(all->plr_x - all->sprt_cords[i].x, 2)
+						+ pow(all->plr_y - all->sprt_cords[i].y, 2);
+	}
+	i = -1;
+	while (++i < all->sprt.nbr_sprites)
+	{
+		j = -1;
+		while (++j < all->sprt.nbr_sprites - 1)
 		{
-			if (all->sprite[i].dist < all->sprite[j].dist)
+			if (all->sprt.dist[j] < all->sprt.dist[j + 1])
 			{
-				tmp = all->sprite[i].dist;
-				all->sprite[i].dist = all->sprite[j].dist;
-				all->sprite[j].dist = tmp;
-				tmp = all->sprite[i].order;
-				all->sprite[i].order = all->sprite[j].order;
-				all->sprite[j].order = tmp;
+				tmp = all->sprt.dist[j];
+				all->sprt.dist[j] = all->sprt.dist[j + 1];
+				all->sprt.dist[j + 1] = tmp;
+				tmp = all->sprt.order[j];
+				all->sprt.order[j] = all->sprt.order[j + 1];
+				all->sprt.order[j + 1] = (int)tmp;
 			}
-			j++;
 		}
-		i++;
+	}
+}
+
+void 	sprite_calc(t_all *all, int i)
+{
+	double	inv_det;
+
+	all->sprt.sprite_x = all->sprt_cords[all->sprt.order[i]].x - all->plr_x;
+	all->sprt.sprite_y = all->sprt_cords[all->sprt.order[i]].y - all->plr_y;
+	//matrix multiplication
+	inv_det = 1.0 / (all->plane_x * all->plr_dir_y - all->plr_dir_x * all->plane_y);
+	all->sprt.transform_x = inv_det * (all->plr_dir_y * all->sprt.sprite_x - all->plr_dir_x * all->sprt.sprite_y);
+	all->sprt.transform_y = inv_det * (-all->plane_y * all->sprt.sprite_x + all->plane_x * all->sprt.sprite_y);
+
+	all->sprt.screen_x = (int)((all->win_width / 2.0) * (1.0 + all->sprt.transform_x / all->sprt.transform_y));
+
+	//sprite height
+	all->sprt.height = (int)fabs((all->win_height / all->sprt.transform_y));
+	all->sprt.draw_start_y = all->win_height / 2 - all->sprt.height / 2;
+	all->sprt.draw_end_y = all->win_height / 2 + all->sprt.height / 2;
+	if (all->sprt.draw_start_y < 0)
+		all->sprt.draw_start_y = 0;
+	if (all->sprt.draw_end_y >= all->win_height)
+		all->sprt.draw_end_y = all->win_height - 1;
+	//sprite width
+	all->sprt.width = (int)fabs((all->win_height / all->sprt.transform_y));
+	all->sprt.draw_start_x =  all->sprt.screen_x - all->sprt.width / 2;
+	all->sprt.draw_end_x = all->sprt.screen_x + all->sprt.width / 2;
+	if (all->sprt.draw_start_x < 0)
+		all->sprt.draw_start_x = 0;
+	if (all->sprt.draw_end_x >= all->win_width)
+		all->sprt.draw_end_x = all->win_width - 1;
+}
+
+void 	sprite_draw(t_all *all)
+{
+	int		tex_x;
+	int 	tex_y;
+	int		d;
+	unsigned int color;
+
+//	find_tex_id(all);
+	all->tex_id = 4;//
+	//loop through every vertical stripe
+//	write(1, "seg\n", 4);//it dies somewhere
+//	write(1, "not seg\n", 8);
+	while (all->sprt.draw_start_x < all->sprt.draw_end_x)
+	{
+		tex_x = (int) (256 * (all->sprt.draw_start_x - (-all->sprt.width / 2 + all->sprt.screen_x)) * 64 / all->sprt.width) / 256;
+		if (all->sprt.transform_y > 0
+			&& all->sprt.draw_start_x < all->win_width
+			&& all->sprt.draw_start_x > 0
+			&& all->sprt.transform_y < all->sprt.depth_buf[all->sprt.draw_start_x])
+		{
+			//loop for every pixel of the stripe
+			while (all->sprt.draw_start_y < all->sprt.draw_end_y)
+			{
+				d = all->sprt.draw_start_y * 256 - all->win_height * 128 + all->sprt.height * 128;
+				tex_y = ((d * all->tex[all->tex_id].img_height) / all->sprt.height) / 256;
+				color = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];
+				//skip invisible pixel
+				if ((color & 0x00FFFF) != 0)// if color > 0
+					all->buf[all->sprt.draw_start_y][all->sprt.draw_start_x] = color;
+				all->sprt.draw_start_y++;
+			}
+		}
+		all->sprt.draw_start_x++;
 	}
 }
 
 void 	sprite(t_all *all)
 {
-	double	depth_buf[all->win_width];
 	int		i;
-	double 	sprite_x;
-	double 	sprite_y;
-	double 	inv_det;
-	double	transform_x;
-	double	transform_y;
-	int 	sprite_screen_x;
-	int 	draw_start_y;
-	int 	draw_end_y;
-	int 	sprt_height;
-	int 	draw_start_x;
-	int 	draw_end_x;
-	int 	sprt_width;
-	int 	sprt_tex_x;
-	int 	sprt_tex_y;
-	int		d;
 
-	int 	sprite_order;
-	double 	sprite_dist;
+	tmp_init_sprite(all);
+	all->sprt.depth_buf[all->x] = all->perp_wall_dist;//need to init arrays
 
-	unsigned int color;
-
-	depth_buf[all->x] = all->perp_wall_dist;
-
-	i = 0;
-	while (i < all->num_sprites)
+	sprite_sort(all);
+	i = -1;
+	while (++i < all->sprt.nbr_sprites)
 	{
-		sprite_order = i;
-		sprite_dist = pow(all->plr_x - all->sprite[i].all->x, 2) + pow(all->plr_y - all->sprite[i].all->y, 2);
+		sprite_calc(all, i);
+		sprite_draw(all);//kills processes
 	}
+}
 
-	sort_sprites(all);
-	i = 0;
-	while (i < all->num_sprites)
-	{
-		sprite_x = sprite[sprite_order[i]].all->x - all->plr_x;
-		sprite_y = sprite[sprite_order[i]].all->y - all->plr_y;
+void 	tmp_init_sprite(t_all *all)
+{
+	all->sprt.depth_buf = malloc(sizeof(double) * all->win_width);
+	all->sprt.order = malloc(sizeof(int) * all->sprt.nbr_sprites);
+	all->sprt.dist = malloc(sizeof(double) * all->sprt.nbr_sprites);
 
-		//matrix multiplication
-		inv_det = 1.0 / (all->plane_x * all->plr_dir_y - all->plr_dir_x * all->plane_y);
-		transform_x = inv_det * (all->plr_dir_y * sprite_x - all->plr_dir_x * sprite_y);
-		transform_y = inv_det * (-all->plane_y * sprite_x + all->plane_x * sprite_y);
+	all->sprt_cords = malloc(sizeof(t_sprt_cords) * all->sprt.nbr_sprites);
 
-		sprite_screen_x = (int)((all->win_width / 2) * (1 + transform_x / transform_y));
+	all->sprt_cords[0].x = 6;
+	all->sprt_cords[0].y = 6;
+	all->sprt_cords[1].x = 7;
+	all->sprt_cords[1].y = 6;
+	all->sprt_cords[2].x = 3;
+	all->sprt_cords[2].y = 6;
+	all->sprt_cords[3].x = 3.5;
+	all->sprt_cords[3].y = 6;
 
-		//sprite height
-		sprt_height = (int)fabs((all->win_height / transform_y));
-		draw_start_y = all->win_height / 2 - sprt_height / 2;
-		draw_end_y = all->win_height / 2 + sprt_height / 2;
-		if (draw_start_y < 0)
-			draw_start_y = 0;
-		if (draw_end_y >= all->win_height)
-			draw_end_y = all->win_height - 1;
-		//sprite width
-		sprt_width = (int)fabs((all->win_height / transform_y));
-		draw_start_x =  sprite_screen_x - sprt_width / 2;
-		draw_end_x = sprite_screen_x + sprt_width / 2;
-		if (draw_start_x < 0)
-			draw_start_x = 0;
-		if (draw_end_x >= all->win_width)
-			draw_end_x = all->win_width - 1;
-		//loop through every vertical stripe
-		while (draw_start_x < draw_end_x)
-		{
-			sprt_tex_x = (int)(256 * (draw_start_x - (-sprt_width / 2 + sprite_screen_x)) * 64 / sprt_width) / 256;
-			if (transform_y > 0 && draw_start_x < all->win_width && transform_y < depth_buf[draw_start_x])
-			//loop for every pixel of the stripe
-				while (draw_start_y < draw_end_y)
-				{
-					d = all->y * 256 - all->win_height * 128 + sprt_height * 128;
-					sprt_tex_y = ((d * 64) / sprt_height) / 256;
-					color = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * sprt_tex_y + sprt_tex_x];
-					if ((color & 0x00FFFF) != 0)
-						all->buf[all->y][draw_start_y] = color;
-				}
-			//skip invisible pixel
-			//
-		}
-	}
 }
