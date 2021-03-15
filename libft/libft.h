@@ -12,6 +12,7 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define BUFFER_SIZE 4096
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -21,6 +22,17 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_lst
+{
+	int				fd;
+	char			*reminder;
+	struct s_lst	*next;
+}					t_lst;
+
+void				ft_cleanlst_fd(t_lst **head, int fd);
+int					ft_strchr_n(char *s);
+t_lst				*ft_lstnew_fd(int fd);
+int					get_next_line(int fd, char **line);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);

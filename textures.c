@@ -62,16 +62,18 @@ void	find_tex_id(t_all *all)
 		all->tex_id = 1;
 	else if (all->side == 0 && all->step_x > 0)
 		all->tex_id = 2;
-	else if (all->side == 0 && all->step_x < 0)
+	else//(all->side == 0 && all->step_x < 0)
 		all->tex_id = 3;
-	else
-		all->tex_id = 4;//sprite
+	//else
+	//	all->tex_id = 4;//sprite
 }
 
 void	load_image(t_all *all, t_tex *tex, char *path)
 {
-	tex->img = mlx_xpm_file_to_image(all->mlx, path, &tex->img_width, &tex->img_height);
-	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel, &tex->line_len, &tex->endian);
+	tex->img = mlx_xpm_file_to_image(all->mlx, path,
+				&tex->img_width, &tex->img_height);
+	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
+				&tex->line_len, &tex->endian);
 }
 
 void	load_texture(t_all *all)

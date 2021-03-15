@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 
 int		hook_frame(t_all *all)
 {
@@ -60,15 +59,30 @@ int		main(int argc, char **argv)
 //	}
 	//check argv;
 	parse_map(&all, argv[1]);
-	all.mlx = mlx_init();
-//	tex_mem(&all);
-	load_texture(&all);
-	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
+	int i = 0;
+	int j;
+	while (all.map[i])
+	{
+		j = 0;
+		while (all.map[i][j])
+		{
+			printf("%c", all.map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
 
-	mlx_hook(all.win, 2, 1L, deal_key, &all);
-//m	mlx_hook(all.win, 3, 1L, deal_key, &all);
-	mlx_hook(all.win, 17, 0L, exit_cube, &all);
-	mlx_loop_hook(all.mlx, hook_frame, &all);
-	mlx_loop(all.mlx);
+//	all.mlx = mlx_init();
+//	tex_mem(&all);
+	//all.buf = malloc(sizeof(int *) * all.win_width);// 2d malloc
+	//load_texture(&all);
+//	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
+
+//	mlx_hook(all.win, 2, 1L, deal_key, &all);
+//	mlx_hook(all.win, 3, 1L, deal_key, &all);
+//	mlx_hook(all.win, 17, 0L, exit_cube, &all);
+//	mlx_loop_hook(all.mlx, hook_frame, &all);
+//	mlx_loop(all.mlx);
 	return (0);
 }

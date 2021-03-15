@@ -21,13 +21,11 @@ SRC = cub3d.c\
 	   pixel_put.c\
 	   cast_rays.c\
 	   fill.c\
-	   get_next_line.c\
-	   get_next_line_utils.c\
 	   textures.c\
 	   sprite.c\
 	   buf_pixel.c
 
-SRCO = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
 CC = gcc
 
@@ -45,8 +43,8 @@ FLAGS = -Wall -Werror -Wextra -g
 
 all: $(NAME)
 
-$(NAME): $(SRCO) $(LIBFT) $(MLX)
-	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit -lmlx -lz -L$(LIBFTDIR) -lft $(SRCO) -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit -lmlx -lz -L$(LIBFTDIR) -lft $(OBJ) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFTDIR)
@@ -59,12 +57,12 @@ $(MLX):
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
 
 clean:
-	rm -f $(SRCO)
+	rm -f $(OBJ)
 	make clean -C $(LIBFTDIR)
 
 fclean: clean
 	rm -f $(NAME)
-#	rm -f libmlx.dylib
+	rm -f libmlx.a
 #	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
 	make clean -C $(MLXDIR)

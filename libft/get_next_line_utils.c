@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
 int			ft_strchr_n(char *s)
 {
@@ -25,34 +25,6 @@ int			ft_strchr_n(char *s)
 	return (0);
 }
 
-/*
-char		*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	i;
-	size_t	j;
-	size_t	len1;
-	size_t	len2;
-	char	*str;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	if (!(str = (char *)malloc(sizeof(char) * (len1 + len2 + 1))))
-		return (NULL);
-	i = 0;
-	while (len1--)
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (len2--)
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	free((void *)s1);
-	return (str);
-}
-*/
-
 t_lst		*ft_lstnew_fd(int fd)
 {
 	t_lst	*elem;
@@ -63,7 +35,6 @@ t_lst		*ft_lstnew_fd(int fd)
 	{
 		elem->fd = fd;
 		elem->reminder = NULL;
-		elem->content = 1;
 		elem->next = NULL;
 	}
 	return (elem);

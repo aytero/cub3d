@@ -13,11 +13,11 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # include <unistd.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
 # include "mlx.h"
-//# include "libft/get_next_line.h"
 # include "libft/libft.h"
 
 # define SPEED 0.2
@@ -30,17 +30,8 @@
 # define S 1
 # define D 2
 # define ESC 53
-# define BUFFER_SIZE 4096
 # define HEIGHT 540
 # define WIDTH 600
-
-typedef struct		s_lst
-{
-	int				fd;
-	char			*reminder;
-	int				content;
-	struct s_lst	*next;
-}					t_lst;
 
 typedef struct	s_sprt_cords
 {
@@ -54,27 +45,21 @@ typedef struct	s_sprite
 	int 		*order;
 	double 		*dist;
 	double		*depth_buf;
-	double sprite_x;
-	double sprite_y;
-//	double inv_det;
-	double transform_x;
-	double transform_y;
-	int screen_x;
-	int draw_start_y;
-	int draw_end_y;
-	int draw_start_x;
-	int draw_end_x;
-	int height;
-	int width;
-	//int tex_x;
-	//int tex_y;
-//	int d;
-//	unsigned int color;
-}					t_sprite;
+	double		sprite_x;
+	double		sprite_y;
+	double		transform_x;
+	double		transform_y;
+	int			screen_x;
+	int			draw_start_y;
+	int 		draw_end_y;
+	int 		draw_start_x;
+	int 		draw_end_x;
+	int			height;
+	int			width;
+}				t_sprite;
 
 typedef struct 	s_tex
 {
-	//int 		*texture;
 	void		*img;
 	int 		img_width;
 	int 		img_height;
@@ -135,7 +120,7 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
-	t_sprite	sprt;
+	t_sprite		sprt;
 	t_sprt_cords	*sprt_cords;
 
 	char		**map;
@@ -153,10 +138,7 @@ void			draw(t_all *all);
 void			tex_mem(t_all *all);
 void			load_image(t_all *all, t_tex *tex, char *path);
 void			load_texture(t_all *all);
-void			ft_cleanlst_fd(t_lst **head, int fd);
-int				ft_strchr_n(char *s);
-t_lst			*ft_lstnew_fd(int fd);
-int				get_next_line(int fd, char **line);
+
 void 			fill(t_all *all);
 void 			tex_calc(t_all *all);
 void		 	draw_calc(t_all *all);
