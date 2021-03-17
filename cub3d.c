@@ -73,16 +73,16 @@ int		main(int argc, char **argv)
 		i++;
 	}
 
-//	all.mlx = mlx_init();
+	all.mlx = mlx_init();
 //	tex_mem(&all);
 	//all.buf = malloc(sizeof(int *) * all.win_width);// 2d malloc
-	//load_texture(&all);
-//	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
+	load_texture(&all);
+	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
 
-//	mlx_hook(all.win, 2, 1L, deal_key, &all);
+	mlx_hook(all.win, 2, 1L, deal_key, &all);
 //	mlx_hook(all.win, 3, 1L, deal_key, &all);
-//	mlx_hook(all.win, 17, 0L, exit_cube, &all);
-//	mlx_loop_hook(all.mlx, hook_frame, &all);
-//	mlx_loop(all.mlx);
+	mlx_hook(all.win, 17, 0L, exit_cube, &all);
+	mlx_loop_hook(all.mlx, hook_frame, &all);
+	mlx_loop(all.mlx);
 	return (0);
 }

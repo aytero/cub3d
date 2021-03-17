@@ -88,7 +88,9 @@ void 	sprite_draw(t_all *all)
 	//loop through every vertical stripe
 	while (all->sprt.draw_start_x < all->sprt.draw_end_x)
 	{
-		tex_x = (int) (256 * (all->sprt.draw_start_x - (-all->sprt.width / 2 + all->sprt.screen_x)) * 64 / all->sprt.width) / 256;
+		tex_x = (int) (256 * (all->sprt.draw_start_x
+				- (-all->sprt.width / 2 + all->sprt.screen_x)) * all->tex[all->tex_id].img_width
+				/ all->sprt.width) / 256;
 		if (all->sprt.transform_y > 0
 			&& all->sprt.draw_start_x < all->win_width
 			&& all->sprt.draw_start_x > 0
@@ -138,7 +140,7 @@ void 	tmp_init_sprite(t_all *all)//
 	all->sprt_cords[0].y = 6;
 	all->sprt_cords[1].x = 7;
 	all->sprt_cords[1].y = 6;
-	all->sprt_cords[2].x = 3;
+	all->sprt_cords[2].x = 4;
 	all->sprt_cords[2].y = 6;
 	all->sprt_cords[3].x = 3.5;
 	all->sprt_cords[3].y = 6;

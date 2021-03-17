@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
+/*
 static void get_params(t_all *all)
 {
 	if (**all->map == 'R')
 	{
 		(*all->map)++;
 		all->win_height = ft_atoi(*all->map);
-		while
+		//while
 		all->win_width = ft_atoi(*all->map);
 		printf("%d\n", all->win_height);
 		printf("%d\n", all->win_width);
 	}
 }
+*/
 
 static char	*read_map(int fd, char *tab)
 {
@@ -53,7 +54,7 @@ void		parse_map(t_all *all, char *file)
 	}
 	tab = read_map(fd, tab);
 	all->map = ft_split(tab, '\n');//split skips empty lines as just divider
-	get_params(all);
+//	get_params(all);
 	close(fd);
 	free(tab);
 }

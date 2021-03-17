@@ -79,9 +79,9 @@ void	load_image(t_all *all, t_tex *tex, char *path)
 void	load_texture(t_all *all)
 {
 	all->tex = ft_calloc(5, sizeof(t_tex));//nbr tex
-	load_image(all, all->tex, "textures/star.xpm");
-	load_image(all, all->tex + 1, "textures/quartz_pillar_top.xpm");
-	load_image(all, all->tex + 2, "textures/brain_coral_block.xpm");
-	load_image(all, all->tex + 3, "textures/frosted_ice.xpm");
-	load_image(all, all->tex + 4, "textures/red_mushroom.xpm");
+	load_image(all, all->tex, "textures/strs.xpm");
+	load_image(all, all->tex + 1, "textures/eyeballs.xpm");
+	load_image(all, all->tex + 2, "textures/shrooms2.xpm");
+	load_image(all, all->tex + 3, "textures/flw.xpm");
+	load_image(all, all->tex + 4, "textures/muhomor.xpm");
 }
