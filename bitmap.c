@@ -1,11 +1,11 @@
 #include "cub3d.h"
 
-static void		int_to_uchar(int n, unsigned char *dst)
+static void		int_to_uchar(int val, unsigned char *dst)
 {
-	dst[0] = (unsigned char)n;
-	dst[1] = (unsigned char)n >> 8;
-	dst[2] = (unsigned char)n >> 16;
-	dst[3] = (unsigned char)n >> 24;
+	dst[0] = (unsigned char)val;
+	dst[1] = (unsigned char)(val >> 8);
+	dst[2] = (unsigned char)(val >> 16);
+	dst[3] = (unsigned char)(val >> 24);
 }
 
 static void 	bmp_header(t_all *all, int img_size)
