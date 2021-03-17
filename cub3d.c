@@ -31,6 +31,10 @@ int		hook_frame(t_all *all)
 		all->x++;
 	}
 	draw(all);
+	//printf("%d\n", all->endian);
+
+	if (create_bmp(all))
+		exit (0);
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 //	mlx_destroy_image(all->mlx, all->img);
 	return (0);
@@ -58,6 +62,13 @@ int		main(int argc, char **argv)
 //		return (0); //or exit
 //	}
 	//check argv;
+	/*
+	int n = 1;
+	if (*(char *)&n == 1)//check endian
+		write(1, "lil\n", 4);
+	else
+		write(1, "big\n", 4);
+	 */
 	parse_map(&all, argv[1]);
 	int i = 0;
 	int j;
@@ -73,11 +84,14 @@ int		main(int argc, char **argv)
 		i++;
 	}
 
+
+
 	all.mlx = mlx_init();
 //	tex_mem(&all);
 	//all.buf = malloc(sizeof(int *) * all.win_width);// 2d malloc
 	load_texture(&all);
 	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
+
 
 	mlx_hook(all.win, 2, 1L, deal_key, &all);
 //	mlx_hook(all.win, 3, 1L, deal_key, &all);

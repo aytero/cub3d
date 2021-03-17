@@ -23,7 +23,9 @@ SRC = cub3d.c\
 	   fill.c\
 	   textures.c\
 	   sprite.c\
-	   buf_pixel.c
+	   buf_pixel.c\
+	   bitmap.c\
+	   get_color.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -120,12 +120,17 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
+	unsigned char	*bmp;
+	unsigned char 	*bmp_color;
+
 	t_sprite		sprt;
 	t_sprt_cords	*sprt_cords;
 
 	char		**map;
 }				t_all;
 
+int 	get_color(t_all *all, int x, int y);
+int 	create_bmp(t_all *all);
 void 	sprite_calc(t_all *all, int i);
 void 	sprite_sort(t_all *all);
 void 	sprite_draw(t_all *all);
