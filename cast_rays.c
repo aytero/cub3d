@@ -14,6 +14,8 @@
 
 static void 	calc_hit(t_all *all)
 {
+//	while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
+//			&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
 	while (all->hit != 1)
 	{
 		if (all->side_dist_x < all->side_dist_y)

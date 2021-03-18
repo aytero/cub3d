@@ -50,10 +50,10 @@ typedef struct	s_sprite
 	double		modif_x;
 	double		modif_y;
 	int			screen_x;
-	int			draw_start_y;
-	int 		draw_end_y;
-	int 		draw_start_x;
-	int 		draw_end_x;
+	int			start_y;
+	int 		end_y;
+	int 		start_x;
+	int 		end_x;
 	int			height;
 	int			width;
 }				t_sprite;

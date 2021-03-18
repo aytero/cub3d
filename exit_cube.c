@@ -31,7 +31,7 @@ int		exit_cube(t_all *all)
 	free(all->tex);
 	//free(all);
 	//free(all->buf);
-	//free(all->sprt.depth_buf);
+	free(all->sprt.depth_buf);
 
 	// or func free_everything
 	exit (0);

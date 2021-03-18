@@ -28,7 +28,6 @@ int		hook_frame(t_all *all)
 	}
 	sprite(all);
 	draw(all);
-
 	if (all->save)
 	{
 		create_bmp(all);
