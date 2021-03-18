@@ -18,14 +18,13 @@ SRC = cub3d.c\
 	   parse.c\
 	   deal_key.c\
 	   exit_cube.c\
-	   pixel_put.c\
+	   pixel_get_put.c\
 	   cast_rays.c\
 	   fill.c\
 	   textures.c\
 	   sprite.c\
-	   buf_pixel.c\
 	   bitmap.c\
-	   get_color.c
+	   init.c
 
 OBJ = $(SRC:.c=.o)
 

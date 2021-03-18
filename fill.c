@@ -14,7 +14,7 @@
 
 void 	fill(t_all *all)
 {
-	int 	ceiling_end = all->win_height / 2;
+	int 	ceiling_end = all->res_y / 2;
 	int 	y = -1;
 	int 	x;
 
@@ -22,14 +22,13 @@ void 	fill(t_all *all)
 	while (y++ < ceiling_end)
 	{
 		x = -1;
-		while (x++ < all->win_width)
-			//pixel_put(all, x, y, 0x3B3B3B);
-			buf_pixel(all, x, y, 0x3c3c3c);//0x3b3b3b;
+		while (x++ < all->res_x)
+			pixel_put(all, x, y, 0x3c3c3c);
 	}
-	while (++y < all->win_height)
+	while (++y < all->res_y)
 	{
 		x = -1;
-		while (x++ < all->win_width)
-			buf_pixel(all, x, y, 0x262626);
+		while (x++ < all->res_x)
+			pixel_put(all, x, y, 0x262626);
 	}
 }

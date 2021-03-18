@@ -16,27 +16,26 @@ int		hook_frame(t_all *all)
 {
 	all->x = 0;
 
-//	all->img = mlx_new_image(all->mlx, all->win_width, all->win_height);
-//	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel,
-//			&all->line_len, &all->endian); //why use casting to int?
-
-	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->win_height * all->win_width);
+	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->res_y * all->res_x);
 	fill(all);
-	while (all->x < all->win_width)
+	while (all->x < all->res_x)
 	{
 		cast_rays(all);
 		draw_calc(all);
 		tex_calc(all);
-		sprite(all);
+		all->sprt.depth_buf[all->x] = all->perp_wall_dist;
 		all->x++;
 	}
+	sprite(all);
 	draw(all);
-	//printf("%d\n", all->endian);
 
-//	if (create_bmp(all))
-//		exit (0);
+	if (all->save)
+	{
+		create_bmp(all);
+		exit_cube(all);
+	}
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
-//	mlx_destroy_image(all->mlx, all->img);
+	//free(all->buf);
 	return (0);
 }
 
@@ -44,10 +43,9 @@ int		main(int argc, char **argv)
 {
 	t_all all;
 
-	(void)argc;//
 	ft_bzero(&all, sizeof(all));
-	all.win_width = 600;
-	all.win_height = 540;
+	all.res_x = 600;
+	all.res_y = 540;
 	all.plr_x = 5;
     all.plr_y = 7;  //x and y start position
     all.plr_dir_x = -1.0;
@@ -56,12 +54,7 @@ int		main(int argc, char **argv)
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
 
 	all.sprt.nbr_sprites = 4;
-//	if (argc != 2)
-//	{
-		//write error;
-//		return (0); //or exit
-//	}
-	//check argv;
+
 	/*
 	int n = 1;
 	if (*(char *)&n == 1)//check endian
@@ -69,6 +62,7 @@ int		main(int argc, char **argv)
 	else
 		write(1, "big\n", 4);
 	 */
+	all.sprt.depth_buf = malloc(sizeof(double) * all.res_x);
 	parse_map(&all, argv[1]);
 	int i = 0;
 	int j;
@@ -84,17 +78,22 @@ int		main(int argc, char **argv)
 		i++;
 	}
 
-
-
+//	init(&all);
 	all.mlx = mlx_init();
 //	tex_mem(&all);
-	//all.buf = malloc(sizeof(int *) * all.win_width);// 2d malloc
 	load_texture(&all);
-	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
+	all.win = mlx_new_window(all.mlx, all.res_x, all.res_y, "yume");
 
-	all.img = mlx_new_image(all.mlx, all.win_width, all.win_height);
+	all.img = mlx_new_image(all.mlx, all.res_x, all.res_y);
 	all.addr = (int *)mlx_get_data_addr(all.img, &all.bits_per_pixel,
 										 &all.line_len, &all.endian); //why use casting to int?
+	//all.save = 1;
+	if (argc == 2 || (argc == 3 && all.save))
+	{
+		hook_frame(&all);
+		//write error;
+//		return (0); //or exit
+	}
 	mlx_hook(all.win, 2, 1L, deal_key, &all);
 //	mlx_hook(all.win, 3, 1L, deal_key, &all);
 	mlx_hook(all.win, 17, 0L, exit_cube, &all);

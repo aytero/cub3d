@@ -27,6 +27,12 @@ int		exit_cube(t_all *all)
 		mlx_destroy_image(all->mlx, all->img);
 	if (all->win)
 		mlx_destroy_window(all->mlx, all->win);
+	free(all->map);
+	free(all->tex);
+	//free(all);
+	//free(all->buf);
+	//free(all->sprt.depth_buf);
+
 	// or func free_everything
 	exit (0);
 }

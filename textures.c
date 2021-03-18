@@ -19,10 +19,10 @@ void 	tex_mem(t_all *all)
 	int		j;
 
 //	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * HEIGHT * WIDTH);
-	while (i < all->win_height)
+	while (i < all->res_y)
 	{
 		j = 0;
-		while (j < all->win_width)
+		while (j < all->res_x)
 		{
 			all->buf[i][j] = 0;
 			j++;
@@ -71,7 +71,7 @@ void	find_tex_id(t_all *all)
 void	load_image(t_all *all, t_tex *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(all->mlx, path,
-				&tex->img_width, &tex->img_height);
+				&tex->width, &tex->height);
 	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
 				&tex->line_len, &tex->endian);
 }
@@ -81,7 +81,7 @@ void	load_texture(t_all *all)
 	all->tex = ft_calloc(5, sizeof(t_tex));//nbr tex
 	load_image(all, all->tex, "textures/strs.xpm");
 	load_image(all, all->tex + 1, "textures/eyeballs.xpm");
-	load_image(all, all->tex + 2, "textures/shrooms2.xpm");
-	load_image(all, all->tex + 3, "textures/flw.xpm");
+	load_image(all, all->tex + 2, "textures/flw.xpm");
+	load_image(all, all->tex + 3, "textures/shrooms2.xpm");
 	load_image(all, all->tex + 4, "textures/muhomor.xpm");
 }

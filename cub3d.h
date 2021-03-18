@@ -47,8 +47,8 @@ typedef struct	s_sprite
 	double		*depth_buf;
 	double		sprite_x;
 	double		sprite_y;
-	double		transform_x;
-	double		transform_y;
+	double		modif_x;
+	double		modif_y;
 	int			screen_x;
 	int			draw_start_y;
 	int 		draw_end_y;
@@ -61,8 +61,8 @@ typedef struct	s_sprite
 typedef struct 	s_tex
 {
 	void		*img;
-	int 		img_width;
-	int 		img_height;
+	int 		width;
+	int 		height;
 	int 		*addr;
 	int			bits_per_pixel;
 	int			line_len;
@@ -74,14 +74,14 @@ typedef struct	s_all
 	void		*mlx;
 	void		*win;
 	void		*img;
-	int 		img_width;
-	int 		img_height;
+	int 		width;
+	int 		height;
 	int 		*addr;
 	int			bits_per_pixel;
 	int			line_len;
 	int			endian;
-	int			win_width;
-	int			win_height;
+	int			res_x;
+	int			res_y;
 	int 		x;
 	int 		y;
 
@@ -120,11 +120,9 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
-	unsigned char	*bmp;
-	unsigned char 	*bmp_color;
-
 	t_sprite		sprt;
 	t_sprt_cords	*sprt_cords;
+	int 			save;
 
 	char		**map;
 }				t_all;
@@ -136,7 +134,6 @@ void 	sprite_sort(t_all *all);
 void 	sprite_draw(t_all *all);
 void 	tmp_init_sprite(t_all *all);
 void 			sprite(t_all *all);
-void 	buf_pixel(t_all *all, int x, int y, int color);
 void 	fill_buffer(t_all *all, int tex_x, double step);
 void	find_tex_id(t_all *all);
 void			draw(t_all *all);
@@ -148,6 +145,8 @@ void 			fill(t_all *all);
 void 			tex_calc(t_all *all);
 void		 	draw_calc(t_all *all);
 //void			map(t_data *data);
+void 	init(t_all *all);
+void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
 int				deal_key(int keycode, t_all *all);
 int				exit_cube(t_all *all);

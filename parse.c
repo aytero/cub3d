@@ -17,11 +17,11 @@ static void get_params(t_all *all)
 	if (**all->map == 'R')
 	{
 		(*all->map)++;
-		all->win_height = ft_atoi(*all->map);
+		all->res_y = ft_atoi(*all->map);
 		//while
-		all->win_width = ft_atoi(*all->map);
-		printf("%d\n", all->win_height);
-		printf("%d\n", all->win_width);
+		all->res_x = ft_atoi(*all->map);
+		printf("%d\n", all->res_y);
+		printf("%d\n", all->res_x);
 	}
 }
 */
@@ -36,7 +36,9 @@ static char	*read_map(int fd, char *tab)
 		// check errors
 		tab = ft_strjoin(tab, line);
 		tab = ft_strjoin(tab, "\n");
+		free(line);
 	}
+	free(line);
 	return (tab);
 }
 

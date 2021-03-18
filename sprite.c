@@ -21,13 +21,6 @@ void 	sprite_sort(t_all *all)
 	i = -1;
 	while (++i < all->sprt.nbr_sprites)
 	{
-		all->sprt.order[i] = i;
-		all->sprt.dist[i] = pow(all->plr_x - all->sprt_cords[i].x, 2)
-							+ pow(all->plr_y - all->sprt_cords[i].y, 2);
-	}
-	i = -1;
-	while (++i < all->sprt.nbr_sprites)
-	{
 		j = -1;
 		while (++j < all->sprt.nbr_sprites - 1)
 		{
@@ -52,97 +45,93 @@ void 	sprite_calc(t_all *all, int i)
 	all->sprt.sprite_y = all->sprt_cords[all->sprt.order[i]].y - all->plr_y;
 	//matrix multiplication
 	inv_det = 1.0 / (all->plane_x * all->plr_dir_y - all->plr_dir_x * all->plane_y);
-	all->sprt.transform_x = inv_det * (all->plr_dir_y * all->sprt.sprite_x
+	all->sprt.modif_x = inv_det * (all->plr_dir_y * all->sprt.sprite_x
 										- all->plr_dir_x * all->sprt.sprite_y);
-	all->sprt.transform_y = inv_det * (-all->plane_y * all->sprt.sprite_x
+	all->sprt.modif_y = inv_det * (-all->plane_y * all->sprt.sprite_x
 										+ all->plane_x * all->sprt.sprite_y);
-	all->sprt.screen_x = (int)((all->win_width / 2.0)
-			* (1.0 + all->sprt.transform_x / all->sprt.transform_y));
+	all->sprt.screen_x = (int)((all->res_x / 2.0)
+			* (1.0 + all->sprt.modif_x / all->sprt.modif_y));
 	//sprite height
-	all->sprt.height = (int)fabs((all->win_height / all->sprt.transform_y));
-	all->sprt.draw_start_y = all->win_height / 2 - all->sprt.height / 2;
-	all->sprt.draw_end_y = all->win_height / 2 + all->sprt.height / 2;
+	all->sprt.height = (int)fabs((all->res_y / all->sprt.modif_y));
+	all->sprt.draw_start_y = all->res_y / 2 - all->sprt.height / 2;
+	all->sprt.draw_end_y = all->res_y / 2 + all->sprt.height / 2;
 	if (all->sprt.draw_start_y < 0)
 		all->sprt.draw_start_y = 0;
-	if (all->sprt.draw_end_y >= all->win_height)
-		all->sprt.draw_end_y = all->win_height - 1;
+	if (all->sprt.draw_end_y >= all->res_y)
+		all->sprt.draw_end_y = all->res_y - 1;
 	//sprite width
-	all->sprt.width = (int)fabs((all->win_height / all->sprt.transform_y));
+	all->sprt.width = (int)fabs((all->res_y / all->sprt.modif_y));
 	all->sprt.draw_start_x =  all->sprt.screen_x - all->sprt.width / 2;
 	all->sprt.draw_end_x = all->sprt.screen_x + all->sprt.width / 2;
 	if (all->sprt.draw_start_x < 0)
 		all->sprt.draw_start_x = 0;
-	if (all->sprt.draw_end_x >= all->win_width)
-		all->sprt.draw_end_x = all->win_width - 1;
+	if (all->sprt.draw_end_x >= all->res_x)
+		all->sprt.draw_end_x = all->res_x - 1;
 }
 
 void 	sprite_draw(t_all *all)
 {
-	int		tex_x;
-	int 	tex_y;
-	int		d;
-	unsigned int color;
+	int				tex_x;
+	int				tex_y;
+	int				d;
+	unsigned int	color;
+	int 	tmp;
 
-//	find_tex_id(all);
-	all->tex_id = 4;//
 	//loop through every vertical stripe
-	while (all->sprt.draw_start_x < all->sprt.draw_end_x)
+	while (all->sprt.draw_start_x++ <= all->sprt.draw_end_x)
 	{
 		tex_x = (int) (256 * (all->sprt.draw_start_x
-				- (-all->sprt.width / 2 + all->sprt.screen_x)) * all->tex[all->tex_id].img_width
+				- (-all->sprt.width / 2 + all->sprt.screen_x)) * all->tex[all->tex_id].width
 				/ all->sprt.width) / 256;
-		if (all->sprt.transform_y > 0
-			&& all->sprt.draw_start_x < all->win_width
-			&& all->sprt.draw_start_x > 0
-			&& all->sprt.transform_y < all->sprt.depth_buf[all->sprt.draw_start_x])
+		if (all->sprt.modif_y > 0
+			&& all->sprt.draw_start_x < all->res_x
+			&& all->sprt.draw_start_x >= 0
+			&& all->sprt.modif_y < all->sprt.depth_buf[all->sprt.draw_start_x])
 		{
 			//loop for every pixel of the stripe
-			while (all->sprt.draw_start_y < all->sprt.draw_end_y)
+			tmp = all->sprt.draw_start_y;
+			while (tmp++ < (all->sprt.draw_end_y - 1))
 			{
-				d = all->sprt.draw_start_y * 256 - all->win_height * 128 + all->sprt.height * 128;
-				tex_y = ((d * all->tex[all->tex_id].img_height) / all->sprt.height) / 256;
-				color = all->tex[all->tex_id].addr[all->tex[all->tex_id].img_height * tex_y + tex_x];
+				//printf("y %d\n", all->sprt.draw_start_y);
+				d = tmp * 256 - all->res_y * 128 + all->sprt.height * 128;
+				tex_y = ((d * all->tex[all->tex_id].height) / all->sprt.height) / 256;
+				color = all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
 				//skip invisible pixel
 				if ((color & 0x00FFFF) != 0)
-					all->buf[all->sprt.draw_start_y][all->sprt.draw_start_x] = color;
-				all->sprt.draw_start_y++;
+					all->buf[tmp][all->sprt.draw_start_x] = color;
 			}
 		}
-		all->sprt.draw_start_x++;
 	}
 }
 
 void 	sprite(t_all *all)
 {
 	int		i;
+//	static	int	counter = 0;
 
 	tmp_init_sprite(all);
-	all->sprt.depth_buf[all->x] = all->perp_wall_dist;
-
+	i = -1;
+	while (++i < all->sprt.nbr_sprites)
+	{
+		all->sprt.order[i] = i;
+		all->sprt.dist[i] = pow(all->plr_x - all->sprt_cords[i].x, 2)
+							+ pow(all->plr_y - all->sprt_cords[i].y, 2);
+	}
 	sprite_sort(all);
+//	find_tex_id(all);
+	all->tex_id = 4;//
 	i = -1;
 	while (++i < all->sprt.nbr_sprites)
 	{
 		sprite_calc(all, i);
 		sprite_draw(all);
 	}
-}
-
-void 	tmp_init_sprite(t_all *all)//
-{
-	all->sprt.depth_buf = malloc(sizeof(double) * all->win_width);
-	all->sprt.order = malloc(sizeof(int) * all->sprt.nbr_sprites);
-	all->sprt.dist = malloc(sizeof(double) * all->sprt.nbr_sprites);
-
-	all->sprt_cords = malloc(sizeof(t_sprt_cords) * all->sprt.nbr_sprites);
-
-	all->sprt_cords[0].x = 6;
-	all->sprt_cords[0].y = 6;
-	all->sprt_cords[1].x = 7;
-	all->sprt_cords[1].y = 6;
-	all->sprt_cords[2].x = 4;
-	all->sprt_cords[2].y = 6;
-	all->sprt_cords[3].x = 3.5;
-	all->sprt_cords[3].y = 6;
-
+//	counter++;
+//	printf("cntr  %d\n", counter);
+	free(all->sprt.order);
+	free(all->sprt.dist);
+	//i = 0;
+	//while (i++ < all->sprt.nbr_sprites)
+	//free(all->sprt.depth_buf);
+	free(all->sprt_cords);
 }
