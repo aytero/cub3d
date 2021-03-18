@@ -65,6 +65,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	rm -f libmlx.a
+	rm screenshot.bmp
 #	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
 	make clean -C $(MLXDIR)

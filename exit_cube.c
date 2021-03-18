@@ -14,8 +14,19 @@
 
 int		exit_cube(t_all *all)
 {
-	(void)all;
-	//free()
+	int 	i;
+
+	i = 0;
+	while (i < 5)
+	{
+		if (all->tex[i].img)
+			mlx_destroy_image(all->mlx, all->tex[i].img);
+		i++;
+	}
+	if (all->img)
+		mlx_destroy_image(all->mlx, all->img);
+	if (all->win)
+		mlx_destroy_window(all->mlx, all->win);
 	// or func free_everything
 	exit (0);
 }

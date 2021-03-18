@@ -16,9 +16,9 @@ int		hook_frame(t_all *all)
 {
 	all->x = 0;
 
-	all->img = mlx_new_image(all->mlx, all->win_width, all->win_height);
-	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel,
-			&all->line_len, &all->endian); //why use casting to int?
+//	all->img = mlx_new_image(all->mlx, all->win_width, all->win_height);
+//	all->addr = (int *)mlx_get_data_addr(all->img, &all->bits_per_pixel,
+//			&all->line_len, &all->endian); //why use casting to int?
 
 	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->win_height * all->win_width);
 	fill(all);
@@ -33,8 +33,8 @@ int		hook_frame(t_all *all)
 	draw(all);
 	//printf("%d\n", all->endian);
 
-	if (create_bmp(all))
-		exit (0);
+//	if (create_bmp(all))
+//		exit (0);
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 //	mlx_destroy_image(all->mlx, all->img);
 	return (0);
@@ -92,7 +92,9 @@ int		main(int argc, char **argv)
 	load_texture(&all);
 	all.win = mlx_new_window(all.mlx, all.win_width, all.win_height, "yume");
 
-
+	all.img = mlx_new_image(all.mlx, all.win_width, all.win_height);
+	all.addr = (int *)mlx_get_data_addr(all.img, &all.bits_per_pixel,
+										 &all.line_len, &all.endian); //why use casting to int?
 	mlx_hook(all.win, 2, 1L, deal_key, &all);
 //	mlx_hook(all.win, 3, 1L, deal_key, &all);
 	mlx_hook(all.win, 17, 0L, exit_cube, &all);
