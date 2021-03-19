@@ -102,7 +102,7 @@ typedef struct	s_all
 	double 		side_dist_y;
 	double		delta_dist_x;//length of ray from one x or y-side to next x or y-side
 	double 		delta_dist_y;
-	double 		perp_wall_dist;
+	double 		wall_dist;
 
 	int 		step_x;//what direction to step in x or y-direction (either +1 or -1)
 	int 		step_y;

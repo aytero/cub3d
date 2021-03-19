@@ -21,7 +21,7 @@ void	cast_rays(t_all *all, int x)
 	all->map_x = (int)(all->plr_x);
 	all->map_y = (int)(all->plr_y);
 	all->hit = 0;
-	all->perp_wall_dist = 0;
+	all->wall_dist = 0;
 
 	if (all->ray_dir_y == 0)
 		all->delta_dist_x = 0;
@@ -81,15 +81,15 @@ void	cast_rays(t_all *all, int x)
 
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 		if (all->side == 0)
-			all->perp_wall_dist = ((double)all->map_x - all->plr_x + (double)(1 - all->step_x) / 2) / all->ray_dir_x;
+			all->wall_dist = ((double)all->map_x - all->plr_x + (double)(1 - all->step_x) / 2) / all->ray_dir_x;
 		else
-			all->perp_wall_dist = ((double)all->map_y - all->plr_y + (double)(1 - all->step_y) / 2) / all->ray_dir_y;
+			all->wall_dist = ((double)all->map_y - all->plr_y + (double)(1 - all->step_y) / 2) / all->ray_dir_y;
 	}
 }
 
 void 	draw_calc(t_all *all, int x)//rename to drawline_calc
 {
-		all->line_height = (int)(all->res_y / all->perp_wall_dist);
+		all->line_height = (int)(all->res_y / all->wall_dist);
 		all->draw_start = -all->line_height / 2 + all->res_y / 2;
 		if (all->draw_start < 0)
 			all->draw_start = 0;
@@ -114,9 +114,9 @@ void 	tex_calculations(t_all *all, int x)
 
 	all->tex_num = all->map[all->map_x][all->map_y] - 1;
 	if (all->side == 0)
-		all->wall_x = all->plr_y + all->perp_wall_dist * all->ray_dir_y;
+		all->wall_x = all->plr_y + all->wall_dist * all->ray_dir_y;
 	else
-		all->wall_x = all->plr_x + all->perp_wall_dist * all->plr_dir_x;
+		all->wall_x = all->plr_x + all->wall_dist * all->plr_dir_x;
 	all->wall_x -= floor(all->wall_x);
 	all->tex_x = (int)(all->wall_x * (double)TEX_WIDTH);
 	if (all->side == 0 && all->ray_dir_x > 0)

@@ -23,7 +23,7 @@ int		hook_frame(t_all *all)
 		cast_rays(all);
 		draw_calc(all);
 		tex_calc(all);
-		all->sprt.depth_buf[all->x] = all->perp_wall_dist;
+		all->sprt.depth_buf[all->x] = all->wall_dist;
 		all->x++;
 	}
 	sprite(all);

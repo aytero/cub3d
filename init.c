@@ -22,7 +22,7 @@ void	init_rc(t_all *all)
 	all->map_x = (int)(all->plr_x);
 	all->map_y = (int)(all->plr_y);
 	all->hit = 0;
-	all->perp_wall_dist = 0;
+	all->wall_dist = 0;
 }
 
 void 	tmp_init_sprite(t_all *all)//

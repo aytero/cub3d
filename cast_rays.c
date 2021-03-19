@@ -57,12 +57,12 @@ void	cast_rays(t_all *all)
 void 	draw_calc(t_all *all)
 {
 	if (all->side == 0)
-		all->perp_wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x)
+		all->wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x)
 				/ 2.0) / all->ray_dir_x;
 	else
-		all->perp_wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y)
+		all->wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y)
 				/ 2.0) / all->ray_dir_y;
-	all->line_height = (int)(all->res_y / all->perp_wall_dist);
+	all->line_height = (int)(all->res_y / all->wall_dist);
 	all->draw_start = all->res_y / 2 - all->line_height / 2;
 	all->draw_end = all->res_y / 2 + all->line_height / 2;
 	if (all->draw_start < 0)
@@ -79,9 +79,9 @@ void 	tex_calc(t_all *all)
 
 	find_tex_id(all);
 	if (all->side == 0)
-		wall_x = all->plr_y + all->perp_wall_dist * all->ray_dir_y;
+		wall_x = all->plr_y + all->wall_dist * all->ray_dir_y;
 	else
-		wall_x = all->plr_x + all->perp_wall_dist * all->ray_dir_x;
+		wall_x = all->plr_x + all->wall_dist * all->ray_dir_x;
 	wall_x -= floor(wall_x);
 	tex_x = (int) (wall_x * (double) all->tex[all->tex_id].width);
 	if (all->side == 0 && all->ray_dir_x > 0)
