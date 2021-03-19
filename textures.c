@@ -68,17 +68,19 @@ void	find_tex_id(t_all *all)
 	//	all->tex_id = 4;//sprite
 }
 
-void	load_image(t_all *all, t_tex *tex, char *path)
+void	load_image(t_all *all, t_img *tex, char *path)
 {
-	tex->img = mlx_xpm_file_to_image(all->mlx, path,
-				&tex->width, &tex->height);
+	if (!(tex->img = mlx_xpm_file_to_image(all->mlx, path,
+				&tex->width, &tex->height)))
+		exit_cube(all, "Failed to load texture\n");
 	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
 				&tex->line_len, &tex->endian);
 }
 
 void	load_texture(t_all *all)
 {
-	all->tex = ft_calloc(5, sizeof(t_tex));//nbr tex
+	if (!(all->tex = ft_calloc(5, sizeof(t_img))))//nbr tex
+		exit_cube(all, "Memory allocation filed\n");
 	load_image(all, all->tex, "textures/strs.xpm");
 	load_image(all, all->tex + 1, "textures/eyeballs.xpm");
 	load_image(all, all->tex + 2, "textures/flw.xpm");

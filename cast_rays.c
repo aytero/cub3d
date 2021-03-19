@@ -12,11 +12,10 @@
 
 #include "cub3d.h"
 
-static void 	calc_hit(t_all *all)
+static int	calc_hit(t_all *all)
 {
-//	while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
-//			&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
-	while (all->hit != 1)
+	while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
+			&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
 	{
 		if (all->side_dist_x < all->side_dist_y)
 		{
@@ -33,6 +32,7 @@ static void 	calc_hit(t_all *all)
 		if (all->map[all->map_x][all->map_y] == '1')
 			all->hit = 1;
 	}
+	return (all->hit);
 }
 
 void	cast_rays(t_all *all)
@@ -49,19 +49,18 @@ void	cast_rays(t_all *all)
 			? (all->map_y + 1.0 - all->plr_y) * all->delta_dist_y
 			: (all->plr_y - all->map_y) * all->delta_dist_y;
 	all->step_y = all->ray_dir_y >= 0 ? 1 : -1;
-//	if (calc_hit(all) <= 0)
-//		return ;
-	calc_hit(all);
+	if (!calc_hit(all))
+		return ;
 }
 
-void 	draw_calc(t_all *all)
+void 	wall_draw_calc(t_all *all)
 {
 	if (all->side == 0)
 		all->wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x)
-				/ 2.0) / all->ray_dir_x;
+						/ 2.0) / all->ray_dir_x;
 	else
 		all->wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y)
-				/ 2.0) / all->ray_dir_y;
+						/ 2.0) / all->ray_dir_y;
 	all->line_height = (int)(all->res_y / all->wall_dist);
 	all->draw_start = all->res_y / 2 - all->line_height / 2;
 	all->draw_end = all->res_y / 2 + all->line_height / 2;
@@ -99,7 +98,7 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 
 	tex_pos = (all->draw_start - all->res_y / 2.0 + all->line_height / 2.0)
 			* step;
-	while (all->draw_start < all->draw_end)// <= causes digital artifacts
+	while (all->draw_start < all->draw_end)
 	{
 		tex_y = (int)tex_pos & (all->tex[all->tex_id].height - 1);
 	//	if ((int)tex_pos >= all->tex[all->tex_id].height)
@@ -109,27 +108,8 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 		tex_pos += step;
 //		all->addr[all->line_len / 4 * y + x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
 		all->buf[all->draw_start][all->x]
-			= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
-			* tex_y + tex_x];
+				= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
+				* tex_y + tex_x];
 		all->draw_start++;
 	}
 }
-
-void	draw(t_all *all)
-{
-	int 	y;
-	int 	x;
-
-	y = 0;
-	while (y < all->res_y)
-	{
-		x = 0;
-		while (x < all->res_x)
-		{
-			all->addr[all->line_len / 4 * y + x] = all->buf[y][x];
-			x++;
-		}
-		y++;
-	}
-}
-

@@ -44,7 +44,6 @@ typedef struct	s_sprite
 	int 		nbr_sprites;
 	int 		*order;
 	double 		*dist;
-	double		*depth_buf;
 	double		sprite_x;
 	double		sprite_y;
 	double		modif_x;
@@ -58,7 +57,7 @@ typedef struct	s_sprite
 	int			width;
 }				t_sprite;
 
-typedef struct 	s_tex
+typedef struct 	s_img
 {
 	void		*img;
 	int 		width;
@@ -67,19 +66,12 @@ typedef struct 	s_tex
 	int			bits_per_pixel;
 	int			line_len;
 	int			endian;
-}				t_tex;
+}				t_img;
 
 typedef struct	s_all
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
-	int 		width;
-	int 		height;
-	int 		*addr;
-	int			bits_per_pixel;
-	int			line_len;
-	int			endian;
 	int			res_x;
 	int			res_y;
 	int 		x;
@@ -109,9 +101,9 @@ typedef struct	s_all
 	int 		hit;//was there a wall hit?
 	int 		side;//was a NS or a EW wall hit?
 
-	t_tex		*tex;
+	t_img		*tex;
+	t_img		img;
 	int 		**texture;
-//	int 		texture[TEX_HEIGHT][TEX_WIDTH];
 	int 		buf[HEIGHT][WIDTH];
 //	int 		**buf;
 	int 		tex_id;
@@ -120,36 +112,35 @@ typedef struct	s_all
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
-	t_sprite		sprt;
+	int 		nbr_sprites;
+	double		*depth_buf;
 	t_sprt_cords	*sprt_cords;
 	int 			save;
 
 	char		**map;
 }				t_all;
 
-int 	get_color(t_all *all, int x, int y);
-int 	create_bmp(t_all *all);
-void 	sprite_calc(t_all *all, int i);
-void 	sprite_sort(t_all *all);
-void 	sprite_draw(t_all *all);
-void 	tmp_init_sprite(t_all *all);
+int 			get_color(t_all *all, int x, int y);
+void 			create_bmp(t_all *all);
+void 			sprite_calc(t_all *all, t_sprite *sprt, int i);
+void 			sprite_sort(t_all *all, t_sprite *sprt);
+void 			sprite_draw(t_all *all, t_sprite *sprt);
+void 			tmp_init_sprite(t_all *all, t_sprite *sprt);
 void 			sprite(t_all *all);
-void 	fill_buffer(t_all *all, int tex_x, double step);
-void	find_tex_id(t_all *all);
-void			draw(t_all *all);
+void 			fill_buffer(t_all *all, int tex_x, double step);
+void			find_tex_id(t_all *all);
+void			fill_img(t_all *all);
 void			tex_mem(t_all *all);
-void			load_image(t_all *all, t_tex *tex, char *path);
+void			load_image(t_all *all, t_img *tex, char *path);
 void			load_texture(t_all *all);
-
-void 			fill(t_all *all);
+void 			fill(t_all *all);//rename
 void 			tex_calc(t_all *all);
-void		 	draw_calc(t_all *all);
-//void			map(t_data *data);
-void 	init(t_all *all);
+void		 	wall_draw_calc(t_all *all);
+void 		init(t_all *all);
 void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
 int				deal_key(int keycode, t_all *all);
-int				exit_cube(t_all *all);
+int				exit_cube(t_all *all, char *str);
 void			pixel_put(t_all *all, int x, int y, int color);
 void			parse_map(t_all *all, char *file);
 

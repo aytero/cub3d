@@ -12,24 +12,25 @@
 
 #include "cub3d.h"
 
-static void		bmp_colors(t_all *all, int fd)
+static void		bmp_colors(t_all *all, int img_size, int fd)
 {
 	int		x;
 	int		y;
-	int		color;
+	int		colors[img_size];
+	int	i = 0;
 
 	y = all->res_y - 1;
 	while (y >= 0)
 	{
 		x = 0;
-		while (x < all->res_x)
+		while (x < all->res_x && i <= img_size)
 		{
-			color = get_color(all, x, y);
-			write(fd, &color, 4);
+			colors[i++] = get_color(all, x, y);
 			x++;
 		}
 		y--;
 	}
+	write(fd, colors, img_size);
 }
 
 static void		cast(int val, unsigned char *dst)
@@ -58,7 +59,7 @@ static void		bmp_header(t_all *all, int img_size, int fd)
 	write(fd, bmp, 54);
 }
 
-int				create_bmp(t_all *all)
+void			create_bmp(t_all *all)
 {
 	int		fd;
 	int		img_size;
@@ -66,9 +67,8 @@ int				create_bmp(t_all *all)
 	img_size = all->res_x * all->res_y * 4;// 4 - bytes per pixel
 	if ((fd = open("screenshot.bmp", O_WRONLY | O_APPEND
 										| O_TRUNC | O_CREAT, 0664)) < 0)
-		return (-1);
+		exit_cube(all, "Screenshot failed\n");
 	bmp_header(all, img_size, fd);
-	bmp_colors(all, fd);
+	bmp_colors(all, img_size, fd);
 	close(fd);
-	return (0);
 }

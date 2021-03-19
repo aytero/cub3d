@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill.c                                             :+:      :+:    :+:   */
+/*   fill_img.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/10 19:03:20 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/02/10 19:03:22 by lpeggy           ###   ########.fr       */
+/*   Created: 2021/03/19 23:42:01 by lpeggy            #+#    #+#             */
+/*   Updated: 2021/03/19 23:42:21 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void 	fill(t_all *all)
+void	fill_img(t_all *all)
 {
-	int 	ceiling_end;
-	int 	y;
-	int 	x;
+	int		y;
+	int		x;
 
-	ceiling_end = all->res_y / 2;
-	y = 1;
-	while (++y < ceiling_end)
+	y = 0;
+	while (y < all->res_y)
 	{
-		x = -1;
-		while (++x < all->res_x)
-			//all->buf[y][x]
-			pixel_put(all, x, y, 0x3c3c3c);
-	}
-	while (++y < all->res_y)
-	{
-		x = -1;
-		while (++x < all->res_x)
-			pixel_put(all, x, y, 0x262626);
+		x = 0;
+		while (x < all->res_x)
+		{
+			all->img.addr[all->img.line_len / 4 * y + x] = all->buf[y][x];
+			x++;
+		}
+		y++;
 	}
 }

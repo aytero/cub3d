@@ -20,6 +20,7 @@ SRC = cub3d.c\
 	   exit_cube.c\
 	   pixel_get_put.c\
 	   cast_rays.c\
+	   fill_img.c\
 	   fill.c\
 	   textures.c\
 	   sprite.c\

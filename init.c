@@ -25,13 +25,16 @@ void	init_rc(t_all *all)
 	all->wall_dist = 0;
 }
 
-void 	tmp_init_sprite(t_all *all)//
+void 	tmp_init_sprite(t_all *all, t_sprite *sprt)//
 {
-//	all->sprt.depth_buf = malloc(sizeof(double) * all->res_x);
-	all->sprt.order = malloc(sizeof(int) * all->sprt.nbr_sprites);
-	all->sprt.dist = malloc(sizeof(double) * all->sprt.nbr_sprites);
 
-	all->sprt_cords = malloc(sizeof(t_sprt_cords) * all->sprt.nbr_sprites);
+	if (!(sprt->order = malloc(sizeof(int) * all->nbr_sprites)))
+		exit_cube(all, "Memory allocation failed\n");
+	if (!(sprt->dist = malloc(sizeof(double) * all->nbr_sprites)))
+		exit_cube(all, "Memory allocation failed\n");
+	if (!(all->sprt_cords = malloc(sizeof(t_sprt_cords)
+							* all->nbr_sprites)))
+		exit_cube(all, "Memory allocation failed\n");
 
 	all->sprt_cords[0].x = 6;
 	all->sprt_cords[0].y = 6;

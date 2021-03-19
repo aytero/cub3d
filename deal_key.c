@@ -60,6 +60,6 @@ int				deal_key(int keycode, t_all *all)
 	else if (keycode == D)
 		move_sideways(all, -SPEED);
 	else if (keycode == ESC)
-		exit_cube(all);
+		exit_cube(all, 0);
 	return (0);
 }

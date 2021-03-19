@@ -21,21 +21,46 @@ int		hook_frame(t_all *all)
 	while (all->x < all->res_x)
 	{
 		cast_rays(all);
-		draw_calc(all);
+		wall_draw_calc(all);
 		tex_calc(all);
-		all->sprt.depth_buf[all->x] = all->wall_dist;
+		all->depth_buf[all->x] = all->wall_dist;
 		all->x++;
 	}
 	sprite(all);
-	draw(all);
+	fill_img(all);
 	if (all->save)
 	{
 		create_bmp(all);
-		exit_cube(all);
+		exit_cube(all, 0);
 	}
-	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
+	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
 	//free(all->buf);
 	return (0);
+}
+
+static void 	init_mlx(t_all *all, int argc)
+{
+	if (!(all->mlx = mlx_init()))
+		exit_cube(all, "Mlx init failed\n");
+//	tex_mem(&all);
+	if (!(all->depth_buf = malloc(sizeof(double) * all->res_x)))
+		exit_cube(all, "Memory allocation failed\n");
+	load_texture(all);
+//	exit_cube(&all, "text\n");
+	all->win = mlx_new_window(all->mlx, all->res_x, all->res_y, "yume");
+	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
+	all->img.addr = (int *)mlx_get_data_addr(all->img.img, &all->img.bits_per_pixel,
+										&all->img.line_len, &all->img.endian);
+
+	//all->save = 1;
+	if (argc == 2 || (argc == 3 && all->save))
+		hook_frame(all);
+	else
+		exit_cube(all, "Invalid arguments\n");
+	mlx_hook(all->win, 2, 1L, deal_key, all);
+	mlx_hook(all->win, 17, 0L, exit_cube, all);
+	mlx_loop_hook(all->mlx, hook_frame, all);
+	mlx_loop(all->mlx);
 }
 
 int		main(int argc, char **argv)
@@ -52,17 +77,16 @@ int		main(int argc, char **argv)
     all.plane_x = 0.0;
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
 
-	all.sprt.nbr_sprites = 4;
+	all.nbr_sprites = 4;
 
-	/*
-	int n = 1;
-	if (*(char *)&n == 1)//check endian
-		write(1, "lil\n", 4);
-	else
-		write(1, "big\n", 4);
-	 */
-	all.sprt.depth_buf = malloc(sizeof(double) * all.res_x);
+	if (argc < 2 || argc > 3)
+	{
+		write(1, "Error:\n", 7);
+		write(1, "Invalid number of arguments\n", 28);
+		exit (0);
+	}
 	parse_map(&all, argv[1]);
+
 	int i = 0;
 	int j;
 	while (all.map[i])
@@ -76,27 +100,6 @@ int		main(int argc, char **argv)
 		printf("\n");
 		i++;
 	}
-
-//	init(&all);
-	all.mlx = mlx_init();
-//	tex_mem(&all);
-	load_texture(&all);
-	all.win = mlx_new_window(all.mlx, all.res_x, all.res_y, "yume");
-
-	all.img = mlx_new_image(all.mlx, all.res_x, all.res_y);
-	all.addr = (int *)mlx_get_data_addr(all.img, &all.bits_per_pixel,
-										 &all.line_len, &all.endian); //why use casting to int?
-	//all.save = 1;
-	if (argc == 2 || (argc == 3 && all.save))
-	{
-		hook_frame(&all);
-		//write error;
-//		return (0); //or exit
-	}
-	mlx_hook(all.win, 2, 1L, deal_key, &all);
-//	mlx_hook(all.win, 3, 1L, deal_key, &all);
-	mlx_hook(all.win, 17, 0L, exit_cube, &all);
-	mlx_loop_hook(all.mlx, hook_frame, &all);
-	mlx_loop(all.mlx);
+	init_mlx(&all, argc);
 	return (0);
 }

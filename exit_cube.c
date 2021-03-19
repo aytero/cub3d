@@ -12,10 +12,29 @@
 
 #include "cub3d.h"
 
-int		exit_cube(t_all *all)
+static void		memory_clean(t_all *all)
+{
+
+	if (all->map)
+		free(all->map);
+//	free(all->tex);//gets freed in mlx func
+	//free(all);
+	//free(all->buf);
+	if (all->depth_buf)
+		free(all->depth_buf);
+	//i = 0;
+	//while (i++ < all->sprt.nbr_sprites)
+}
+
+int				exit_cube(t_all *all, char *str)
 {
 	int 	i;
 
+	if (str)
+	{
+		write(1, "Error:\n", 7);
+		write(1, str, ft_strlen(str));
+	}
 	i = 0;
 	while (i < 5)
 	{
@@ -23,16 +42,10 @@ int		exit_cube(t_all *all)
 			mlx_destroy_image(all->mlx, all->tex[i].img);
 		i++;
 	}
-	if (all->img)
-		mlx_destroy_image(all->mlx, all->img);
+	if (all->img.img)
+		mlx_destroy_image(all->mlx, all->img.img);
 	if (all->win)
 		mlx_destroy_window(all->mlx, all->win);
-	free(all->map);
-	free(all->tex);
-	//free(all);
-	//free(all->buf);
-	free(all->sprt.depth_buf);
-
-	// or func free_everything
+	memory_clean(all);
 	exit (0);
 }

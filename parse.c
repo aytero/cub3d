@@ -11,37 +11,34 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-/*
-static void get_param(t_all *all)
-{
-	if (**all->map == 'R')
-	{
-		(*all->map)++;
-		all->res_y = ft_atoi(*all->map);
-		//while
-		all->res_x = ft_atoi(*all->map);
-		printf("%d\n", all->res_y);
-		printf("%d\n", all->res_x);
-	}
-}
-*/
 
-static void	get_res(t_all *all, char *str)
+
+static void get_tex_no(t_all *all, char **str)
 {
 	(void)all;
-	if (*str == 'R')
+	if (**str == 'N' && **str + 1 == 'O')
 	{
-		printf("%s\n", str);
+		while (**str != '.' && **str + 1 != '/')
+			(*str)++;
+	}
+		printf("%s\n", *str);
+}
+
+static void	get_res(t_all *all, char **str)
+{
+	while (**str == ' ' || **str == '\n')
+		(*str)++;
+	if (**str == 'R')
+	{
+		(*str)++;
+		all->res_x = ft_atoi(*str);
+		//skip space or comma
+		(*str)++;
+		all->res_y = ft_atoi(*str);
+		printf("x %d  y %d\n", all->res_x, all->res_x);
+		//printf("%s\n", *str);
 	}
 }
-/*
-static void get_tex_no(t_all *all, char *str)
-{
-	(void)all;
-	if (*str == 'N' && *str + 1 == 'O')
-		printf("%s\n", str);
-}
- */
 
 static void read_config(t_all *all, int fd)
 {
@@ -49,10 +46,12 @@ static void read_config(t_all *all, int fd)
 
 	str = NULL;
 	get_next_line(fd, &str);
-		get_res(all, str);
+		get_res(all, &str);
+	get_next_line(fd, &str);
+	get_tex_no(all, &str);
 		//get_tex_no(all, str);
 		//map;
-	free(str);
+//	free(str);//leaks without it
 }
 
 static char	*read_map(int fd, char *tab)
@@ -79,9 +78,7 @@ void		parse_map(t_all *all, char *file)
 	tab = NULL;
 	if ((fd = open(file, O_RDONLY)) < 0)
 	{
-	//	error;
-	//	free;
-		exit(0);
+		exit_cube(all, "Failed to read map\n");
 	}
 	read_config(all, fd);
 	tab = read_map(fd, tab);
