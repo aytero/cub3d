@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
+/*   Updated: 2021/03/21 20:43:59 by lpeggy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "cub3d.h"
 
 /*
@@ -17,7 +28,7 @@ void 	init(t_all *all)
 
 void	init_rc(t_all *all)
 {
-	all->camera_x = 2 * all->x / (double)all->res_x - 1;
+	all->camera_x = 2 * all->x / (double)all->res_x * all->coef - 1;
 	all->ray_dir_x = all->plr_dir_x + all->plane_x * all->camera_x;
 	all->ray_dir_y = all->plr_dir_y + all->plane_y * all->camera_x;
 	all->map_x = (int)(all->plr_x);

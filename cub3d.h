@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 00:09:47 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/21 19:37:18 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,11 @@ typedef struct	s_all
 	int			res_y;
 	int 		x;
 	int 		y;
+	double 		coef;
 
-	unsigned int	floor_color;
-	unsigned int	ceiling_color;
-	char 			*tex_no;
-	char 			*tex_so;
-	char 			*tex_we;
-	char 			*tex_ea;
-	char 			*tex_sprt;
-	//char 			*tex_path[5];//mb + defines
+	unsigned int	fc_color[2];
+	char 			*tex_path[5];//mb + defines
+	int				cntr;
 
 	double		plr_x;
 	double		plr_y;
@@ -113,8 +109,8 @@ typedef struct	s_all
 	t_img		*tex;
 	t_img		img;
 	int 		**texture;
-	int 		buf[HEIGHT][WIDTH];
-//	int 		**buf;
+//	int 		buf[HEIGHT][WIDTH];
+	int 		**buf;
 	int 		tex_id;
 
 	int 		line_height;//height of line to draw on screen
@@ -151,6 +147,6 @@ void			cast_rays(t_all *all);
 int				deal_key(int keycode, t_all *all);
 int				exit_cube(t_all *all, char *str);
 void			pixel_put(t_all *all, int x, int y, int color);
-void			parse_map(t_all *all, char *file);
+void			parse_file(t_all *all, char *file);
 
 #endif

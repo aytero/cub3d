@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/19 22:37:01 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/21 19:32:55 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	sprite_draw(t_all *all, t_sprite *sprt)
 				color = all->tex[4].addr[all->tex[4].height * tex_y + tex_x];
 				if ((color & 0x00FFFF) != 0)
 					all->buf[i][sprt->start_x] = color;
+					//all->img.addr[all->img.line_len / 4 * sprt->start_x + i] = color;
 			}
 		}
 	}

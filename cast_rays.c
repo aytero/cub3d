@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:22 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/20 20:33:58 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/21 20:43:59 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int	calc_hit(t_all *all)
 {
-	while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
-			&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
+	//while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
+	//		&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
+	while (all->hit != 1)
 	{
 		if (all->side_dist_x < all->side_dist_y)
 		{
@@ -61,7 +62,7 @@ void 	wall_draw_calc(t_all *all)
 	else
 		all->wall_dist = (all->map_y - all->plr_y + (1.0 - all->step_y)
 						/ 2.0) / all->ray_dir_y;
-	all->line_height = (int)(all->res_y / all->wall_dist);
+	all->line_height = (int)(all->res_y * all->coef / all->wall_dist);
 	all->draw_start = all->res_y / 2 - all->line_height / 2;
 	all->draw_end = all->res_y / 2 + all->line_height / 2;
 	if (all->draw_start < 0)
@@ -82,7 +83,7 @@ void 	tex_calc(t_all *all)
 	else
 		wall_x = all->plr_x + all->wall_dist * all->ray_dir_x;
 	wall_x -= floor(wall_x);
-	tex_x = (int) (wall_x * (double) all->tex[all->tex_id].width);
+	tex_x = (int)(wall_x * (double)all->tex[all->tex_id].width);
 	if (all->side == 0 && all->ray_dir_x > 0)
 		tex_x = all->tex[all->tex_id].width - tex_x - 1;
 	if (all->side == 1 && all->ray_dir_y < 0)
@@ -106,7 +107,8 @@ void 	fill_buffer(t_all *all, int tex_x, double step)
 	//	else
 	//		tex_y = (int)tex_pos;
 		tex_pos += step;
-//		all->addr[all->line_len / 4 * y + x] = all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
+		//all->img.addr[all->img.line_len / 4 * all->draw_start + all->x]
+		//		= all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
 		all->buf[all->draw_start][all->x]
 				= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
 				* tex_y + tex_x];

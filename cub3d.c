@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/20 20:58:32 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/21 20:45:24 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,21 @@
 int		hook_frame(t_all *all)
 {
 	all->x = 0;
-	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->res_y * all->res_x);
-//	ft_memset(all->buf, 0, sizeof(all->buf) * all->res_x * all->res_y);
-	fill(all);
+//	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->res_y * all->res_x);
+//	ft_memset(all->buf, 0, sizeof(all->buf[0]) * all->res_y * all->res_x);
+	int i = 0;
+	int j;
+	while (i < all->res_y)
+	{
+		j = 0;
+		while (j < all->res_x)
+		{
+			all->buf[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+//	fill(all);
 	while (all->x < all->res_x)
 	{
 		cast_rays(all);
@@ -68,8 +80,8 @@ int		main(int argc, char **argv)
 	t_all all;
 
 	ft_bzero(&all, sizeof(all));
-	all.res_x = 600;
-	all.res_y = 540;
+//	all.res_x = 600;
+//	all.res_y = 540;
 	all.plr_x = 5;
     all.plr_y = 7;  //x and y start position
     all.plr_dir_x = -1.0;
@@ -85,8 +97,9 @@ int		main(int argc, char **argv)
 		write(1, "Invalid number of arguments\n", 28);
 		exit (0);
 	}
-	parse_map(&all, argv[1]);
+	parse_file(&all, argv[1]);
 
+	/*
 	int i = 0;
 	int j;
 	while (all.map[i])
@@ -100,14 +113,23 @@ int		main(int argc, char **argv)
 		printf("\n");
 		i++;
 	}
+*/
+	int i;
+	if (!(all.buf = malloc(sizeof(int *) * all.res_y)))
+		return (-1);
+	i = 0;
+	while (i < all.res_y)
+	{
+		if (!(all.buf[i] = malloc(sizeof(int) * all.res_x)))
+			return (-1);
+		i++;
+	}
 
-//	all.buf = malloc(sizeof(int *) * all.res_y);
-//	i = 0;
-//	while (i < all.res_y)
-//	{
-//		all.buf[i] = malloc(sizeof(int) * all.res_x);
-//		i++;
-//	}
+	if (all.res_y > all.res_x)
+		all.coef = (double)(all.res_y) / (double)(all.res_x) * 10.0;
+	else
+		all.coef = (double)(all.res_x) / (double)(all.res_y) * 10.0;
+	printf("coef  %g\n", all.coef);
 
 	init_mlx(&all, argc);
 	return (0);
