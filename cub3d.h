@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/02/12 16:57:07 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/21 00:09:47 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ typedef struct	s_all
 	int			res_y;
 	int 		x;
 	int 		y;
+
+	unsigned int	floor_color;
+	unsigned int	ceiling_color;
+	char 			*tex_no;
+	char 			*tex_so;
+	char 			*tex_we;
+	char 			*tex_ea;
+	char 			*tex_sprt;
+	//char 			*tex_path[5];//mb + defines
 
 	double		plr_x;
 	double		plr_y;

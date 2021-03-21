@@ -22,6 +22,7 @@ static void		memory_clean(t_all *all)
 	//free(all->buf);
 	if (all->depth_buf)
 		free(all->depth_buf);
+	//free(all->tex_no);
 	//i = 0;
 	//while (i++ < all->sprt.nbr_sprites)
 }

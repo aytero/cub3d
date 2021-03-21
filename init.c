@@ -1,18 +1,19 @@
 #include "cub3d.h"
+
 /*
 void 	init(t_all *all)
 {
 	int		i;
 
-	all->buf = malloc(sizeof(int *) * all->res_y);
+	all.buf = malloc(sizeof(int *) * all.res_y);
 	i = 0;
-	while (i++ < all->res_y)
+	while (i < all.res_y)
 	{
-		all->buf[i] = malloc(sizeof(int) * all->res_x);
-		//if - error
+		all.buf[i] = malloc(sizeof(int) * all.res_x);
+		i++;
 	}
 }
- */
+*/
 
 void	init_rc(t_all *all)
 {

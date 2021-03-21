@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/02/12 18:11:40 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/20 20:58:32 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int		hook_frame(t_all *all)
 {
 	all->x = 0;
-
 	ft_memset(all->buf, 0, sizeof(all->buf[0][0]) * all->res_y * all->res_x);
+//	ft_memset(all->buf, 0, sizeof(all->buf) * all->res_x * all->res_y);
 	fill(all);
 	while (all->x < all->res_x)
 	{
@@ -49,8 +49,8 @@ static void 	init_mlx(t_all *all, int argc)
 //	exit_cube(&all, "text\n");
 	all->win = mlx_new_window(all->mlx, all->res_x, all->res_y, "yume");
 	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
-	all->img.addr = (int *)mlx_get_data_addr(all->img.img, &all->img.bits_per_pixel,
-										&all->img.line_len, &all->img.endian);
+	all->img.addr = (int *)mlx_get_data_addr(all->img.img,
+				&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian);
 
 	//all->save = 1;
 	if (argc == 2 || (argc == 3 && all->save))
@@ -100,6 +100,15 @@ int		main(int argc, char **argv)
 		printf("\n");
 		i++;
 	}
+
+//	all.buf = malloc(sizeof(int *) * all.res_y);
+//	i = 0;
+//	while (i < all.res_y)
+//	{
+//		all.buf[i] = malloc(sizeof(int) * all.res_x);
+//		i++;
+//	}
+
 	init_mlx(&all, argc);
 	return (0);
 }

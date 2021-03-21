@@ -19,7 +19,7 @@ void 	fill(t_all *all)
 	int 	x;
 
 	ceiling_end = all->res_y / 2;
-	y = 1;
+	y = -1;
 	while (++y < ceiling_end)
 	{
 		x = -1;

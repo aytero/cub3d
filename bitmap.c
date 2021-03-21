@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:22:14 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/18 19:25:33 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/20 23:06:16 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ static void		bmp_colors(t_all *all, int img_size, int fd)
 
 static void		cast(int val, unsigned char *dst)
 {
+	//int		i;
+
+	//i = -1;
+	//while (++i < 4)//numbytes
+	//	dst >> (i * 8)
 	dst[0] = (unsigned char)val;
 	dst[1] = (unsigned char)(val >> 8);
 	dst[2] = (unsigned char)(val >> 16);
@@ -65,8 +70,7 @@ void			create_bmp(t_all *all)
 	int		img_size;
 
 	img_size = all->res_x * all->res_y * 4;// 4 - bytes per pixel
-	if ((fd = open("screenshot.bmp", O_WRONLY | O_APPEND
-										| O_TRUNC | O_CREAT, 0664)) < 0)
+	if ((fd = open("screenshot.bmp", O_WRONLY | O_TRUNC | O_CREAT, 0664)) < 0)
 		exit_cube(all, "Screenshot failed\n");
 	bmp_header(all, img_size, fd);
 	bmp_colors(all, img_size, fd);
