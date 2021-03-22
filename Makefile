@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/02/12 17:57:53 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/03/22 23:23:26 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ HEADER = cub3d.h
 
 SRC = cub3d.c\
 	   parse.c\
+	   parse_map.c\
 	   deal_key.c\
 	   exit_cube.c\
 	   pixel_get_put.c\
@@ -65,7 +66,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	rm -f libmlx.a
-	rm screenshot.bmp
+	#rm screenshot.bmp
 #	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
 	make clean -C $(MLXDIR)

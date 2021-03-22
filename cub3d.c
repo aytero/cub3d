@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 14:56:16 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/22 23:41:39 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ int		main(int argc, char **argv)
 	ft_bzero(&all, sizeof(all));
 //	all.res_x = 600;
 //	all.res_y = 540;
-	all.plr_x = 5;
-    all.plr_y = 7;  //x and y start position
+//	all.plr_x = 5;
+  //  all.plr_y = 7;  //x and y start position
     all.plr_dir_x = -1.0;
     all.plr_dir_y = 0.0; //initial direction vector
     all.plane_x = 0.0;
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
 
-	all.nbr_sprites = 6;
+	//all.nbr_sprites = 6;
 
 	if (argc < 2 || argc > 3)
 	{
@@ -120,17 +120,16 @@ int		main(int argc, char **argv)
 */
 	int i;
 	if (!(all.buf = malloc(sizeof(int *) * all.res_y)))
-		return (-1);
+		return (-1);//
 	i = 0;
 	while (i < all.res_y)
 	{
 		if (!(all.buf[i] = malloc(sizeof(int) * all.res_x)))
-			return (-1);
+			return (-1);//
 		i++;
 	}
 
-//	all.coef = (double)(all.res_y) / (double)(all.res_x);
-	all.coef = (double)(all.res_x) / (double)(all.res_y);
+	all.coef = (double)(all.res_x) / (double)(all.res_y) * 0.75;
 	printf("coef  %f\n", all.coef);
 
 	init_mlx(&all, argc);

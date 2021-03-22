@@ -81,9 +81,9 @@ void	load_texture(t_all *all)
 {
 	if (!(all->tex = ft_calloc(5, sizeof(t_img))))//nbr tex
 		exit_cube(all, "Memory allocation filed\n");
-	load_image(all, all->tex, "textures/strs.xpm");
-	load_image(all, all->tex + 1, "textures/eyeballs.xpm");
-	load_image(all, all->tex + 2, "textures/flw.xpm");
-	load_image(all, all->tex + 3, "textures/shrooms2.xpm");
-	load_image(all, all->tex + 4, "textures/muhomor.xpm");
+	load_image(all, all->tex, all->tex_path[0]);
+	load_image(all, all->tex + 1, all->tex_path[1]);
+	load_image(all, all->tex + 2, all->tex_path[2]);
+	load_image(all, all->tex + 3, all->tex_path[3]);
+	load_image(all, all->tex + 4, all->tex_path[4]);
 }

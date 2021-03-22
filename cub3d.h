@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 01:36:18 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/22 21:05:01 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,12 @@ typedef struct	s_all
 	int 		y;
 	double 		coef;
 
-	unsigned int	fc_color[2];
+	int			fc_color[2];
 	char 			*tex_path[5];//mb + defines
 	int				cntr;
+	int 		map_lines;
+	int			max_line_len;
+
 	int				keys[6];
 	// w up		0
 	// s down	1
@@ -133,6 +136,7 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
+void	plr(t_all *all);
 int 			get_color(t_all *all, int x, int y);
 void 			create_bmp(t_all *all);
 void 			sprite_calc(t_all *all, t_sprite *sprt, int i);

@@ -6,7 +6,7 @@
 /*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 00:11:18 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/22 19:07:47 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -48,16 +48,16 @@ void 	tmp_init_sprite(t_all *all, t_sprite *sprt)//
 							* all->nbr_sprites)))
 		exit_cube(all, "Memory allocation failed\n");
 
-	all->sprt_cords[0].x = 6;
-	all->sprt_cords[0].y = 6;
-	all->sprt_cords[1].x = 7;
-	all->sprt_cords[1].y = 6;
-	all->sprt_cords[2].x = 4;
-	all->sprt_cords[2].y = 6;
-	all->sprt_cords[3].x = 3.5;
-	all->sprt_cords[3].y = 6;
-	all->sprt_cords[4].x = 7;
-	all->sprt_cords[4].y = 12;
-	all->sprt_cords[5].x = 7;
-	all->sprt_cords[5].y = 13;
+//	all->sprt_cords[0].x = 6;
+//	all->sprt_cords[0].y = 6;
+//	all->sprt_cords[1].x = 7;
+//	all->sprt_cords[1].y = 6;
+//	all->sprt_cords[2].x = 4;
+//	all->sprt_cords[2].y = 6;
+//	all->sprt_cords[3].x = 3.5;
+//	all->sprt_cords[3].y = 6;
+//	all->sprt_cords[4].x = 6;
+//	all->sprt_cords[4].y = 11;
+//	all->sprt_cords[5].x = 6;
+//	all->sprt_cords[5].y = 12;
 }
