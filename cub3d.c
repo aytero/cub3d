@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 20:45:24 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/22 14:56:16 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int		hook_frame(t_all *all)
 		exit_cube(all, 0);
 	}
 	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
+	move(all, SPEED);
+	move_sideways(all, SPEED);
+	rotate(all, SPEED);
 	//free(all->buf);
 	return (0);
 }
@@ -54,7 +57,6 @@ static void 	init_mlx(t_all *all, int argc)
 {
 	if (!(all->mlx = mlx_init()))
 		exit_cube(all, "Mlx init failed\n");
-//	tex_mem(&all);
 	if (!(all->depth_buf = malloc(sizeof(double) * all->res_x)))
 		exit_cube(all, "Memory allocation failed\n");
 	load_texture(all);
@@ -65,11 +67,13 @@ static void 	init_mlx(t_all *all, int argc)
 				&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian);
 
 	//all->save = 1;
-	if (argc == 2 || (argc == 3 && all->save))
+	if (argc == 2 || (argc == 3 && all->save))// ft_strncmp("--save", argv[2], 6) and strlrn
 		hook_frame(all);
 	else
 		exit_cube(all, "Invalid arguments\n");
-	mlx_hook(all->win, 2, 1L, deal_key, all);
+//	mlx_hook(all->win, 2, 1L, deal_key, all);
+	mlx_hook(all->win, 2, 1L, key_press, all);
+	mlx_hook(all->win, 3, 1L, key_release, all);
 	mlx_hook(all->win, 17, 0L, exit_cube, all);
 	mlx_loop_hook(all->mlx, hook_frame, all);
 	mlx_loop(all->mlx);
@@ -89,7 +93,7 @@ int		main(int argc, char **argv)
     all.plane_x = 0.0;
     all.plane_y = 0.66; //the 2d raycaster version of camera plane
 
-	all.nbr_sprites = 4;
+	all.nbr_sprites = 6;
 
 	if (argc < 2 || argc > 3)
 	{
@@ -125,11 +129,9 @@ int		main(int argc, char **argv)
 		i++;
 	}
 
-	if (all.res_y > all.res_x)
-		all.coef = (double)(all.res_y) / (double)(all.res_x) * 10.0;
-	else
-		all.coef = (double)(all.res_x) / (double)(all.res_y) * 10.0;
-	printf("coef  %g\n", all.coef);
+//	all.coef = (double)(all.res_y) / (double)(all.res_x);
+	all.coef = (double)(all.res_x) / (double)(all.res_y);
+	printf("coef  %f\n", all.coef);
 
 	init_mlx(&all, argc);
 	return (0);

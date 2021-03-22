@@ -6,7 +6,7 @@
 /*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 20:43:59 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/22 00:11:18 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -28,7 +28,7 @@ void 	init(t_all *all)
 
 void	init_rc(t_all *all)
 {
-	all->camera_x = 2 * all->x / (double)all->res_x * all->coef - 1;
+	all->camera_x = 2 * all->x / (double)all->res_x - 1;
 	all->ray_dir_x = all->plr_dir_x + all->plane_x * all->camera_x;
 	all->ray_dir_y = all->plr_dir_y + all->plane_y * all->camera_x;
 	all->map_x = (int)(all->plr_x);
@@ -56,4 +56,8 @@ void 	tmp_init_sprite(t_all *all, t_sprite *sprt)//
 	all->sprt_cords[2].y = 6;
 	all->sprt_cords[3].x = 3.5;
 	all->sprt_cords[3].y = 6;
+	all->sprt_cords[4].x = 7;
+	all->sprt_cords[4].y = 12;
+	all->sprt_cords[5].x = 7;
+	all->sprt_cords[5].y = 13;
 }

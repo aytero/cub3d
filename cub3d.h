@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 19:37:18 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/22 01:36:18 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "mlx.h"
 # include "libft/libft.h"
 
-# define SPEED 0.2
+# define SPEED 0.1
 # define DOWN 125
 # define UP 126
 # define LEFT 123
@@ -81,6 +81,14 @@ typedef struct	s_all
 	unsigned int	fc_color[2];
 	char 			*tex_path[5];//mb + defines
 	int				cntr;
+	int				keys[6];
+	// w up		0
+	// s down	1
+	// a		2
+	// d		3
+	// left		4
+	// right	5
+	//esc
 
 	double		plr_x;
 	double		plr_y;
@@ -144,9 +152,14 @@ void		 	wall_draw_calc(t_all *all);
 void 		init(t_all *all);
 void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
-int				deal_key(int keycode, t_all *all);
+//int				deal_key(int keycode, t_all *all);
 int				exit_cube(t_all *all, char *str);
 void			pixel_put(t_all *all, int x, int y, int color);
 void			parse_file(t_all *all, char *file);
+int 		key_press(int keycode, t_all *all);
+int 		key_release(int keycode, t_all *all);
+void		move(t_all *all, double angle);
+void		move_sideways(t_all *all, double angle);
+void		rotate(t_all *all, double angle);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 19:32:55 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/22 00:22:17 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	sprite_calc(t_all *all, t_sprite *sprt, int i)
 										+ all->plane_x * sprt->sprite_y);
 	sprt->screen_x = (int)((all->res_x / 2.0)
 					* (1.0 + sprt->modif_x / sprt->modif_y));
-	sprt->height = (int)fabs((all->res_y / sprt->modif_y));
+	sprt->height = (int)fabs((all->res_y * all->coef / sprt->modif_y));
 	sprt->start_y = all->res_y / 2 - sprt->height / 2;
 	sprt->end_y = all->res_y / 2 + sprt->height / 2;
 	if (sprt->start_y < 0)
 		sprt->start_y = 0;
 	if (sprt->end_y >= all->res_y)
 		sprt->end_y = all->res_y - 1;
-	sprt->width = (int)fabs((all->res_y / sprt->modif_y));
+	sprt->width = (int)fabs((all->res_y * all->coef / sprt->modif_y));
 	sprt->start_x = sprt->screen_x - sprt->width / 2;
 	sprt->end_x = sprt->screen_x + sprt->width / 2;
 	if (sprt->start_x < 0)

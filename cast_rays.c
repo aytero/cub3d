@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:22 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/21 20:43:59 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/22 13:12:55 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	calc_hit(t_all *all)
 {
 	//while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
 	//		&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
-	while (all->hit != 1)
+	while (all->hit != 1)// && all->side_dist_x < 100.0 && all->side_dist_y < 100.0)
 	{
 		if (all->side_dist_x < all->side_dist_y)
 		{
@@ -30,7 +30,8 @@ static int	calc_hit(t_all *all)
 			all->map_y += all->step_y;
 			all->side = 1;
 		}
-		if (all->map[all->map_x][all->map_y] == '1')
+		if (all->map[all->map_x][all->map_y] == '1')// && all->map_x > 0 && all->map_y > 0
+			//&& all->map_y < all->res_y -1 && all->map_x < all->res_x - 1)
 			all->hit = 1;
 	}
 	return (all->hit);
