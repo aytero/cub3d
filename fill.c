@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 19:03:20 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/02/10 19:03:22 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 21:12:18 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void 	fill(t_all *all)
 	{
 		x = -1;
 		while (++x < all->res_x)
-			//all->buf[y][x]
-			pixel_put(all, x, y, 0x3c3c3c);
+			all->buf[y][x] = all->fc_color[1];
 	}
-	while (++y < all->res_y)
+	while (++y < all->res_y - 1)
 	{
 		x = -1;
 		while (++x < all->res_x)
-			pixel_put(all, x, y, 0x262626);
+			all->buf[y][x] = all->fc_color[0];
 	}
 }

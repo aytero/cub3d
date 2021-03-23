@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 00:22:17 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/23 21:23:15 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	sprite_sort(t_all *all, t_sprite *sprt)
 	double	tmp;
 
 	i = -1;
-	while (++i < all->nbr_sprites)
+	while (++i < all->nbr_sprt)
 	{
 		j = -1;
-		while (++j < all->nbr_sprites - 1)
+		while (++j < all->nbr_sprt - 1)
 		{
 			if (sprt->dist[j] < sprt->dist[j + 1])
 			{
@@ -89,7 +89,6 @@ void	sprite_draw(t_all *all, t_sprite *sprt)
 				color = all->tex[4].addr[all->tex[4].height * tex_y + tex_x];
 				if ((color & 0x00FFFF) != 0)
 					all->buf[i][sprt->start_x] = color;
-					//all->img.addr[all->img.line_len / 4 * sprt->start_x + i] = color;
 			}
 		}
 	}
@@ -100,9 +99,10 @@ void	sprite(t_all *all)
 	int			i;
 	t_sprite	sprt;
 
-	tmp_init_sprite(all, &sprt);
+	//tmp_init_sprite(all, &sprt);
+	find_sprites(all, &sprt);
 	i = -1;
-	while (++i < all->nbr_sprites)
+	while (++i < all->nbr_sprt)
 	{
 		sprt.order[i] = i;
 		sprt.dist[i] = pow(all->plr_x - all->sprt_cords[i].x, 2)
@@ -111,7 +111,7 @@ void	sprite(t_all *all)
 	sprite_sort(all, &sprt);
 //	find_tex_id(all);
 	i = -1;
-	while (++i < all->nbr_sprites)
+	while (++i < all->nbr_sprt)
 	{
 		sprite_calc(all, &sprt, i);
 		sprite_draw(all, &sprt);
@@ -120,6 +120,6 @@ void	sprite(t_all *all)
 		free(sprt.order);
 	if (sprt.dist)
 		free(sprt.dist);
-	if (all->sprt_cords)
-		free(all->sprt_cords);//should be here otherwise causes leaks
+//	if (all->sprt_cords)
+//		free(all->sprt_cords);//should be here otherwise causes leaks
 }

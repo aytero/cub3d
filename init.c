@@ -6,25 +6,37 @@
 /*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 19:07:47 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 22:37:23 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
 
-/*
 void 	init(t_all *all)
 {
-	int		i;
+	int	j;
+	int i;
 
-	all.buf = malloc(sizeof(int *) * all.res_y);
+	if (!(all->buf = malloc(sizeof(int *) * all->res_y)))
+		exit_cube(all, "ff\n");//
 	i = 0;
-	while (i < all.res_y)
+	while (i < all->res_y)
 	{
-		all.buf[i] = malloc(sizeof(int) * all.res_x);
+		if (!(all->buf[i] = malloc(sizeof(int) * all->res_x)))
+			exit_cube(all, "ff\n");//
 		i++;
 	}
+	i = -1;
+	while (++i < all->res_y)
+	{
+		j = -1;
+		while (++j < all->res_x)
+			all->buf[i][j] = 0;
+	}
+	all->coef = (double)(all->res_x) / (double)(all->res_y) * 0.75;
+	printf("coef  %f\n", all->coef);
+	all->plane_y = 0.66;
+	all->plane_x = 0.0;
 }
-*/
 
 void	init_rc(t_all *all)
 {
@@ -40,12 +52,12 @@ void	init_rc(t_all *all)
 void 	tmp_init_sprite(t_all *all, t_sprite *sprt)//
 {
 
-	if (!(sprt->order = malloc(sizeof(int) * all->nbr_sprites)))
+	if (!(sprt->order = malloc(sizeof(int) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
-	if (!(sprt->dist = malloc(sizeof(double) * all->nbr_sprites)))
+	if (!(sprt->dist = malloc(sizeof(double) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
 	if (!(all->sprt_cords = malloc(sizeof(t_sprt_cords)
-							* all->nbr_sprites)))
+							* all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
 
 //	all->sprt_cords[0].x = 6;

@@ -6,38 +6,38 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 13:25:15 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/23 21:49:46 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char 	*get_texture(t_all *all, char **str)
+static char 	*get_texture(t_all *all, char *str)
 {
 	char	*texture;
 
-	while (ft_isalpha(**str))
-		(*str)++;
-	while (**str == ' ')
-		(*str)++;
-	if (!(ft_strchr(".", **str)) && !(ft_strchr("/", **str + 1)))
+	while (ft_isalpha(*str))
+		str++;
+	while (*str == ' ')
+		str++;
+	if (!(ft_strchr(".", *str)) && !(ft_strchr("/", *(str + 1))))
 		exit_cube(all, "tex\n");
-	if (!(texture = ft_strdup(*str)))
+	if (!(texture = ft_strdup(str)))
 		exit_cube(all, "mess\n");
 	return (texture);
 }
 
-static void		parse_texture(t_all *all, char **str)
+static void		parse_texture(t_all *all, char *str)
 {
-	if (**str == 'N' && **str + 1 == 'O')
+	if (*str == 'N' && *(str + 1) == 'O')
 		all->tex_path[0] = get_texture(all, str);
-	else if (**str == 'S' && *((*str) + 1) == 'O')
+	else if (*str == 'S' && *(str + 1) == 'O')
 		all->tex_path[1] = get_texture(all, str);
-	else if (**str == 'W' && *((*str) + 1) == 'E')
+	else if (*str == 'W' && *(str + 1) == 'E')
 		all->tex_path[2] = get_texture(all, str);
-	else if (**str == 'E' && *((*str) + 1) == 'A')
+	else if (*str == 'E' && *(str + 1) == 'A')
 		all->tex_path[3] = get_texture(all, str);
-	else if (**str == 'S' && all->tex_path[1])
+	else if (*str == 'S' && all->tex_path[1])
 		all->tex_path[4] = get_texture(all, str);
 	//else if
 	//	error
@@ -51,56 +51,54 @@ static unsigned int		rgb_to_hex(int r, int g, int b)
 	return (color);
 }
 
-static void	get_res_n_colors(t_all *all, char **str)
+static void	get_res_n_colors(t_all *all, char *str)
 {
-	//int		i;
-	int 	j;
-	int		color[3];
+	int		i;
+	unsigned int	color[3];
 
-	//i = 0;
-	while ((**str == ' ' || **str == '\n') && !all->map)
-		(*str)++;
-	if (**str == 'R')
+//	while ((**str == ' ' || **str == '\n') && !all->map)
+//		(*str)++;
+	if (*str == 'R')
 	{
-		(*str)++;
-		all->res_x = ft_atoi(*str);
+		str++;
+		all->res_x = ft_atoi(str);
 		//if (all->res_x < 0 || all->res_x > max)
-		while (**str == ' ' || **str == '\n' || **str == ',')
-			(*str)++;
-		while (ft_isdigit(**str))
-			(*str)++;
-		(*str)++;
-		all->res_y = ft_atoi(*str);
+		while (*str == ' ' || *str == '\n' || *str == ',')
+			str++;
+		while (ft_isdigit(*str))
+			str++;
+		str++;
+		all->res_y = ft_atoi(str);
 	}
-	else if (**str == 'F')// || **str == 'C')
+	else if (*str == 'F')// || **str == 'C')
 	{
-		(*str)++;
-		j = -1;
-		while(++j < 3)
+		str++;
+		i = -1;
+		while(++i < 3)
 		{
-			color[j] = ft_atoi(*str);
-			if (color[j] < 0 || color[j] > 255)
+			color[i] = ft_atoi(str);
+			if (color[i] < 0 || color[i] > 255)
 				exit_cube(all, "Invalid color\n");
-			while (**str == ' ' || **str == '\n')
-				(*str)++;
-			while (ft_isdigit(**str) || **str == ',')
-				(*str)++;
+			while (*str == ' ' || *str == '\n')
+				str++;
+			while (ft_isdigit(*str) || *str == ',')
+				str++;
 		}
 		all->fc_color[0] = rgb_to_hex(color[0], color[1], color[2]);
 	}
-	else if (**str == 'C')
+	else if (*str == 'C')
 	{
-		(*str)++;
-		j = -1;
-		while (++j < 3)
+		str++;
+		i = -1;
+		while (++i < 3)
 		{
-			color[j] = ft_atoi(*str);
-			if (color[j] < 0 || color[j] > 255)
+			color[i] = ft_atoi(str);
+			if (color[i] < 0 || color[i] > 255)
 				exit_cube(all, "Invalid color\n");
-			while (**str == ' ' || **str == '\n')
-				(*str)++;
-			while (ft_isdigit(**str) || **str == ',')
-				(*str)++;
+			while (*str == ' ' || *str == '\n')
+				str++;
+			while (ft_isdigit(*str) || *str == ',')
+				str++;
 		}
 		all->fc_color[1] = rgb_to_hex(color[0], color[1], color[2]);
 	}
@@ -110,42 +108,49 @@ static void	get_res_n_colors(t_all *all, char **str)
 
 static int		is_map(t_all *all, char *str)
 {
-	if (*str == '1' || *str == '0' || *str == ' ')
+	if (*str == '1' || *str == '0' || *str == ' ')// || *str == '\n')
 	{
 		if (all->res_x && all->res_y && all->fc_color[0] >= 0
-			&& all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
-			&& all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
+		 && all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
+		 && all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
+		//	if (*str == '\n')
+		//		return (0);
 			return (1);
 	}
 	return (0);
 }
 
-static void		count_map_lines(t_all *all, char **str)
+static void		count_map_lines(t_all *all, char *str)
 {
 	int 	i;
 
-	if (is_map(all, *str))
+	if (is_map(all, str))
 	{
 		all->map_lines++;//doesnt get spaces and \n
 		i = 0;
-		while ((*str)[i])
+		while (str[i])
 			i++;
-		if (i > all->max_line_len)// all->max = i > max ? i : max
+		if (i > all->max_line_len)
 			all->max_line_len = i;
 	}
 }
 
-static void		map(t_all *all, char **str)
+static void		map(t_all *all, char *str)
 {
 	int		i;
 
 	i = 0;
 	all->cntr++;
-	all->map[all->cntr] = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-//	printf("str to map     %s\n", *str);
-	while (i < all->max_line_len && (*str)[i])
+	all->map[all->cntr] = malloc(sizeof(char) * (all->max_line_len + 1));
+	printf("str to map     %s\n", str);
+	while (i < all->max_line_len && str[i])
 	{
-		all->map[all->cntr][i] = (*str)[i];
+		all->map[all->cntr][i] = str[i];
+		i++;
+	}
+	while (i < all->max_line_len)
+	{
+		all->map[all->cntr][i] = ' ';
 		i++;
 	}
 	all->map[all->cntr][i] = '\0';
@@ -164,10 +169,10 @@ static void		read_map(t_all *all, int fd)
 
 	if (!(all->map = malloc(sizeof(char *) * all->map_lines)))//num of lines
 		exit_cube(all, "Memory allocation failed\n");
-	while (get_next_line(fd, &str))
+	while (get_next_line(fd, &str))//gnl does not get last line
 	{
 		if (is_map(all, str))
-			map(all, &str);
+			map(all, str);
 		free(str);
 	}
 	free(str);
@@ -185,12 +190,12 @@ static void read_config(t_all *all, int fd)
 	while (get_next_line(fd, &str))
 	{
 		//printf("gnl str %s\n", str);
-		get_res_n_colors(all, &str);
+		get_res_n_colors(all, str);
 		//printf("str %s\n", str);
-		parse_texture(all, &str);
-		count_map_lines(all, &str);
-		str = 0;
+		parse_texture(all, str);
+		count_map_lines(all, str);
 		free(str);
+		//str = 0;
 	}
 	free(str);
 
@@ -216,7 +221,8 @@ void		parse_file(t_all *all, char *file)
 	read_map(all, fd);
 	close(fd);
 
-	plr(all);
+	map_validate(all);
+//	plr(all);
 	printf("plr x  %f\n", all->plr_x);
 	printf("plr y  %f\n", all->plr_y);
 

@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 21:05:01 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 21:01:27 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_sprt_cords
 
 typedef struct	s_sprite
 {
-	int 		nbr_sprites;
+	int 		nbr_sprt;
 	int 		*order;
 	double 		*dist;
 	double		sprite_x;
@@ -83,6 +83,7 @@ typedef struct	s_all
 	int				cntr;
 	int 		map_lines;
 	int			max_line_len;
+	int 		plr;
 
 	int				keys[6];
 	// w up		0
@@ -119,16 +120,16 @@ typedef struct	s_all
 
 	t_img		*tex;
 	t_img		img;
-	int 		**texture;
+//	int 		**texture;
 //	int 		buf[HEIGHT][WIDTH];
-	int 		**buf;
+	int			**buf;
 	int 		tex_id;
 
 	int 		line_height;//height of line to draw on screen
 	int 		draw_start;//calculate lowest and highest pixel to fill in current stripe
 	int 		draw_end;
 
-	int 		nbr_sprites;
+	int 		nbr_sprt;
 	double		*depth_buf;
 	t_sprt_cords	*sprt_cords;
 	int 			save;
@@ -136,6 +137,9 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
+int		find_plr(t_all *all, int y, int x);
+void	map_validate(t_all *all);
+void 	find_sprites(t_all *all, t_sprite *sprt);
 void	plr(t_all *all);
 int 			get_color(t_all *all, int x, int y);
 void 			create_bmp(t_all *all);
