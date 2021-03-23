@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 21:23:15 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 23:07:22 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	sprite(t_all *all)
 	int			i;
 	t_sprite	sprt;
 
-	//tmp_init_sprite(all, &sprt);
 	find_sprites(all, &sprt);
 	i = -1;
 	while (++i < all->nbr_sprt)
@@ -109,7 +108,6 @@ void	sprite(t_all *all)
 							+ pow(all->plr_y - all->sprt_cords[i].y, 2);
 	}
 	sprite_sort(all, &sprt);
-//	find_tex_id(all);
 	i = -1;
 	while (++i < all->nbr_sprt)
 	{
@@ -120,6 +118,4 @@ void	sprite(t_all *all)
 		free(sprt.order);
 	if (sprt.dist)
 		free(sprt.dist);
-//	if (all->sprt_cords)
-//		free(all->sprt_cords);//should be here otherwise causes leaks
 }

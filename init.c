@@ -6,7 +6,7 @@
 /*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 22:37:23 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 23:21:41 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -34,8 +34,8 @@ void 	init(t_all *all)
 	}
 	all->coef = (double)(all->res_x) / (double)(all->res_y) * 0.75;
 	printf("coef  %f\n", all->coef);
-	all->plane_y = 0.66;
-	all->plane_x = 0.0;
+//	all->plane_y = -0.66;
+//	all->plane_x = 0.0;
 }
 
 void	init_rc(t_all *all)

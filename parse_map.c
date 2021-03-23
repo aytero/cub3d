@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
+/*   Updated: 2021/03/23 23:24:21 by lpeggy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	map_validate(t_all *all)
@@ -36,13 +48,25 @@ int		find_plr(t_all *all, int y, int x)
 	if (!all->plr && ft_strchr("NSWE", all->map[y][x]))
 	{
 		if (all->map[y][x] == 'N')
+		{
 			all->plr_dir_x = -1;
+			all->plane_y = 0.66;
+		}
 		if (all->map[y][x] == 'S')
+		{
 			all->plr_dir_x = 1;
+			all->plane_y = -0.66;
+		}
 		if (all->map[y][x] == 'W')
+		{
 			all->plr_dir_y = -1;
+			all->plane_x = -0.66;
+		}
 		if (all->map[y][x] == 'E')
+		{
 			all->plr_dir_y = 1;
+			all->plane_x = 0.66;
+		}
 		all->plr_y = x + 0.2;
 		all->plr_x = y + 0.2;
 		all->map[y][x] = '0';
