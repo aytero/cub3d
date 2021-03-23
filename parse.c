@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/22 23:29:41 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/23 13:25:15 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ static unsigned int		rgb_to_hex(int r, int g, int b)
 
 static void	get_res_n_colors(t_all *all, char **str)
 {
-	int		i;
-	unsigned int	color[3];
+	//int		i;
+	int 	j;
+	int		color[3];
 
+	//i = 0;
 	while ((**str == ' ' || **str == '\n') && !all->map)
 		(*str)++;
 	if (**str == 'R')
@@ -73,11 +75,11 @@ static void	get_res_n_colors(t_all *all, char **str)
 	else if (**str == 'F')// || **str == 'C')
 	{
 		(*str)++;
-		i = -1;
-		while(++i < 3)
+		j = -1;
+		while(++j < 3)
 		{
-			color[i] = ft_atoi(*str);
-			if (color[i] < 0 || color[i] > 255)
+			color[j] = ft_atoi(*str);
+			if (color[j] < 0 || color[j] > 255)
 				exit_cube(all, "Invalid color\n");
 			while (**str == ' ' || **str == '\n')
 				(*str)++;
@@ -89,11 +91,11 @@ static void	get_res_n_colors(t_all *all, char **str)
 	else if (**str == 'C')
 	{
 		(*str)++;
-		i = -1;
-		while (++i < 3)
+		j = -1;
+		while (++j < 3)
 		{
-			color[i] = ft_atoi(*str);
-			if (color[i] < 0 || color[i] > 255)
+			color[j] = ft_atoi(*str);
+			if (color[j] < 0 || color[j] > 255)
 				exit_cube(all, "Invalid color\n");
 			while (**str == ' ' || **str == '\n')
 				(*str)++;
@@ -128,7 +130,7 @@ static void		count_map_lines(t_all *all, char **str)
 		i = 0;
 		while ((*str)[i])
 			i++;
-		if (i > all->max_line_len)
+		if (i > all->max_line_len)// all->max = i > max ? i : max
 			all->max_line_len = i;
 	}
 }
