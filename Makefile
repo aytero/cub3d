@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/22 23:23:26 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/03/24 20:52:28 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ HEADER = cub3d.h
 SRC = cub3d.c\
 	   parse.c\
 	   parse_map.c\
+	   check_utils.c\
 	   deal_key.c\
 	   exit_cube.c\
 	   pixel_get_put.c\
 	   cast_rays.c\
 	   fill_img.c\
-	   fill.c\
 	   textures.c\
 	   sprite.c\
 	   bitmap.c\
@@ -47,7 +47,7 @@ FLAGS = -Wall -Werror -Wextra -g
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit -lmlx -lz -L$(LIBFTDIR) -lft $(OBJ) -o $(NAME)
+	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit libmlx.a -lz -L$(LIBFTDIR) -lft $(OBJ) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFTDIR)
@@ -67,7 +67,6 @@ fclean: clean
 	rm -f $(NAME)
 	rm -f libmlx.a
 	#rm screenshot.bmp
-#	rm -f $(MLXDIR)libmlx.dylib
 	make fclean -C $(LIBFTDIR)
 	make clean -C $(MLXDIR)
 

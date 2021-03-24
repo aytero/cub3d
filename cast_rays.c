@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:22 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 18:49:57 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 21:27:29 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ static int	calc_hit(t_all *all)
 	return (all->hit);
 }
 
-void	cast_rays(t_all *all)
+void		cast_rays(t_all *all)
 {
 	init_rc(all);
-
 	all->delta_dist_y = fabs(1 / all->ray_dir_y);
 	all->delta_dist_x = fabs(1 / all->ray_dir_x);
 	all->side_dist_x = all->ray_dir_x >= 0
@@ -55,7 +54,7 @@ void	cast_rays(t_all *all)
 		return ;
 }
 
-void 	wall_draw_calc(t_all *all)
+void		wall_draw_calc(t_all *all)
 {
 	if (all->side == 0)
 		all->wall_dist = (all->map_x - all->plr_x + (1.0 - all->step_x)
@@ -72,11 +71,11 @@ void 	wall_draw_calc(t_all *all)
 		all->draw_end = all->res_y - 1;
 }
 
-void 	tex_calc(t_all *all)
+void		tex_calc(t_all *all)
 {
-	double wall_x;
-	double step;
-	int tex_x;
+	double	wall_x;
+	double	step;
+	int		tex_x;
 
 	find_tex_id(all);
 	if (all->side == 0)
@@ -90,13 +89,13 @@ void 	tex_calc(t_all *all)
 	if (all->side == 1 && all->ray_dir_y < 0)
 		tex_x = all->tex[all->tex_id].width - tex_x - 1;
 	step = 1.0 * all->tex[all->tex_id].height / all->line_height;
-	fill_buffer(all, tex_x, step);
+	fill_walls(all, tex_x, step);
 }
 
-void 	fill_buffer(t_all *all, int tex_x, double step)
+void		fill_walls(t_all *all, int tex_x, double step)
 {
-	int 	tex_y;
-	double 	tex_pos;
+	int		tex_y;
+	double	tex_pos;
 
 	tex_pos = (all->draw_start - all->res_y / 2.0 + all->line_height / 2.0)
 			* step;

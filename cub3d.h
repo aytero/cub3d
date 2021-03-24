@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 03:22:20 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/24 21:29:11 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ typedef struct	s_all
 	int			fc_color[2];
 	char 			*tex_path[5];//mb + defines
 	int				cntr;
-	int 		map_lines;
-	int			max_line_len;
+	int 		map_height;
+	int			map_width;
 	int 		plr;
 
 	int				keys[6];
@@ -125,33 +125,35 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
-int		find_plr(t_all *all, int y, int x);
+void			parse_file(t_all *all, char *file);
+void	check_args(t_all *all, int argc, char **argv);
 void	map_validate(t_all *all);
+int		find_plr(t_all *all, int y, int x);
 void 	find_sprites(t_all *all, t_sprite *sprt);
-int 			get_color(t_all *all, int x, int y);
-void 			create_bmp(t_all *all);
 void 			sprite_calc(t_all *all, t_sprite *sprt, int i);
 void 			sprite_sort(t_all *all, t_sprite *sprt);
 void 			sprite_draw(t_all *all, t_sprite *sprt);
 void 			sprite(t_all *all);
-void 			fill_buffer(t_all *all, int tex_x, double step);
 void			find_tex_id(t_all *all);
+void 			fill_walls(t_all *all, int tex_x, double step);
 void			fill_img(t_all *all);
+void 			fill_solid(t_all *all);
 void			load_image(t_all *all, t_img *tex, char *path);
 void			load_texture(t_all *all);
-void 			fill(t_all *all);//rename
 void 			tex_calc(t_all *all);
 void		 	wall_draw_calc(t_all *all);
-void 		init(t_all *all);
+void			init_mlx(t_all *all);
+void 			init(t_all *all);
 void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
 int				exit_cube(t_all *all, char *str);
-void			pixel_put(t_all *all, int x, int y, int color);
-void			parse_file(t_all *all, char *file);
+void			pixel_put(t_all *all, int x, int y, int color);////
+int 			get_color(t_all *all, int x, int y);
 int 		key_press(int keycode, t_all *all);
 int 		key_release(int keycode, t_all *all);
 void		move(t_all *all, double angle);
 void		move_sideways(t_all *all, double angle);
 void		rotate(t_all *all, double angle);
+void 			create_bmp(t_all *all);
 
 #endif

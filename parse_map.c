@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 23:24:21 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 21:32:04 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@ void	map_validate(t_all *all)
 	int		x;
 
 	y = -1;
-	while (++y < all->map_lines)//make it recursive ?
+	while (++y < all->map_height)//make it recursive ?
 	{
 		x = -1;
-		while (++x < all->max_line_len)
+		while (++x < all->map_width)
 		{
-			//printf("here y %d   x %d\n", y, x);
 			if (!(find_plr(all, y, x)))
-				exit_cube(all, "Player\n");
+				exit_cube(all, "Invalid player position\n");
 			if (all->map[y][x] != '0')
 				continue;
-			if (x == 0 || y == 0 || y == all->map_lines - 1
-			 || x == all->max_line_len - 1)
-				exit_cube(all, "Invalid map 1\n");
+			if (x == 0 || y == 0 || y == all->map_height - 1
+			 || x == all->map_width - 1)
+				exit_cube(all, "Invalid map\n");
 			if (all->map[y - 1][x - 1] == ' ' || all->map[y - 1][x] == ' '
 			 || all->map[y - 1][x + 1] == ' ' || all->map[y][x - 1] == ' '
 			 || all->map[y][x + 1] == ' ' || all->map[y + 1][x - 1] == ' '
@@ -73,7 +72,7 @@ int		find_plr(t_all *all, int y, int x)
 		all->plr = 1;
 		return (1);
 	}
-	return (0);//error
+	return (0);
 }
 
 void 	find_sprites(t_all *all, t_sprite *sprt)
@@ -83,10 +82,10 @@ void 	find_sprites(t_all *all, t_sprite *sprt)
 	int	num;
 
 	i = -1;
-	while (++i < all->map_lines)
+	while (++i < all->map_height)
 	{
 		j = -1;
-		while (++j < all->max_line_len)
+		while (++j < all->map_width)
 		{
 			if (all->map[i][j] == '2')
 				all->nbr_sprt++;
@@ -100,10 +99,10 @@ void 	find_sprites(t_all *all, t_sprite *sprt)
 		exit_cube(all, "Memory allocation failed\n");
 	i = -1;
 	num = 0;
-	while (++i < all->map_lines)
+	while (++i < all->map_height)
 	{
 		j = -1;
-		while (++j < all->max_line_len)
+		while (++j < all->map_width)
 		{
 			if (all->map[i][j] == '2')
 			{

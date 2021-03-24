@@ -70,6 +70,7 @@ int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
 **  color is 0x00RRGGBB
 */
 
+int  mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
 
 /*
 ** Image stuff

@@ -71,7 +71,7 @@ void			create_bmp(t_all *all)
 
 	img_size = all->res_x * all->res_y * 4;// 4 - bytes per pixel
 	if ((fd = open("screenshot.bmp", O_WRONLY | O_TRUNC | O_CREAT, 0664)) < 0)
-		exit_cube(all, "Screenshot failed\n");
+		exit_cube(all, "Failed to create .bmp file\n");
 	bmp_header(all, img_size, fd);
 	bmp_colors(all, img_size, fd);
 	close(fd);

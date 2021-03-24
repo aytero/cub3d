@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 23:42:01 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 23:08:24 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 21:23:35 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,27 @@ void	fill_img(t_all *all)
 			x++;
 		}
 		y++;
+	}
+}
+
+void 	fill_solid(t_all *all)
+{
+	int 	ceiling_end;
+	int 	y;
+	int 	x;
+
+	ceiling_end = all->res_y / 2;
+	y = -1;
+	while (++y < ceiling_end)
+	{
+		x = -1;
+		while (++x < all->res_x)
+			all->buf[y][x] = all->fc_color[1];
+	}
+	while (++y < all->res_y - 1)
+	{
+		x = -1;
+		while (++x < all->res_x)
+			all->buf[y][x] = all->fc_color[0];
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 03:25:33 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/24 20:47:59 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static char 	*get_texture(t_all *all, char *str)
 
 static void		parse_texture(t_all *all, char *str)
 {
+	while ((*str == ' ' || *str == '\n') && !all->map)
+		str++;
 	if (*str == 'N' && *(str + 1) == 'O')
 		all->tex_path[0] = get_texture(all, str);
 	else if (*str == 'S' && *(str + 1) == 'O')
@@ -51,26 +53,51 @@ static int		rgb_to_hex(int r, int g, int b)
 	return (color);
 }
 
+/*
+static void		skip_dividers(char *str)
+{
+	while (*str == ' ' || *str == '\n')
+		str++;
+}
+*/
+
+static void		check_res(t_all *all)
+{
+	int		screen_res_x;
+	int 	screen_res_y;
+
+//	screen_res_x = 0;
+//	screen_res_y = 0;
+	mlx_get_screen_size(all->mlx, &screen_res_x, &screen_res_y);
+	if (all->res_x <= 10 || all->res_y <= 10)
+		exit_cube(all, "Invalid resolution\n");
+	if (all->res_x > screen_res_x)
+		all->res_x = screen_res_x;
+	if (all->res_y > screen_res_y)
+		all->res_y = screen_res_y;
+}
+
 static void	get_res_n_colors(t_all *all, char *str)
 {
 	int		i;
 	int	color[3];
 
-//	while ((**str == ' ' || **str == '\n') && !all->map)
-//		(*str)++;
+	while ((*str == ' ' || *str == '\n') && !all->map)
+		str++;
 	if (*str == 'R')
 	{
 		str++;
 		all->res_x = ft_atoi(str);
-		//if (all->res_x < 0 || all->res_x > max)
 		while (*str == ' ' || *str == '\n' || *str == ',')
 			str++;
+		//skip_dividers(str);
 		while (ft_isdigit(*str))
 			str++;
 		str++;
 		all->res_y = ft_atoi(str);
+		check_res(all);
 	}
-	else if (*str == 'F')// || **str == 'C')
+	else if (*str == 'F')// || *str == 'C')
 	{
 		str++;
 		i = -1;
@@ -108,30 +135,32 @@ static void	get_res_n_colors(t_all *all, char *str)
 
 static int		is_map(t_all *all, char *str)
 {
-	if (*str == '1' || *str == '0' || *str == ' ')// || *str == '\n')
+	if (*str == '1' || *str == '0' || *str == ' ' || *str == '\n')
 	{
 		if (all->res_x && all->res_y && all->fc_color[0] >= 0
 		 && all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
 		 && all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
-		//	if (*str == '\n')
-		//		return (0);
+		{
+			if (*str == '\n')
+				exit_cube(all, "Invalid map '\n' sym\n");
 			return (1);
+		}
 	}
 	return (0);
 }
 
-static void		count_map_lines(t_all *all, char *str)
+static void		count_map_height(t_all *all, char *str)
 {
 	int 	i;
 
 	if (is_map(all, str))
 	{
-		all->map_lines++;//doesnt get spaces and \n
+		all->map_height++;//doesnt get spaces and \n
 		i = 0;
 		while (str[i])
 			i++;
-		if (i > all->max_line_len)
-			all->max_line_len = i;
+		if (i > all->map_width)
+			all->map_width = i;
 	}
 }
 
@@ -139,23 +168,18 @@ static void		map(t_all *all, char *str)
 {
 	int		i;
 
-	i = 0;
 	all->cntr++;
-	all->map[all->cntr] = malloc(sizeof(char) * (all->max_line_len + 1));
-	printf("str to map     %s\n", str);
-	while (i < all->max_line_len && str[i])
-	{
+	if (!(all->map[all->cntr] = malloc(sizeof(char)
+								* (all->map_width + 1))))
+		exit_cube(all, "Memory allocation failed\n");
+	i = -1;
+	while (str[++i])
 		all->map[all->cntr][i] = str[i];
-		i++;
-	}
-	while (i < all->max_line_len)
-	{
+	i--;
+	while (++i < all->map_width)
 		all->map[all->cntr][i] = ' ';
-		i++;
-	}
 	all->map[all->cntr][i] = '\0';
-//	all->cntr++;
-//	all->map[all->cntr] = ft_strdup(*str);
+	printf("str to map     %s\n", str);
 	printf("cntr %d     map %s\n", all->cntr, all->map[all->cntr]);
 }
 
@@ -164,17 +188,20 @@ static void		read_map(t_all *all, int fd)
 	char	*str;
 
 	str = 0;
-	printf("lines    %d\n", all->map_lines);
-	printf("max len  %d\n", all->max_line_len);
+	printf("lines    %d\n", all->map_height);
+	printf("max len  %d\n", all->map_width);
 
-	if (!(all->map = malloc(sizeof(char *) * all->map_lines)))//num of lines
+	if (!(all->map = malloc(sizeof(char *) * all->map_height)))
 		exit_cube(all, "Memory allocation failed\n");
 	while (get_next_line(fd, &str))//gnl does not get last line
 	{
+		//if ()
 		if (is_map(all, str))
 			map(all, str);
 		free(str);
+		str = 0;
 	}
+//	get_next_line(fd, &str);
 	free(str);
 }
 
@@ -189,22 +216,13 @@ static void read_config(t_all *all, int fd)
 	str = 0;
 	while (get_next_line(fd, &str))
 	{
-		//printf("gnl str %s\n", str);
 		get_res_n_colors(all, str);
-		//printf("str %s\n", str);
 		parse_texture(all, str);
-		count_map_lines(all, str);
+		count_map_height(all, str);
 		free(str);
-		//str = 0;
+		str = 0;
 	}
 	free(str);
-
-	//skip empty lines
-		//parse_texture(all, &str);
-		//get_res_n_colors(all, &str);
-	//get_next_line(fd, &str);
-		// if map return ? or strdup
-//	free(str);//leaks without it
 }
 
 void		parse_file(t_all *all, char *file)
@@ -215,14 +233,13 @@ void		parse_file(t_all *all, char *file)
 		exit_cube(all, "Failed to read map file\n");
 	read_config(all, fd);
 	close(fd);
-
 	if ((fd = open(file, O_RDONLY)) < 0)
 		exit_cube(all, "Failed to read map file\n");
 	read_map(all, fd);
 	close(fd);
 
 	map_validate(all);
-//	plr(all);
+
 	printf("plr x  %f\n", all->plr_x);
 	printf("plr y  %f\n", all->plr_y);
 
