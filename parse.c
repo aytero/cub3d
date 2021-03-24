@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 21:50:11 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 03:25:33 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void		parse_texture(t_all *all, char *str)
 	//	error
 }
 
-static unsigned int		rgb_to_hex(int r, int g, int b)
+static int		rgb_to_hex(int r, int g, int b)
 {
-	unsigned int 	color;//add padding for zero
+	int 	color;//add padding for zero
 
 	color = (((r & 0xFF) << 16) + ((g & 0xFF) << 8) + (b & 0xFF));
 	return (color);
@@ -54,7 +54,7 @@ static unsigned int		rgb_to_hex(int r, int g, int b)
 static void	get_res_n_colors(t_all *all, char *str)
 {
 	int		i;
-	unsigned int	color[3];
+	int	color[3];
 
 //	while ((**str == ' ' || **str == '\n') && !all->map)
 //		(*str)++;

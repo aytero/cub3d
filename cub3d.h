@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 21:01:27 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 03:22:20 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 # define S 1
 # define D 2
 # define ESC 53
-# define HEIGHT 540
-# define WIDTH 600
 
 typedef struct	s_sprt_cords
 {
@@ -75,7 +73,6 @@ typedef struct	s_all
 	int			res_x;
 	int			res_y;
 	int 		x;
-	int 		y;
 	double 		coef;
 
 	int			fc_color[2];
@@ -86,13 +83,6 @@ typedef struct	s_all
 	int 		plr;
 
 	int				keys[6];
-	// w up		0
-	// s down	1
-	// a		2
-	// d		3
-	// left		4
-	// right	5
-	//esc
 
 	double		plr_x;
 	double		plr_y;
@@ -120,8 +110,6 @@ typedef struct	s_all
 
 	t_img		*tex;
 	t_img		img;
-//	int 		**texture;
-//	int 		buf[HEIGHT][WIDTH];
 	int			**buf;
 	int 		tex_id;
 
@@ -140,18 +128,15 @@ typedef struct	s_all
 int		find_plr(t_all *all, int y, int x);
 void	map_validate(t_all *all);
 void 	find_sprites(t_all *all, t_sprite *sprt);
-void	plr(t_all *all);
 int 			get_color(t_all *all, int x, int y);
 void 			create_bmp(t_all *all);
 void 			sprite_calc(t_all *all, t_sprite *sprt, int i);
 void 			sprite_sort(t_all *all, t_sprite *sprt);
 void 			sprite_draw(t_all *all, t_sprite *sprt);
-void 			tmp_init_sprite(t_all *all, t_sprite *sprt);
 void 			sprite(t_all *all);
 void 			fill_buffer(t_all *all, int tex_x, double step);
 void			find_tex_id(t_all *all);
 void			fill_img(t_all *all);
-void			tex_mem(t_all *all);
 void			load_image(t_all *all, t_img *tex, char *path);
 void			load_texture(t_all *all);
 void 			fill(t_all *all);//rename
@@ -160,7 +145,6 @@ void		 	wall_draw_calc(t_all *all);
 void 		init(t_all *all);
 void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
-//int				deal_key(int keycode, t_all *all);
 int				exit_cube(t_all *all, char *str);
 void			pixel_put(t_all *all, int x, int y, int color);
 void			parse_file(t_all *all, char *file);

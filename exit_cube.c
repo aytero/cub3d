@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 22:29:35 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/24 03:44:28 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ static void		memory_clean(t_all *all)
 			free(all->map[i]);
 	}
 	free(all->map);
-	//i = -1;
-	//while (++i < all->nbr_sprt)
-	//	free(all->sprt_cords + i);
-	//free(all->sprt_cords);
+	i = -1;
+//	while (++i < all->nbr_sprt)
+//		free(all->sprt_cords + i);
+	free(all->sprt_cords);
+	free(all->tex);
 	//i = 0;
 	//while (i++ < all->sprt.nbr_sprt)
 }
@@ -76,7 +77,7 @@ int				exit_cube(t_all *all, char *str)
 		mlx_destroy_image(all->mlx, all->tex[4].img);
 	if (all->img.img)
 		mlx_destroy_image(all->mlx, all->img.img);
-	if (all->win)
+	if (all->win && all->mlx)
 		mlx_destroy_window(all->mlx, all->win);
 	memory_clean(all);
 //	sleep(999);
