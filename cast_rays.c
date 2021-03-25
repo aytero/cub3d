@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:22 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 21:27:29 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/25 20:46:53 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void		fill_walls(t_all *all, int tex_x, double step)
 {
 	int		tex_y;
 	double	tex_pos;
+	int		color;
 
 	tex_pos = (all->draw_start - all->res_y / 2.0 + all->line_height / 2.0)
 			* step;
@@ -109,9 +110,13 @@ void		fill_walls(t_all *all, int tex_x, double step)
 		tex_pos += step;
 		//all->img.addr[all->img.line_len / 4 * all->draw_start + all->x]
 		//		= all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
-		all->buf[all->draw_start][all->x]
-				= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
-				* tex_y + tex_x];
+		//all->buf[all->draw_start][all->x]
+		//		= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
+		//		* tex_y + tex_x];
+		color = all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
+		if (all->wall_dist > 10.0)
+			color = (color >> 1) & 8355711;
+		all->buf[all->draw_start][all->x] = color;
 		all->draw_start++;
 	}
 }

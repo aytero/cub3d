@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:32 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 23:03:54 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/25 20:26:41 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		move(t_all *all, double angle)
 				[(int)(all->plr_y)] != '1')
 			all->plr_x += all->plr_dir_x * angle;
 		if (all->map[(int)(all->plr_x)]
-				[(int)(all->plr_y + all->plr_dir_y * SPEED)] != '1')
+				[(int)(all->plr_y + all->plr_dir_y * angle)] != '1')
 			all->plr_y += all->plr_dir_y * angle;
 	}
 }

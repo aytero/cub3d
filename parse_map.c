@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 21:32:04 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/25 21:20:06 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void 	find_sprites(t_all *all, t_sprite *sprt)
 		{
 			if (all->map[i][j] == '2')
 			{
-				all->sprt_cords[num].x = i;
-				all->sprt_cords[num].y = j;
+				all->sprt_cords[num].x = i + 0.5;
+				all->sprt_cords[num].y = j + 0.5;
 				num++;
 			}
 		}

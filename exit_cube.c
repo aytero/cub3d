@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 20:46:26 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/25 02:46:08 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void		memory_clean(t_all *all)
 	if (all->depth_buf)
 		free(all->depth_buf);
 
-	i = -1;
-	while (++i < all->res_y)
-	{
-		if (all->buf[i])
-			free(all->buf[i]);
-	}
+//	i = -1;
+//	while (++i < all->res_y)
+//	{
+//		printf("%d\n", i);
+//		free(all->buf[i]);
+//	}
 	if (all->buf)
 		free(all->buf);
 

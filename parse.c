@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 20:47:59 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/25 03:28:53 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void		parse_texture(t_all *all, char *str)
 		all->tex_path[2] = get_texture(all, str);
 	else if (*str == 'E' && *(str + 1) == 'A')
 		all->tex_path[3] = get_texture(all, str);
-	else if (*str == 'S' && all->tex_path[1])
+	else if (*str == 'S' && *(str + 1) == ' ')// all->tex_path[1])
 		all->tex_path[4] = get_texture(all, str);
 	//else if
 	//	error
@@ -49,7 +49,7 @@ static int		rgb_to_hex(int r, int g, int b)
 {
 	int 	color;//add padding for zero
 
-	color = (((r & 0xFF) << 16) + ((g & 0xFF) << 8) + (b & 0xFF));
+	color = (((r & 0x0FF) << 16) | ((g & 0x0FF) << 8) | (b & 0x0FF));
 	return (color);
 }
 
@@ -135,21 +135,17 @@ static void	get_res_n_colors(t_all *all, char *str)
 
 static int		is_map(t_all *all, char *str)
 {
-	if (*str == '1' || *str == '0' || *str == ' ' || *str == '\n')
+	if (*str == '1' || *str == '0' || *str == ' ')// || *str == '\n')
 	{
 		if (all->res_x && all->res_y && all->fc_color[0] >= 0
-		 && all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
-		 && all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
-		{
-			if (*str == '\n')
-				exit_cube(all, "Invalid map '\n' sym\n");
+			&& all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
+			&& all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
 			return (1);
-		}
 	}
 	return (0);
 }
 
-static void		count_map_height(t_all *all, char *str)
+static void		get_map_size(t_all *all, char *str)
 {
 	int 	i;
 
@@ -187,6 +183,8 @@ static void		read_map(t_all *all, int fd)
 {
 	char	*str;
 
+	if (!all->map_height || !all->map_width)
+		exit_cube(all, "No map\n");
 	str = 0;
 	printf("lines    %d\n", all->map_height);
 	printf("max len  %d\n", all->map_width);
@@ -197,7 +195,11 @@ static void		read_map(t_all *all, int fd)
 	{
 		//if ()
 		if (is_map(all, str))
+		{
+			if (!(ft_strchr("NSWE012 ", *str)))
+				exit_cube(all, "Invalid symbols in map\n");
 			map(all, str);
+		}
 		free(str);
 		str = 0;
 	}
@@ -212,13 +214,22 @@ static void read_config(t_all *all, int fd)
 	all->cntr = -1;
 	all->fc_color[0] = -1;
 	all->fc_color[1] = -1;
-
 	str = 0;
 	while (get_next_line(fd, &str))
 	{
 		get_res_n_colors(all, str);
 		parse_texture(all, str);
-		count_map_height(all, str);
+
+		//if all params && !ismap – wrong symbols
+		get_map_size(all, str);
+//		if (all->res_x && all->res_y && all->fc_color[0] >= 0
+//			&& all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
+//			&& all->tex_path[2] && all->tex_path[3] && all->tex_path[4]
+//			&& !(ft_strchr("NSWE012 ", *str)))
+//		{
+//			printf("str %s\n", str);
+//			exit_cube(all, "Symbs\n");
+//		}
 		free(str);
 		str = 0;
 	}
