@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 20:55:52 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 22:22:30 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/26 22:48:51 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,19 @@ char		*get_texture_path(t_all *all, char *str)
 
 void		get_texture(t_all *all, char *str)
 {
-	printf("tex str   %s\n", str);
-	if (*str == 'N' && *(str + 1) == 'O')
+	if (*str == 'N' && *(str + 1) == 'O' && !all->tex_path[0])
 		all->tex_path[0] = get_texture_path(all, str + 2);
-	else if (*str == 'S' && *(str + 1) == 'O')
+	else if (*str == 'S' && *(str + 1) == 'O' && !all->tex_path[1])
 		all->tex_path[1] = get_texture_path(all, str + 2);
-	else if (*str == 'W' && *(str + 1) == 'E')
+	else if (*str == 'W' && *(str + 1) == 'E' && !all->tex_path[2])
 		all->tex_path[2] = get_texture_path(all, str + 2);
-	else if (*str == 'E' && *(str + 1) == 'A')
+	else if (*str == 'E' && *(str + 1) == 'A' && !all->tex_path[3])
 		all->tex_path[3] = get_texture_path(all, str + 2);
-	else if (*str == 'S' && *(str + 1) == ' ')
+	else if (*str == 'S' && *(str + 1) == ' ' && !all->tex_path[4])
 		all->tex_path[4] = get_texture_path(all, str + 1);
-//	else
-//		exit_cube(all, "Invalid config declaration\n");
-//	else if (all->tex_path[0] && all->tex_path[1] && all->tex_path[2]
-//		&& all->tex_path[3] && all->tex_path[4] && *str != '\n')
-//		exit_cube(all, "Too many textures\n");
+	else
+		exit_cube(all, "Invalid textures configuration\n");
+		//exit_cube(all, "Invalid config declaration\n");
 }
 
 void		check_res(t_all *all)

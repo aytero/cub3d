@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 22:21:42 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/26 23:51:37 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,29 @@
 
 static int		is_map(t_all *all, char *str)
 {
-	if (*str == ' ' || *str == '1' || *str == '0' || *str == '2')
+	int		i;
+
+	i = 0;
+	if (ft_strchr(str, '1') || ft_strchr(str, '0') || ft_strchr(str, '2'))
 	{
-		if (all->res_x && all->res_y && all->fc_color[0] >= 0
-			&& all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
-			&& all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
-		{
-			all->map_flag = 1;
-			return (1);
-		}
-		else
-			exit_cube(all, "Some configs are missing\n");
+//		if (all->res_x && all->res_y && all->fc_color[0] >= 0
+//			&& all->fc_color[1] >= 0 && all->tex_path[0] && all->tex_path[1]
+//			&& all->tex_path[2] && all->tex_path[3] && all->tex_path[4])
+//		{
+			printf("str is map?   %s\n", str);
+			while (str[i])
+			{
+				if (!(ft_strchr("NSWE012 ", str[i])))
+					return (0);
+					//exit_cube(all, "Invalid symbols in the map 22222\n");
+				i++;
+			}
+//		}
+		all->map_flag = 1;
+		return (1);
 	}
+//	else
+//		exit_cube(all, "Some configs are missing\n");
 	return (0);
 }
 
@@ -63,8 +74,6 @@ static void		map(t_all *all, char *str)
 	while (++i < all->map_width)
 		all->map[all->cntr][i] = ' ';
 	all->map[all->cntr][i] = '\0';
-
-		printf("cntr %d     map %s\n", all->cntr, all->map[all->cntr]);
 }
 
 static void		read_map(t_all *all, int fd)
@@ -75,14 +84,17 @@ static void		read_map(t_all *all, int fd)
 	if (!all->map_height || !all->map_width)
 		exit_cube(all, "No map\n");
 	str = 0;
-	printf("lines    %d\n", all->map_height);
-	printf("max len  %d\n", all->map_width);
-
 	if (!(all->map = ft_calloc(sizeof(char *), all->map_height)))
 		exit_cube(all, "Memory allocation failed\n");
 	all->map_flag = 0;
-	while (get_next_line(fd, &str))//gnl does not get last line
+	while (get_next_line(fd, &str))
 	{
+		if (!all->res_x || !all->res_y || all->fc_color[0] == -1
+			|| all->fc_color[1] == -1 || !all->tex_path[0] || !all->tex_path[1]
+			|| !all->tex_path[2] || !all->tex_path[3] || !all->tex_path[4])
+			exit_cube(all, "Some configs are missing\n");
+		if (!*str && all->map_flag)
+			exit_cube(all, "Invalid map\n");
 		if (is_map(all, str))
 			map(all, str);
 		free(str);
@@ -100,7 +112,7 @@ static void read_config(t_all *all, int fd)
 	str = 0;
 	while (get_next_line(fd, &str))
 	{
-		if (!ft_strchr("RNSWEFC 012", *str) && *str != '\n' && !all->map_flag)
+		if (!ft_strchr("RNSWEFC 012", *str) && !all->map_flag)
 			exit_cube(all, "Excess symbols in the file\n");
 		if (*str == 'F' && *(str + 1) == ' ')
 			all->fc_color[0] = get_fc_colors(all, str);
@@ -108,11 +120,11 @@ static void read_config(t_all *all, int fd)
 			all->fc_color[1] = get_fc_colors(all, str);
 		if (*str == 'R' && *(str + 1) == ' ')
 			get_res(all, str);
-		if (ft_strchr("NSWE", *str))
+		if (*str == 'N' || *str == 'S' || *str == 'W' || *str == 'E')
 			get_texture(all, str);
 		get_map_size(all, str);
-		if (all->map_flag && !(ft_strchr("NSWE012 ", *str)))
-			exit_cube(all, "Invalid symbols in map\n");
+//		if (all->map_flag && !(ft_strchr("NSWE012 ", *str)))
+//			exit_cube(all, "Invalid symbols in map\n");
 		free(str);
 		str = 0;
 	}

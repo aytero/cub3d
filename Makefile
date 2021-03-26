@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/26 21:43:14 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/03/26 21:43:40 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,8 @@ $(MLX):
 	make -C $(MLXDIR)
 	cp $(MLXDIR)libmlx.a ./
 
-#.c.o: $(HEADER)
-%.o:%.c $(HEADER)
+#%.o:%.c $(HEADER)
+.c.o: $(HEADER)
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
 
 clean:
