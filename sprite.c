@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/23 23:07:22 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/26 18:11:54 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	sprite(t_all *all)
 	int			i;
 	t_sprite	sprt;
 
-//	find_sprites(all, &sprt);
 	if (!(sprt.order = malloc(sizeof(int) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
 	if (!(sprt.dist = malloc(sizeof(double) * all->nbr_sprt)))

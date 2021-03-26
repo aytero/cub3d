@@ -6,12 +6,48 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 12:14:38 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 19:53:33 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+static void		memory_clean_array(char **arr, int len)
+{
+	int		i;
+
+	i = -1;
+	if (arr)
+	{
+		while (++i < len)
+		{
+			if (arr[i])
+				free(arr[i]);
+		}
+	}
+}
+
+//static void 	mem_clean(t_all *all)
+//{
+//	int 	i;
+//
+//	i = -1;
+//	if (all->map)
+//	{
+//		while (++i < all->map_height)
+//		{
+//			if (all->map[i])
+//				free(all->map[i]);
+//		}
+//		free(all->map);
+//	}
+//	i = -1;
+//	while (++i < 5)
+//	{
+//		if (all->tex_path[i])
+//			free(all->tex_path[i]);
+//	}
+//}
 
 static void		memory_clean(t_all *all)
 {
@@ -19,7 +55,6 @@ static void		memory_clean(t_all *all)
 
 	if (all->depth_buf)
 		free(all->depth_buf);
-
 	i = -1;
 	if (all->buf)
 	{
@@ -30,30 +65,15 @@ static void		memory_clean(t_all *all)
 		}
 		free(all->buf);
 	}
-	i = -1;
-	while (++i < 5)
-	{
-		if (all->tex_path[i])
-			free(all->tex_path[i]);
-	}
-	i = -1;
+	memory_clean_array(all->tex_path, 5);
+	memory_clean_array(all->map, all->map_height);
 	if (all->map)
-	{
-		while (++i < all->map_height)
-		{
-			if (all->map[i])
-				free(all->map[i]);
-		}
 		free(all->map);
-	}
-
 	if (all->sprt_cords)
 		free(all->sprt_cords);
 	if (all->tex)
 		free(all->tex);
 }
-
-
 
 int				exit_cube(t_all *all, char *str)
 {
@@ -62,14 +82,6 @@ int				exit_cube(t_all *all, char *str)
 		write(1, "Error:\n", 7);
 		write(1, str, ft_strlen(str));
 	}
-//	if (all->tex)
-//	{
-//		mlx_destroy_image(all->mlx, all->tex[0].img);
-//		mlx_destroy_image(all->mlx, all->tex[1].img);
-//		mlx_destroy_image(all->mlx, all->tex[2].img);
-//		mlx_destroy_image(all->mlx, all->tex[3].img);
-//		mlx_destroy_image(all->mlx, all->tex[4].img);
-//	}
 	if (all->tex)
 	{
 		if (all->tex[0].img && all->tex[0].addr)
@@ -89,5 +101,5 @@ int				exit_cube(t_all *all, char *str)
 		mlx_destroy_window(all->mlx, all->win);
 	memory_clean(all);
 //	sleep(999);
-	exit (0);
+	exit(0);
 }

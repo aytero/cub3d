@@ -38,8 +38,8 @@ void	load_image(t_all *all, t_img *tex, char *path)
 
 void	load_texture(t_all *all)
 {
-	//if (!(all->tex = ft_calloc(5, sizeof(t_img))))//nbr tex
-	if (!(all->tex = malloc(sizeof(t_img) * 5)))//nbr tex
+	if (!(all->tex = ft_calloc(5, sizeof(t_img))))
+//	if (!(all->tex = malloc(sizeof(t_img) * 5)))
 		exit_cube(all, "Memory allocation filed\n");
 	load_image(all, all->tex, all->tex_path[0]);
 	load_image(all, all->tex + 1, all->tex_path[1]);

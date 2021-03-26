@@ -65,7 +65,7 @@ int		main(int argc, char **argv)
 	ft_bzero(&all, sizeof(all));
 	check_args(&all, argc, argv);
 	parse_file(&all, argv[1]);
-	find_sprites(&all);
+	init_sprites(&all);
 	init(&all);
 	init_mlx(&all);
 	return (0);

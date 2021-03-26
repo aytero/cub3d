@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 10:29:46 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 19:46:10 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct	s_all
 	int 		map_height;
 	int			map_width;
 	int 		plr;
+	int 		map_flag;
 
 	int				keys[6];
 
@@ -125,11 +126,16 @@ typedef struct	s_all
 	char		**map;
 }				t_all;
 
+int		get_fc_colors(t_all *all, char *str);
+char 	*get_texture_path(t_all *all, char *str);
+void		get_texture(t_all *all, char *str);
+void		check_res(t_all *all);
+void	get_res(t_all *all, char *str);
 void			parse_file(t_all *all, char *file);
 void	check_args(t_all *all, int argc, char **argv);
 void	map_validate(t_all *all);
 int		find_plr(t_all *all, int y, int x);
-void 	find_sprites(t_all *all);
+void 	init_sprites(t_all *all);
 void 			sprite_calc(t_all *all, t_sprite *sprt, int i);
 void 			sprite_sort(t_all *all, t_sprite *sprt);
 void 			sprite_draw(t_all *all, t_sprite *sprt);

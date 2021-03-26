@@ -104,7 +104,7 @@ void		fill_walls(t_all *all, int tex_x, double step)
 	{
 		tex_y = (int)tex_pos & (all->tex[all->tex_id].height - 1);
 	//	if ((int)tex_pos >= all->tex[all->tex_id].height)
-	//		tex_y = (int)tex_pos % all->tex[all->tex_id].height - 1;//
+	//		tex_y = (int)tex_pos % all->tex[all->tex_id].height - 1;
 	//	else
 	//		tex_y = (int)tex_pos;
 		tex_pos += step;

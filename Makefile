@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/24 20:52:28 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/03/26 21:43:14 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ HEADER = cub3d.h
 SRC = cub3d.c\
 	   parse.c\
 	   parse_map.c\
+	   get_configs.c\
+	   map_validate.c\
 	   check_utils.c\
 	   deal_key.c\
 	   exit_cube.c\
@@ -56,6 +58,7 @@ $(MLX):
 	make -C $(MLXDIR)
 	cp $(MLXDIR)libmlx.a ./
 
+#.c.o: $(HEADER)
 %.o:%.c $(HEADER)
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
 

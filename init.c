@@ -6,7 +6,7 @@
 /*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/24 21:17:48 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/26 19:50:29 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -16,8 +16,8 @@ void 	init(t_all *all)
 	int	j;
 	int i;
 
-	if (!(all->buf = malloc(sizeof(int *) * all->res_y)))
-		exit_cube(all, "Memory allocation failed\n");//
+	if (!(all->buf = ft_calloc(sizeof(int *), all->res_y)))
+		exit_cube(all, "Memory allocation failed\n");
 	i = 0;
 	while (i < all->res_y)
 	{
@@ -33,7 +33,41 @@ void 	init(t_all *all)
 			all->buf[i][j] = 0;
 	}
 	all->coef = (double)(all->res_x) / (double)(all->res_y) * 0.75;
-	printf("coef  %f\n", all->coef);
+}
+
+void 	init_sprites(t_all *all)
+{
+	int i;
+	int j;
+	int	num;
+
+	i = -1;
+	while (++i < all->map_height)
+	{
+		j = -1;
+		while (++j < all->map_width)
+		{
+			if (all->map[i][j] == '2')
+				all->nbr_sprt++;
+		}
+	}
+	if (!(all->sprt_cords = malloc(sizeof(t_sprt_cords) * all->nbr_sprt)))
+		exit_cube(all, "Memory allocation failed\n");
+	i = -1;
+	num = 0;
+	while (++i < all->map_height)
+	{
+		j = -1;
+		while (++j < all->map_width)
+		{
+			if (all->map[i][j] == '2')
+			{
+				all->sprt_cords[num].x = i + 0.5;
+				all->sprt_cords[num].y = j + 0.5;
+				num++;
+			}
+		}
+	}
 }
 
 void	init_rc(t_all *all)
