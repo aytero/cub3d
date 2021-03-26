@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:22:35 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/03 04:22:39 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/26 11:20:22 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ void	load_image(t_all *all, t_img *tex, char *path)
 	if (!(tex->img = mlx_xpm_file_to_image(all->mlx, path,
 				&tex->width, &tex->height)))
 		exit_cube(all, "Failed to load texture\n");
-	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
-				&tex->line_len, &tex->endian);
+	if (!(tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
+				&tex->line_len, &tex->endian)))
+		exit_cube(all, "Failed to load texture\n");
 }
 
 void	load_texture(t_all *all)

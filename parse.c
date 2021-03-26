@@ -6,13 +6,13 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 03:28:53 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 12:10:20 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char 	*get_texture(t_all *all, char *str)
+static char 	*get_texture_path(t_all *all, char *str)
 {
 	char	*texture;
 
@@ -20,10 +20,10 @@ static char 	*get_texture(t_all *all, char *str)
 		str++;
 	while (*str == ' ')
 		str++;
-	if (!(ft_strchr(".", *str)) && !(ft_strchr("/", *(str + 1))))
-		exit_cube(all, "tex\n");
+	if (!(ft_strchr(".", *str)) || !(ft_strchr("/", *(str + 1))))
+		exit_cube(all, "Wrong texture path\n");
 	if (!(texture = ft_strdup(str)))
-		exit_cube(all, "mess\n");
+		exit_cube(all, "Failed to get texture path\n");
 	return (texture);
 }
 
@@ -32,15 +32,15 @@ static void		parse_texture(t_all *all, char *str)
 	while ((*str == ' ' || *str == '\n') && !all->map)
 		str++;
 	if (*str == 'N' && *(str + 1) == 'O')
-		all->tex_path[0] = get_texture(all, str);
+		all->tex_path[0] = get_texture_path(all, str);
 	else if (*str == 'S' && *(str + 1) == 'O')
-		all->tex_path[1] = get_texture(all, str);
+		all->tex_path[1] = get_texture_path(all, str);
 	else if (*str == 'W' && *(str + 1) == 'E')
-		all->tex_path[2] = get_texture(all, str);
+		all->tex_path[2] = get_texture_path(all, str);
 	else if (*str == 'E' && *(str + 1) == 'A')
-		all->tex_path[3] = get_texture(all, str);
+		all->tex_path[3] = get_texture_path(all, str);
 	else if (*str == 'S' && *(str + 1) == ' ')// all->tex_path[1])
-		all->tex_path[4] = get_texture(all, str);
+		all->tex_path[4] = get_texture_path(all, str);
 	//else if
 	//	error
 }
