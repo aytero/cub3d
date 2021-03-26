@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 21:20:06 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 10:29:46 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		find_plr(t_all *all, int y, int x)
 	return (0);
 }
 
-void 	find_sprites(t_all *all, t_sprite *sprt)
+void 	find_sprites(t_all *all)
 {
 	int i;
 	int j;
@@ -91,10 +91,6 @@ void 	find_sprites(t_all *all, t_sprite *sprt)
 				all->nbr_sprt++;
 		}
 	}
-	if (!(sprt->order = malloc(sizeof(int) * all->nbr_sprt)))
-		exit_cube(all, "Memory allocation failed\n");
-	if (!(sprt->dist = malloc(sizeof(double) * all->nbr_sprt)))
-		exit_cube(all, "Memory allocation failed\n");
 	if (!(all->sprt_cords = malloc(sizeof(t_sprt_cords) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
 	i = -1;

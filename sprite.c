@@ -71,7 +71,7 @@ void	sprite_draw(t_all *all, t_sprite *sprt)
 	int				tex_x;
 	int				tex_y;
 	int				d;
-	unsigned int	color;
+	int				color;
 	int				i;
 
 	while (sprt->start_x++ < sprt->end_x)
@@ -99,7 +99,11 @@ void	sprite(t_all *all)
 	int			i;
 	t_sprite	sprt;
 
-	find_sprites(all, &sprt);
+//	find_sprites(all, &sprt);
+	if (!(sprt.order = malloc(sizeof(int) * all->nbr_sprt)))
+		exit_cube(all, "Memory allocation failed\n");
+	if (!(sprt.dist = malloc(sizeof(double) * all->nbr_sprt)))
+		exit_cube(all, "Memory allocation failed\n");
 	i = -1;
 	while (++i < all->nbr_sprt)
 	{

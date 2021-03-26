@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 20:04:18 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 10:29:46 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void			parse_file(t_all *all, char *file);
 void	check_args(t_all *all, int argc, char **argv);
 void	map_validate(t_all *all);
 int		find_plr(t_all *all, int y, int x);
-void 	find_sprites(t_all *all, t_sprite *sprt);
+void 	find_sprites(t_all *all);
 void 			sprite_calc(t_all *all, t_sprite *sprt, int i);
 void 			sprite_sort(t_all *all, t_sprite *sprt);
 void 			sprite_draw(t_all *all, t_sprite *sprt);

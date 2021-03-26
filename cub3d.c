@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 20:26:41 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/26 11:22:42 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int		main(int argc, char **argv)
 	ft_bzero(&all, sizeof(all));
 	check_args(&all, argc, argv);
 	parse_file(&all, argv[1]);
+	find_sprites(&all);
 	init(&all);
 	init_mlx(&all);
 	return (0);
