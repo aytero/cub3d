@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 17:47:12 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:42:52 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	sprite_draw(t_all *all, t_sprite *sprt)
 		if (sprt->modif_y > 0 && sprt->start_x < all->res_x && sprt->start_x > 0
 				&& sprt->modif_y < all->depth_buf[sprt->start_x])
 		{
-			i = sprt->start_y - 1;
+			i = sprt->start_y;
 			while (i++ < (sprt->end_y - 1))
 			{
 				d = i * 256 - all->res_y * 128 + sprt->height * 128;

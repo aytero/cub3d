@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 21:00:43 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 19:09:37 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:34:06 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void		map_validate(t_all *all)
 				exit_cube(all, "Invalid map\n");
 		}
 	}
+	if (!all->plr_flag)
+		exit_cube(all, "No player in the map\n");
 }
 
 static void	init_plane(t_all *all)
