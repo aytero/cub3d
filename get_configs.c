@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 20:55:52 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 22:48:51 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/27 18:10:37 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void		get_texture(t_all *all, char *str)
 		all->tex_path[4] = get_texture_path(all, str + 1);
 	else
 		exit_cube(all, "Invalid textures configuration\n");
-		//exit_cube(all, "Invalid config declaration\n");
 }
 
 void		check_res(t_all *all)
@@ -49,9 +48,9 @@ void		check_res(t_all *all)
 
 //	screen_res_x = 0;
 //	screen_res_y = 0;
-	mlx_get_screen_size(all->mlx, &screen_res_x, &screen_res_y);
 	if (all->res_x <= 10 || all->res_y <= 10)
 		exit_cube(all, "Invalid resolution\n");
+	mlx_get_screen_size(all->mlx, &screen_res_x, &screen_res_y);
 	if (all->res_x > screen_res_x)
 		all->res_x = screen_res_x;
 	if (all->res_y > screen_res_y)

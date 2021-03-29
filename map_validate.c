@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 21:00:43 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 21:00:45 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/27 17:38:21 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,20 @@ void	map_validate(t_all *all)
 	int		x;
 
 	y = -1;
-	while (++y < all->map_height)//make it recursive ?
+	while (++y < all->map_height)
 	{
 		x = -1;
 		while (++x < all->map_width)
 		{
 			if (!(find_plr(all, y, x)))
 				exit_cube(all, "Invalid player position\n");
-			if (all->map[y][x] != '0')
+			if (all->map[y][x] != '0' && all->map[y][x] != '2')
 				continue;
 			if (x == 0 || y == 0 || y == all->map_height - 1
 				|| x == all->map_width - 1)
 				exit_cube(all, "Invalid map\n");
-			if (all->map[y - 1][x - 1] == ' ' || all->map[y - 1][x] == ' '
-				|| all->map[y - 1][x + 1] == ' ' || all->map[y][x - 1] == ' '
-				|| all->map[y][x + 1] == ' ' || all->map[y + 1][x - 1] == ' '
-				|| all->map[y + 1][x] == ' ' || all->map[y + 1][x + 1] == ' ')
+			if (all->map[y - 1][x] == ' ' || all->map[y][x - 1] == ' '
+				|| all->map[y][x + 1] == ' ' || all->map[y + 1][x] == ' ')
 				exit_cube(all, "Invalid map\n");
 		}
 	}

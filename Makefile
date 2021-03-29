@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/26 21:43:40 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/03/27 17:13:40 by ayto             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3d
 
 HEADER = cub3d.h
 
-SRC = cub3d.c\
+SRCS = cub3d.c\
 	   parse.c\
 	   parse_map.c\
 	   get_configs.c\
@@ -30,29 +30,27 @@ SRC = cub3d.c\
 	   bitmap.c\
 	   init.c
 
-OBJ = $(SRC:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-
-LIBFT = $(LIBFTDIR)libft.a
-
-MLX = $(MLXDIR)libmlx.a
 
 MLXDIR = ./minilibx_opengl/
 
 LIBFTDIR = ./libft/
 
-HEADER = cub3d.h
+LIBFT = $(LIBFTDIR)libft.a
+
+MLX = $(MLXDIR)libmlx.a
 
 FLAGS = -Wall -Werror -Wextra -g
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) -L./minilibx_opengl -framework OpenGL -framework AppKit libmlx.a -lz -L$(LIBFTDIR) -lft $(OBJ) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) -L$(MLXDIR) -framework OpenGL -framework AppKit libmlx.a -lz -L$(LIBFTDIR) -lft $(OBJS) -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFTDIR)
+	make bonus -C $(LIBFTDIR)
 
 $(MLX):
 	make -C $(MLXDIR)
@@ -62,15 +60,19 @@ $(MLX):
 .c.o: $(HEADER)
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
 
-clean:
-	rm -f $(OBJ)
-	make clean -C $(LIBFTDIR)
+bonus: $(NAME)
 
-fclean: clean
+clean:
+	rm -f $(OBJS)
+	make clean -C $(LIBFTDIR)
+	make clean -C $(MLXDIR)
+
+fclean:	clean
 	rm -f $(NAME)
 	rm -f libmlx.a
 	#rm screenshot.bmp
 	make fclean -C $(LIBFTDIR)
-	make clean -C $(MLXDIR)
 
-re: fclean all
+re:		fclean all
+
+.PHONY:	all bonus clean fclean re
