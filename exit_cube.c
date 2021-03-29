@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 19:53:33 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 19:43:23 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,6 @@ static void		memory_clean_array(char **arr, int len)
 		}
 	}
 }
-
-//static void 	mem_clean(t_all *all)
-//{
-//	int 	i;
-//
-//	i = -1;
-//	if (all->map)
-//	{
-//		while (++i < all->map_height)
-//		{
-//			if (all->map[i])
-//				free(all->map[i]);
-//		}
-//		free(all->map);
-//	}
-//	i = -1;
-//	while (++i < 5)
-//	{
-//		if (all->tex_path[i])
-//			free(all->tex_path[i]);
-//	}
-//}
 
 static void		memory_clean(t_all *all)
 {
@@ -69,8 +47,8 @@ static void		memory_clean(t_all *all)
 	memory_clean_array(all->map, all->map_height);
 	if (all->map)
 		free(all->map);
-	if (all->sprt_cords)
-		free(all->sprt_cords);
+	if (all->sprt_pos)
+		free(all->sprt_pos);
 	if (all->tex)
 		free(all->tex);
 }
@@ -100,6 +78,5 @@ int				exit_cube(t_all *all, char *str)
 	if (all->win)
 		mlx_destroy_window(all->mlx, all->win);
 	memory_clean(all);
-//	sleep(999);
 	exit(0);
 }

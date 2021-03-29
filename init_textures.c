@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.c                                         :+:      :+:    :+:   */
+/*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:22:35 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 11:20:22 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 18:38:43 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ void	find_tex_id(t_all *all)
 		all->tex_id = 1;
 	else if (all->side == 0 && all->step_x > 0)
 		all->tex_id = 2;
-	else//(all->side == 0 && all->step_x < 0)
+	else
 		all->tex_id = 3;
-	//else
-	//	all->tex_id = 4;//sprite
 }
 
 void	load_image(t_all *all, t_img *tex, char *path)
@@ -39,7 +37,6 @@ void	load_image(t_all *all, t_img *tex, char *path)
 void	load_texture(t_all *all)
 {
 	if (!(all->tex = ft_calloc(5, sizeof(t_img))))
-//	if (!(all->tex = malloc(sizeof(t_img) * 5)))
 		exit_cube(all, "Memory allocation filed\n");
 	load_image(all, all->tex, all->tex_path[0]);
 	load_image(all, all->tex + 1, all->tex_path[1]);

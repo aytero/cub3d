@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:22 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 20:46:53 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 19:11:21 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 static int	calc_hit(t_all *all)
 {
-	//while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
-	//		&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
-	while (all->hit != 1)// && all->side_dist_x < 100.0 && all->side_dist_y < 100.0)
+	while (all->hit != 1 && all->map_x > 0 && all->map_y > 0
+			&& all->map_y < all->res_y - 1 && all->map_x < all->res_x - 1)
 	{
 		if (all->side_dist_x < all->side_dist_y)
 		{
@@ -30,8 +29,7 @@ static int	calc_hit(t_all *all)
 			all->map_y += all->step_y;
 			all->side = 1;
 		}
-		if (all->map[all->map_x][all->map_y] == '1')// && all->map_x > 0 && all->map_y > 0
-			//&& all->map_y < all->res_y -1 && all->map_x < all->res_x - 1)
+		if (all->map[all->map_x][all->map_y] == '1')
 			all->hit = 1;
 	}
 	return (all->hit);
@@ -96,27 +94,15 @@ void		fill_walls(t_all *all, int tex_x, double step)
 {
 	int		tex_y;
 	double	tex_pos;
-	int		color;
 
 	tex_pos = (all->draw_start - all->res_y / 2.0 + all->line_height / 2.0)
 			* step;
 	while (all->draw_start < all->draw_end)
 	{
 		tex_y = (int)tex_pos & (all->tex[all->tex_id].height - 1);
-	//	if ((int)tex_pos >= all->tex[all->tex_id].height)
-	//		tex_y = (int)tex_pos % all->tex[all->tex_id].height - 1;
-	//	else
-	//		tex_y = (int)tex_pos;
 		tex_pos += step;
-		//all->img.addr[all->img.line_len / 4 * all->draw_start + all->x]
-		//		= all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
-		//all->buf[all->draw_start][all->x]
-		//		= all->tex[all->tex_id].addr[all->tex[all->tex_id].height
-		//		* tex_y + tex_x];
-		color = all->tex[all->tex_id].addr[all->tex[all->tex_id].height * tex_y + tex_x];
-		if (all->wall_dist > 10.0)
-			color = (color >> 1) & 8355711;
-		all->buf[all->draw_start][all->x] = color;
+		all->buf[all->draw_start][all->x] = all->tex[all->tex_id].addr
+								[all->tex[all->tex_id].height * tex_y + tex_x];
 		all->draw_start++;
 	}
 }

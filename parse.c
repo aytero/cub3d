@@ -6,89 +6,11 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 17:50:36 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:04:22 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static int		map(t_all *all, char *str)
-{
-	int		i;
-
-	if (!*str && all->map_flag)
-		exit_cube(all, "Invalid map\n");
-	i = 0;
-	if (ft_strchr(str, '1') || ft_strchr(str, '0'))
-	{
-			while (str[i])
-			{
-				if (!(ft_strchr("NSWE012 ", str[i])))
-				{
-					if (all->map_flag)
-						exit_cube(all, "Invalid symbols in the map\n");
-					all->map_flag = 0;
-					return (0);
-				}
-				i++;
-			}
-		all->map_flag = 1;
-		return (1);
-	}
-	all->map_flag = 0;
-	return (0);
-}
-
-static void		get_map_size(t_all *all, char *str)
-{
-	int 	i;
-
-//	printf("plr x  %f\n", all->plr_x);
-//	printf("plr y  %f\n", all->plr_y);
-//
-//	printf("x %d  y %d\n", all->res_x, all->res_y);
-//	printf("tex0 %s\n", all->tex_path[0]);
-//	printf("tex1 %s\n", all->tex_path[1]);
-//	printf("tex2 %s\n", all->tex_path[2]);
-//	printf("tex3 %s\n", all->tex_path[3]);
-//	printf("tex4 %s\n", all->tex_path[4]);
-//	printf("F    %x\n", all->fc_color[0]);
-//	printf("C    %x\n", all->fc_color[1]);
-	if (map(all, str))
-	{
-		if (!all->res_x || !all->res_y || all->fc_color[0] == -1
-			|| all->fc_color[1] == -1 || !all->tex_path[0] || !all->tex_path[1]
-			|| !all->tex_path[2] || !all->tex_path[3] || !all->tex_path[4])
-			exit_cube(all, "Some configs are missing\n");
-		all->map_height++;
-		i = 0;
-		while (str[i])
-			i++;
-		if (i > all->map_width)
-			all->map_width = i;
-	}
-}
-
-static void		map_copy(t_all *all, char *str)
-{
-	int		i;
-
-	all->cntr++;
-	if (!(all->map[all->cntr] = malloc(sizeof(char)
-								* (all->map_width + 1))))
-		exit_cube(all, "Memory allocation failed\n");
-	i = -1;
-	while (str[++i])
-	{
-		if (!ft_strchr("NSWE012 ", str[i]))
-			exit_cube(all, "Invalid symbols in the map\n");
-		all->map[all->cntr][i] = str[i];
-	}
-	i--;
-	while (++i < all->map_width)
-		all->map[all->cntr][i] = ' ';
-	all->map[all->cntr][i] = '\0';
-}
 
 static void		read_map(t_all *all, int fd)
 {
@@ -111,9 +33,9 @@ static void		read_map(t_all *all, int fd)
 	free(str);
 }
 
-static void read_config(t_all *all, int fd)
+static void		read_config(t_all *all, int fd)
 {
-	char 	*str;
+	char	*str;
 
 	all->fc_color[0] = -1;
 	all->fc_color[1] = -1;
@@ -137,7 +59,7 @@ static void read_config(t_all *all, int fd)
 	free(str);
 }
 
-void		parse_file(t_all *all, char *file)
+void			parse_file(t_all *all, char *file)
 {
 	int		fd;
 
@@ -149,18 +71,5 @@ void		parse_file(t_all *all, char *file)
 		exit_cube(all, "Failed to read map file\n");
 	read_map(all, fd);
 	close(fd);
-
 	map_validate(all);
-
-	printf("plr x  %f\n", all->plr_x);
-	printf("plr y  %f\n", all->plr_y);
-
-	printf("x %d  y %d\n", all->res_x, all->res_y);
-	printf("tex0 %s\n", all->tex_path[0]);
-	printf("tex1 %s\n", all->tex_path[1]);
-	printf("tex2 %s\n", all->tex_path[2]);
-	printf("tex3 %s\n", all->tex_path[3]);
-	printf("tex4 %s\n", all->tex_path[4]);
-	printf("F    %x\n", all->fc_color[0]);
-	printf("C    %x\n", all->fc_color[1]);
 }

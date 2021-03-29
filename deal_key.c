@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:32 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 20:26:41 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 18:12:02 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		move_sideways(t_all *all, double angle)
 	}
 }
 
-int 		key_press(int keycode, t_all *all)
+int			key_press(int keycode, t_all *all)
 {
 	if (keycode == UP || keycode == W)
 		all->keys[0] = 1;
@@ -79,7 +79,7 @@ int 		key_press(int keycode, t_all *all)
 	return (0);
 }
 
-int 	key_release(int keycode, t_all *all)
+int			key_release(int keycode, t_all *all)
 {
 	if (keycode == UP || keycode == W)
 		all->keys[0] = 0;

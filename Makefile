@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/27 17:13:40 by ayto             ###   ########.fr        #
+#    Updated: 2021/03/29 18:23:40 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,19 +16,17 @@ HEADER = cub3d.h
 
 SRCS = cub3d.c\
 	   parse.c\
-	   parse_map.c\
+	   map_parse.c\
 	   get_configs.c\
 	   map_validate.c\
-	   check_utils.c\
+	   init.c\
 	   deal_key.c\
 	   exit_cube.c\
-	   pixel_get_put.c\
 	   cast_rays.c\
-	   fill_img.c\
-	   textures.c\
+	   fill.c\
+	   init_textures.c\
 	   sprite.c\
-	   bitmap.c\
-	   init.c
+	   bitmap.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -56,7 +54,6 @@ $(MLX):
 	make -C $(MLXDIR)
 	cp $(MLXDIR)libmlx.a ./
 
-#%.o:%.c $(HEADER)
 .c.o: $(HEADER)
 	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
 
@@ -70,7 +67,6 @@ clean:
 fclean:	clean
 	rm -f $(NAME)
 	rm -f libmlx.a
-	#rm screenshot.bmp
 	make fclean -C $(LIBFTDIR)
 
 re:		fclean all

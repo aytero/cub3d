@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 20:55:52 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 17:52:28 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 20:03:22 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		get_res(t_all *all, char *str)
 int			get_fc_colors(t_all *all, char *str)
 {
 	int		i;
-	int		rgb[3];
+	int		c[3];
 	int		hex;
 
 	if (*str == 'F' && all->fc_color[0] >= 0)
@@ -91,16 +91,17 @@ int			get_fc_colors(t_all *all, char *str)
 	i = -1;
 	while (++i < 3)
 	{
-		rgb[i] = ft_atoi(str);
-		if (rgb[i] < 0 || rgb[i] > 255)
+		c[i] = ft_atoi(str);
+		if (c[i] < 0 || c[i] > 255)
 			exit_cube(all, "Invalid color\n");
 		while (*str == ' ')
 			str++;
-		while (ft_isdigit(*str) || *str == ',')
+		while (ft_isdigit(*str))
+			str++;
+		while (*str == ' ' || *str == ',')
 			str++;
 	}
-	hex = (((rgb[0] & 0x0FF) << 16) | ((rgb[1] & 0x0FF) << 8)
-			| (rgb[2] & 0x0FF));
+	hex = (((c[0] & 0x0FF) << 16) | ((c[1] & 0x0FF) << 8) | (c[2] & 0x0FF));
 	check_str_after(all, str);
 	return (hex);
 }

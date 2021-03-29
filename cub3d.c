@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 17:44:38 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 18:19:42 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,34 @@ void	init_mlx(t_all *all)
 	mlx_loop(all->mlx);
 }
 
+void	check_args(t_all *all, int argc, char **argv)
+{
+	int		len;
+
+	if (argc < 2 || argc > 3)
+		exit_cube(all, "Invalid number of arguments\n");
+	len = ft_strlen(argv[1]);
+	if (!((argv[1][len - 1] == 'b' && argv[1][len - 2] == 'u'
+			&& argv[1][len - 3] == 'c' && argv[1][len - 4] == '.')))
+		exit_cube(all, "Invalid map file extension\n");
+	if (argc == 3)
+	{
+		len = ft_strlen(argv[2]);
+		if (ft_strncmp("--save", argv[2], len) || len != 6)
+			exit_cube(all, "Invalid third argument\n");
+		all->save = 1;
+	}
+}
+
 int		main(int argc, char **argv)
 {
 	t_all all;
+
 	ft_bzero(&all, sizeof(all));
 	check_args(&all, argc, argv);
 	parse_file(&all, argv[1]);
 	init_sprites(&all);
-	init(&all);
+	init_buf(&all);
 	init_mlx(&all);
 	return (0);
 }

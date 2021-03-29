@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 17:46:11 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/29 17:47:12 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	sprite_calc(t_all *all, t_sprite *sprt, int i)
 {
 	double	inv;
 
-	sprt->sprite_x = all->sprt_cords[sprt->order[i]].x - all->plr_x;
-	sprt->sprite_y = all->sprt_cords[sprt->order[i]].y - all->plr_y;
+	sprt->sprite_x = all->sprt_pos[sprt->order[i]].x - all->plr_x;
+	sprt->sprite_y = all->sprt_pos[sprt->order[i]].y - all->plr_y;
 	inv = 1.0 / (all->plane_x * all->plr_dir_y - all->plr_dir_x * all->plane_y);
 	sprt->modif_x = inv * (all->plr_dir_y * sprt->sprite_x
 										- all->plr_dir_x * sprt->sprite_y);
@@ -107,8 +107,8 @@ void	sprite(t_all *all)
 	while (++i < all->nbr_sprt)
 	{
 		sprt.order[i] = i;
-		sprt.dist[i] = pow(all->plr_x - all->sprt_cords[i].x, 2)
-							+ pow(all->plr_y - all->sprt_cords[i].y, 2);
+		sprt.dist[i] = pow(all->plr_x - all->sprt_pos[i].x, 2)
+							+ pow(all->plr_y - all->sprt_pos[i].y, 2);
 	}
 	sprite_sort(all, &sprt);
 	i = -1;

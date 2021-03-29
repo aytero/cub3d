@@ -6,19 +6,31 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:22:14 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/20 23:06:16 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 18:30:17 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int		get_color(t_all *all, int x, int y)
+{
+	char	*dst;
+	int		color;
+
+	dst = (char *)all->img.addr + (y * all->img.line_len
+								+ x * (all->img.bits_per_pixel / 8));
+	color = *(int *)dst;
+	return (color);
+}
 
 static void		bmp_colors(t_all *all, int img_size, int fd)
 {
 	int		x;
 	int		y;
 	int		colors[img_size];
-	int	i = 0;
+	int		i;
 
+	i = 0;
 	y = all->res_y - 1;
 	while (y >= 0)
 	{
@@ -35,31 +47,27 @@ static void		bmp_colors(t_all *all, int img_size, int fd)
 
 static void		cast(int val, unsigned char *dst)
 {
-	//int		i;
+	int		i;
 
-	//i = -1;
-	//while (++i < 4)//numbytes
-	//	dst >> (i * 8)
-	dst[0] = (unsigned char)val;
-	dst[1] = (unsigned char)(val >> 8);
-	dst[2] = (unsigned char)(val >> 16);
-	dst[3] = (unsigned char)(val >> 24);
+	i = -1;
+	while (++i < 4)
+		dst[i] = (unsigned char)(val >> (i * 8));
 }
 
 static void		bmp_header(t_all *all, int img_size, int fd)
 {
-	unsigned char bmp[54];
+	unsigned char	bmp[54];
 
 	ft_memset(bmp, 0, 54);
 	bmp[0] = 'B';
 	bmp[1] = 'M';
-	cast(img_size + 54, &bmp[2]);//54 - offset
-	ft_memset(&bmp[10], (int)54, 1);//pixel data offset
-	ft_memset(&bmp[14], (int)40, 1);//header size
-	cast(all->res_x, &bmp[18]);//img width
-	cast(all->res_y, &bmp[22]);//img height
-	ft_memset(&bmp[26], (short)1, 1);//color plane
-	ft_memset(&bmp[28], (short)32, 1);//bits per pixel
+	cast(img_size + 54, &bmp[2]);
+	ft_memset(&bmp[10], (int)54, 1);
+	ft_memset(&bmp[14], (int)40, 1);
+	cast(all->res_x, &bmp[18]);
+	cast(all->res_y, &bmp[22]);
+	ft_memset(&bmp[26], (short)1, 1);
+	ft_memset(&bmp[28], (short)32, 1);
 	ft_memset(&bmp[34], (int)img_size, 1);
 	write(fd, bmp, 54);
 }
@@ -69,7 +77,7 @@ void			create_bmp(t_all *all)
 	int		fd;
 	int		img_size;
 
-	img_size = all->res_x * all->res_y * 4;// 4 - bytes per pixel
+	img_size = all->res_x * all->res_y * 4;
 	if ((fd = open("screenshot.bmp", O_WRONLY | O_TRUNC | O_CREAT, 0664)) < 0)
 		exit_cube(all, "Failed to create .bmp file\n");
 	bmp_header(all, img_size, fd);

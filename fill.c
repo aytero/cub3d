@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill_img.c                                         :+:      :+:    :+:   */
+/*   fill.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 23:42:01 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/25 21:15:13 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 20:02:07 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ void	fill_img(t_all *all)
 	}
 }
 
-void 	fill_solid(t_all *all)
+void	fill_solid(t_all *all)
 {
-	int 	ceiling_end;
-	int 	y;
-	int 	x;
-	double	b;
-	int 	color;
+	int		ceiling_end;
+	int		y;
+	int		x;
 
 	ceiling_end = all->res_y / 2;
 	y = -1;
@@ -44,20 +42,12 @@ void 	fill_solid(t_all *all)
 	{
 		x = -1;
 		while (++x < all->res_x)
-		{
 			all->buf[y][x] = all->fc_color[1];
-		}
 	}
 	while (++y < all->res_y - 1)
 	{
 		x = -1;
 		while (++x < all->res_x)
-		{
-			color = all->fc_color[0];
-			b = 1.0 - (((double)y - all->res_y / 2.0) / ((double)all->res_y / 2.0));
-			if (b > 0.92)
-				color = (all->fc_color[0] >> 1) & 8355711;
-			all->buf[y][x] = color;
-		}
+			all->buf[y][x] = all->fc_color[0];
 	}
 }
