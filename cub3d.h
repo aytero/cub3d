@@ -80,7 +80,7 @@ typedef struct	s_all
 	int				cntr;
 	int 		map_height;
 	int			map_width;
-	int 		plr;
+	int 		plr_flag;
 	int 		map_flag;
 
 	int				keys[6];

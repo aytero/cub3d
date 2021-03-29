@@ -1,4 +1,4 @@
-R   600, 540
+R   600,  540
 
 NO  ./textures/strs.xpm
 
@@ -7,7 +7,7 @@ SO  ./textures/eyeballs.xpm
 WE ./textures/flw.xpm
 
 EA  ./textures/shrooms2.xpm
-bb
+
 S   ./textures/muhomor.xpm
 
 F 38, 38, 38

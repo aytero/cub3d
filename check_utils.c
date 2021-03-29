@@ -21,7 +21,7 @@ void	check_args(t_all *all, int argc, char **argv)
 	len = ft_strlen(argv[1]);
 	if (!((argv[1][len - 1] == 'b' && argv[1][len - 2] == 'u'
 			&& argv[1][len - 3] == 'c' && argv[1][len - 4] == '.')))
-		exit_cube(all, "Invalid map extension\n");
+		exit_cube(all, "Invalid map file extension\n");
 	if (argc == 3)
 	{
 		len = ft_strlen(argv[2]);

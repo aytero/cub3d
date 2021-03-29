@@ -6,41 +6,28 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/27 18:44:09 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 17:50:36 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//static void		validate_file_line(t_all *all, char *str)
-//{
-//	if (str == NULL)
-//		return ;
-//	printf("str val  %s\n", str);
-//	if (!ft_strchr(str, 'R') && !ft_strchr(str, 'F') && !ft_strchr(str, 'C')
-//		&& !ft_strchr(str, 'N') && !ft_strchr(str, 'S') && !ft_strchr(str, 'W')
-//		&& !ft_strchr(str, 'E') && !all->map_flag)
-//		exit_cube(all, "Symbol gotcha\n");
-//}
-
 static int		map(t_all *all, char *str)
 {
 	int		i;
 
-//	if (!*str && all->map_flag)
-//		exit_cube(all, "Invalid map\n");
 	if (!*str && all->map_flag)
 		exit_cube(all, "Invalid map\n");
 	i = 0;
 	if (ft_strchr(str, '1') || ft_strchr(str, '0'))
 	{
-			printf("str is map?   %s\n", str);
 			while (str[i])
 			{
 				if (!(ft_strchr("NSWE012 ", str[i])))
 				{
 					if (all->map_flag)
 						exit_cube(all, "Invalid symbols in the map\n");
+					all->map_flag = 0;
 					return (0);
 				}
 				i++;
@@ -48,6 +35,7 @@ static int		map(t_all *all, char *str)
 		all->map_flag = 1;
 		return (1);
 	}
+	all->map_flag = 0;
 	return (0);
 }
 
@@ -55,6 +43,17 @@ static void		get_map_size(t_all *all, char *str)
 {
 	int 	i;
 
+//	printf("plr x  %f\n", all->plr_x);
+//	printf("plr y  %f\n", all->plr_y);
+//
+//	printf("x %d  y %d\n", all->res_x, all->res_y);
+//	printf("tex0 %s\n", all->tex_path[0]);
+//	printf("tex1 %s\n", all->tex_path[1]);
+//	printf("tex2 %s\n", all->tex_path[2]);
+//	printf("tex3 %s\n", all->tex_path[3]);
+//	printf("tex4 %s\n", all->tex_path[4]);
+//	printf("F    %x\n", all->fc_color[0]);
+//	printf("C    %x\n", all->fc_color[1]);
 	if (map(all, str))
 	{
 		if (!all->res_x || !all->res_y || all->fc_color[0] == -1
@@ -82,7 +81,7 @@ static void		map_copy(t_all *all, char *str)
 	while (str[++i])
 	{
 		if (!ft_strchr("NSWE012 ", str[i]))
-			exit_cube(all, "Invalid symbols in the map\n");// in the file
+			exit_cube(all, "Invalid symbols in the map\n");
 		all->map[all->cntr][i] = str[i];
 	}
 	i--;
@@ -121,20 +120,17 @@ static void read_config(t_all *all, int fd)
 	str = 0;
 	while (get_next_line(fd, &str))
 	{
-//		validate_file_line(all, str);
-//		if (!ft_strchr("RNSWEFC 012", *str) && !all->map_flag)
-//			exit_cube(all, "Excess symbols in the file\n");
 		if (*str == 'F')
 			all->fc_color[0] = get_fc_colors(all, str);
 		if (*str == 'C')
 			all->fc_color[1] = get_fc_colors(all, str);
 		if (*str == 'R')
-			get_res(all, str);
+			get_res(all, str + 1);
 		if (*str == 'N' || *str == 'S' || *str == 'W' || *str == 'E')
 			get_texture(all, str);
 		get_map_size(all, str);
-//		if (all->map_flag && !(ft_strchr("NSWE012 ", *str)))
-//			exit_cube(all, "Invalid symbols in map\n");
+		if (!ft_strchr("RNSWEFC", *str) && !all->map_flag)
+			exit_cube(all, "Excess symbols in the file\n");
 		free(str);
 		str = 0;
 	}

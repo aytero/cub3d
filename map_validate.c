@@ -42,7 +42,7 @@ int		find_plr(t_all *all, int y, int x)
 	if (all->map[y][x] == '1' || all->map[y][x] == '2' || all->map[y][x] == '0'
 		|| all->map[y][x] == ' ')
 		return (1);
-	if (!all->plr && ft_strchr("NSWE", all->map[y][x]))
+	if (!all->plr_flag && ft_strchr("NSWE", all->map[y][x]))
 	{
 		if (all->map[y][x] == 'N')
 		{
@@ -67,7 +67,7 @@ int		find_plr(t_all *all, int y, int x)
 		all->plr_y = x + 0.5;
 		all->plr_x = y + 0.5;
 		all->map[y][x] = '0';
-		all->plr = 1;
+		all->plr_flag = 1;
 		return (1);
 	}
 	return (0);

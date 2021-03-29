@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/26 11:22:42 by ayto             ###   ########.fr       */
+/*   Updated: 2021/03/29 17:44:38 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	init_mlx(t_all *all)
 int		main(int argc, char **argv)
 {
 	t_all all;
-
 	ft_bzero(&all, sizeof(all));
 	check_args(&all, argc, argv);
 	parse_file(&all, argv[1]);
