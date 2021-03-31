@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 20:04:22 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/31 20:28:08 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		read_map(t_all *all, int fd)
 	if (!(all->map = ft_calloc(sizeof(char *), all->map_height)))
 		exit_cube(all, "Memory allocation failed\n");
 	all->map_flag = 0;
-	while (get_next_line(fd, &str))
+	while (get_next_line(fd, &str) > 0)
 	{
 		if (map(all, str))
 			map_copy(all, str);
@@ -40,13 +40,13 @@ static void		read_config(t_all *all, int fd)
 	all->fc_color[0] = -1;
 	all->fc_color[1] = -1;
 	str = 0;
-	while (get_next_line(fd, &str))
+	while (get_next_line(fd, &str) > 0)
 	{
-		if (*str == 'F')
+		if (*str == 'F' && *(str + 1) == ' ')//better put inside func to return error
 			all->fc_color[0] = get_fc_colors(all, str);
-		if (*str == 'C')
+		if (*str == 'C' && *(str + 1) == ' ')
 			all->fc_color[1] = get_fc_colors(all, str);
-		if (*str == 'R')
+		if (*str == 'R' && *(str + 1) == ' ')
 			get_res(all, str + 1);
 		if (*str == 'N' || *str == 'S' || *str == 'W' || *str == 'E')
 			get_texture(all, str);

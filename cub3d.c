@@ -6,13 +6,13 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 20:42:50 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/31 20:20:32 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		hook_frame(t_all *all)
+int			hook_frame(t_all *all)
 {
 	all->x = 0;
 	fill_solid(all);
@@ -38,7 +38,13 @@ int		hook_frame(t_all *all)
 	return (0);
 }
 
-void	init_mlx(t_all *all)
+static int	cross_press(t_all *all)
+{
+	exit_cube(all, 0);
+	return (0);
+}
+
+void		init_mlx(t_all *all)
 {
 	if (!(all->mlx = mlx_init()))
 		exit_cube(all, "Mlx init failed\n");
@@ -53,12 +59,12 @@ void	init_mlx(t_all *all)
 		hook_frame(all);
 	mlx_hook(all->win, 2, 1L, key_press, all);
 	mlx_hook(all->win, 3, 1L, key_release, all);
-	mlx_hook(all->win, 17, 0L, exit_cube, all);
+	mlx_hook(all->win, 17, 0L, cross_press, all);
 	mlx_loop_hook(all->mlx, hook_frame, all);
 	mlx_loop(all->mlx);
 }
 
-void	check_args(t_all *all, int argc, char **argv)
+void		check_args(t_all *all, int argc, char **argv)
 {
 	int		len;
 
@@ -77,7 +83,7 @@ void	check_args(t_all *all, int argc, char **argv)
 	}
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_all all;
 

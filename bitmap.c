@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:22:14 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 18:30:17 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/03/31 20:11:08 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ static void		bmp_colors(t_all *all, int img_size, int fd)
 {
 	int		x;
 	int		y;
-	int		colors[img_size];
+	int		*colors;
 	int		i;
 
+	if (!(colors = malloc(sizeof(int) * img_size)))
+		exit_cube(all, "Memory allocation failed\n");
 	i = 0;
 	y = all->res_y - 1;
 	while (y >= 0)
@@ -43,6 +45,7 @@ static void		bmp_colors(t_all *all, int img_size, int fd)
 		y--;
 	}
 	write(fd, colors, img_size);
+	free(colors);
 }
 
 static void		cast(int val, unsigned char *dst)
