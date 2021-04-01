@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/31 20:28:08 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/02 00:57:23 by ayto             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void		read_config(t_all *all, int fd)
 		get_map_size(all, str);
 		if (!ft_strchr("RNSWEFC", *str) && !all->map_flag)
 			exit_cube(all, "Excess symbols in the file\n");
+//		if (*str && !all->map_flag && all->map)
+//			exit_cube(all, "huh\n");
 		free(str);
 		str = 0;
 	}

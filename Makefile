@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/03/31 19:57:07 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/04/02 01:17:34 by ayto             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ FLAGS = -Wall -Werror -Wextra -g
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) -L$(MLXDIR) -framework OpenGL -framework AppKit libmlx.a -lz -L$(LIBFTDIR) -lft $(OBJS) -o $(NAME)
+	$(CC) -L$(MLXDIR) -lmlx -framework OpenGL -framework AppKit -lz -L$(LIBFTDIR) -lft $(OBJS) -o $(NAME)
 
 $(LIBFT):
 	make bonus -C $(LIBFTDIR)

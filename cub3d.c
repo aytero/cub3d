@@ -78,7 +78,7 @@ void		check_args(t_all *all, int argc, char **argv)
 	{
 		len = ft_strlen(argv[2]);
 		if (ft_strncmp("--save", argv[2], len) || len != 6)
-			exit_cube(all, "Invalid third argument\n");
+			exit_cube(all, "Invalid second argument\n");
 		all->save = 1;
 	}
 }
