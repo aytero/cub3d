@@ -52,7 +52,7 @@ void		init_mlx(t_all *all)
 		exit_cube(all, "Memory allocation failed\n");
 	load_texture(all);
 	if (!(all->win = mlx_new_window(all->mlx, all->res_x,
-								 	all->res_y, "yume")))
+					all->res_y, "yume")))
 		exit_cube(all, "Failed to create window\n");
 	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
 	all->img.addr = (int *)mlx_get_data_addr(all->img.img,

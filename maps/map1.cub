@@ -1,4 +1,4 @@
-R 6000   8000
+R 600   800
 
 NO ./textures/strs.xpm
 SO  ./textures/eyeballs.xpm

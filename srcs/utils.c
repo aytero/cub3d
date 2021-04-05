@@ -40,7 +40,7 @@ int		atoi_color(const char *str)
 	color = 0;
 	while (*str && (*str == ' '))
 		str++;
-	if (*str == '-' || *str == '+' || *str == '0')
+	if (*str == '-' || *str == '+' || (*str == '0' && *(str + 1) == '0'))
 		return (-1);
 	while (*str >= '0' && *str <= '9')
 	{
