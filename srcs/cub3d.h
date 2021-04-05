@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 16:32:02 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 16:39:18 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void			init_mlx(t_all *all);
 void			init_buf(t_all *all);
 void			init_rc(t_all *all);
 void			cast_rays(t_all *all);
-int				exit_cube(t_all *all, char *str);
+void			exit_cube(t_all *all, char *str);
 int				key_press(int keycode, t_all *all);
 int				key_release(int keycode, t_all *all);
 void			move(t_all *all, double angle);

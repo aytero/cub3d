@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 19:22:14 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/31 20:11:08 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 18:08:22 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static void		cast(int val, unsigned char *dst)
 
 static void		bmp_header(t_all *all, int img_size, int fd)
 {
-	unsigned char	bmp[54];
+	unsigned char	*bmp;
 
+	if (!(bmp = malloc(sizeof(unsigned char) * 54)))
+		exit_cube(all, "Memory allocation failed\n");
 	ft_memset(bmp, 0, 54);
 	bmp[0] = 'B';
 	bmp[1] = 'M';
@@ -73,6 +75,7 @@ static void		bmp_header(t_all *all, int img_size, int fd)
 	ft_memset(&bmp[28], (short)32, 1);
 	ft_memset(&bmp[34], (int)img_size, 1);
 	write(fd, bmp, 54);
+	free(bmp);
 }
 
 void			create_bmp(t_all *all)

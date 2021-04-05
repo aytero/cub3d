@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 17:30:01 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 17:43:31 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void		get_map_size(t_all *all, char *str)
 	if (map(all, str))
 	{
 		if (!all->res_x || !all->res_y || all->fc_color[0] == -1
-			|| all->fc_color[1] == -1 || !all->tex_path[0] || !all->tex_path[1]
-			|| !all->tex_path[2] || !all->tex_path[3] || !all->tex_path[4])
+		|| all->fc_color[1] == -1 || !all->tex_path[0] || !all->tex_path[1]
+		|| !all->tex_path[2] || !all->tex_path[3] || !all->tex_path[4])
 			exit_cube(all, "Some configs are missing\n");
 		all->map_height++;
 		i = 0;

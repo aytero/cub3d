@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 19:43:23 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 18:44:43 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void		memory_clean(t_all *all)
 		free(all->tex);
 }
 
-int				exit_cube(t_all *all, char *str)
+void			exit_cube(t_all *all, char *str)
 {
 	if (str)
 	{

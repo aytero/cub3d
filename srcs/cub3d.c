@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/31 20:20:32 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 19:11:54 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void		init_mlx(t_all *all)
 	if (!(all->depth_buf = malloc(sizeof(double) * all->res_x)))
 		exit_cube(all, "Memory allocation failed\n");
 	load_texture(all);
-	all->win = mlx_new_window(all->mlx, all->res_x, all->res_y, "yume");
+	if (!(all->win = mlx_new_window(all->mlx, all->res_x,
+								 	all->res_y, "yume")))
+		exit_cube(all, "Failed to create window\n");
 	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
 	all->img.addr = (int *)mlx_get_data_addr(all->img.img,
 				&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian);

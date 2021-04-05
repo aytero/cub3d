@@ -64,6 +64,7 @@ static void	init_sprites_pos(t_all *all)
 			{
 				all->sprt_pos[num].x = i + 0.5;
 				all->sprt_pos[num].y = j + 0.5;
+				all->map[i][j] = 0;
 				num++;
 			}
 		}
