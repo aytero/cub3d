@@ -37,10 +37,10 @@ void		move(t_all *all, double angle)
 		if (all->keys[1])
 			angle *= -1;
 		if (all->map[(int)(all->plr_x + all->plr_dir_x * angle)]
-				[(int)(all->plr_y)] != '1')
+		[(int)(all->plr_y)] != '1')
 			all->plr_x += all->plr_dir_x * angle;
 		if (all->map[(int)(all->plr_x)]
-				[(int)(all->plr_y + all->plr_dir_y * angle)] != '1')
+		[(int)(all->plr_y + all->plr_dir_y * angle)] != '1')
 			all->plr_y += all->plr_dir_y * angle;
 	}
 }
@@ -52,10 +52,10 @@ void		move_sideways(t_all *all, double angle)
 		if (all->keys[3])
 			angle *= -1;
 		if (all->map[(int)(all->plr_x - all->plr_dir_y * angle)]
-				[(int)(all->plr_y)] != '1')
+		[(int)(all->plr_y)] != '1')
 			all->plr_x -= all->plr_dir_y * angle;
 		if (all->map[(int)(all->plr_x)]
-				[(int)(all->plr_y + all->plr_dir_x * angle)] != '1')
+		[(int)(all->plr_y + all->plr_dir_x * angle)] != '1')
 			all->plr_y += all->plr_dir_x * angle;
 	}
 }

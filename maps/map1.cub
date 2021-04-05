@@ -1,4 +1,4 @@
-R   600 800
+R 600   800
 
 NO ./textures/strs.xpm
 SO  ./textures/eyeballs.xpm
@@ -6,8 +6,8 @@ WE ./textures/flw.xpm
 EA  ./textures/shrooms2.xpm
 S   ./textures/muhomor_sprite.xpm
 
-F 38, 37, 36
-C   60, 28, 38
+F  38,38,38
+C  60,60,60
 
        111111111
 1111111000000001
@@ -19,5 +19,3 @@ C   60, 28, 38
 1001020000202000021
 100100000001111111
 11111111111
-F
-

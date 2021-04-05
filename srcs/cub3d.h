@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 20:01:32 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 16:32:02 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
-# include "minilibx_opengl/mlx.h"
-# include "libft/libft.h"
+# include "../minilibx_opengl/mlx.h"
+# include "../libft/libft.h"
 
 # define SPEED 0.1
 # define DOWN 125
@@ -151,6 +151,8 @@ int				key_release(int keycode, t_all *all);
 void			move(t_all *all, double angle);
 void			move_sideways(t_all *all, double angle);
 void			rotate(t_all *all, double angle);
+int				atoi_color(const char *str);
+int				atoi_res(const char *str);
 void			create_bmp(t_all *all);
 
 #endif

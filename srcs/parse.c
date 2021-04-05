@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/02 00:57:23 by ayto             ###   ########.fr       */
+/*   Updated: 2021/04/05 17:26:33 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ static void		read_config(t_all *all, int fd)
 	str = 0;
 	while (get_next_line(fd, &str) > 0)
 	{
-		if (*str == 'F' && *(str + 1) == ' ')//better put inside func to return error
+		if (*str && !map(all, str) && all->map_flag)
+			exit_cube(all, "Invalid config file\n");
+		if (*str == 'F')
 			all->fc_color[0] = get_fc_colors(all, str);
-		if (*str == 'C' && *(str + 1) == ' ')
+		if (*str == 'C')
 			all->fc_color[1] = get_fc_colors(all, str);
-		if (*str == 'R' && *(str + 1) == ' ')
+		if (*str == 'R')
 			get_res(all, str + 1);
 		if (*str == 'N' || *str == 'S' || *str == 'W' || *str == 'E')
 			get_texture(all, str);
 		get_map_size(all, str);
 		if (!ft_strchr("RNSWEFC", *str) && !all->map_flag)
 			exit_cube(all, "Excess symbols in the file\n");
-//		if (*str && !all->map_flag && all->map)
-//			exit_cube(all, "huh\n");
 		free(str);
 		str = 0;
 	}

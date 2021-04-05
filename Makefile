@@ -6,7 +6,7 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/04/02 01:17:34 by ayto             ###   ########.fr        #
+#    Updated: 2021/04/05 16:48:14 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,20 @@ NAME = cub3D
 
 HEADER = cub3d.h
 
-SRCS = cub3d.c\
-	   parse.c\
-	   map_parse.c\
-	   get_configs.c\
-	   map_validate.c\
-	   init.c\
-	   deal_key.c\
-	   exit_cube.c\
-	   cast_rays.c\
-	   fill.c\
-	   init_textures.c\
-	   sprite.c\
-	   bitmap.c
+SRCS = ./srcs/cub3d.c\
+	   ./srcs/parse.c\
+	   ./srcs/map_parse.c\
+	   ./srcs/get_configs.c\
+	   ./srcs/map_validate.c\
+	   ./srcs/init.c\
+	   ./srcs/deal_key.c\
+	   ./srcs/exit_cube.c\
+	   ./srcs/cast_rays.c\
+	   ./srcs/fill.c\
+	   ./srcs/init_textures.c\
+	   ./srcs/sprite.c\
+	   ./srcs/utils.c\
+	   ./srcs/bitmap.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -40,7 +41,7 @@ LIBFT = $(LIBFTDIR)libft.a
 
 MLX = $(MLXDIR)libmlx.a
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
 

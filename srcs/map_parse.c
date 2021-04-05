@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 23:00:19 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 18:31:53 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/05 17:30:01 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			map(t_all *all, char *str)
 	if (!*str && all->map_flag)
 		exit_cube(all, "Invalid map\n");
 	i = 0;
-	if (ft_strchr(str, '1') || ft_strchr(str, '0'))
+	if (ft_strchr(str, '1') || ft_strchr(str, '0') || ft_strchr(str, '2'))
 	{
 		while (str[i])
 		{
@@ -27,7 +27,6 @@ int			map(t_all *all, char *str)
 			{
 				if (all->map_flag)
 					exit_cube(all, "Invalid symbols in the map\n");
-				all->map_flag = 0;
 				return (0);
 			}
 			i++;
@@ -35,7 +34,6 @@ int			map(t_all *all, char *str)
 		all->map_flag = 1;
 		return (1);
 	}
-	all->map_flag = 0;
 	return (0);
 }
 
