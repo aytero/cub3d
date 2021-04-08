@@ -6,69 +6,72 @@
 #    By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/10 18:48:41 by lpeggy            #+#    #+#              #
-#    Updated: 2021/04/05 18:53:09 by lpeggy           ###   ########.fr        #
+#    Updated: 2021/04/08 21:24:55 by lpeggy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-HEADER = cub3d.h
+HEADER = ./includes/cub3d.h
 
-SRCS = ./srcs/cub3d.c\
-	   ./srcs/parse.c\
-	   ./srcs/map_parse.c\
-	   ./srcs/get_configs.c\
-	   ./srcs/map_validate.c\
-	   ./srcs/init.c\
-	   ./srcs/deal_key.c\
-	   ./srcs/exit_cube.c\
-	   ./srcs/cast_rays.c\
-	   ./srcs/fill.c\
-	   ./srcs/init_textures.c\
-	   ./srcs/sprite.c\
-	   ./srcs/utils.c\
-	   ./srcs/bitmap.c
+SRCS = cub3d.c\
+	   parse.c\
+	   map_parse.c\
+	   get_configs.c\
+	   map_validate.c\
+	   init.c\
+	   deal_key.c\
+	   exit_cube.c\
+	   cast_rays.c\
+	   fill.c\
+	   init_textures.c\
+	   sprite.c\
+	   utils.c\
+	   bitmap.c
 
-OBJS = $(SRCS:.c=.o)
+OBJSDIR = ./objs
+SRCSDIR = ./srcs
+HDRDIR = ./includes
+MLXDIR = ./minilibx_opengl
+LIBFTDIR = ./libft
 
-CC = gcc
-
-MLXDIR = ./minilibx_opengl/
-
-LIBFTDIR = ./libft/
 
 LIBFT = $(LIBFTDIR)libft.a
 
 MLX = $(MLXDIR)libmlx.a
 
-FLAGS = -Wall -Werror -Wextra
+CC = gcc
 
-all: $(NAME)
+FLAGS = -Wall -Werror -Wextra -g
 
-$(NAME): $(OBJS) $(LIBFT) $(MLX)
+OBJS = $(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
+
+all: libs $(NAME)
+
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.c $(HEADER)
+	@$(CC) $(FLAGS) -I $(HDRDIR) -I $(LIBFTDIR) -I $(MLXDIR) -c $< -o $@
+
+libs:
+	@make bonus -C $(LIBFTDIR)
+	@make -C $(MLXDIR)
+
+$(NAME): $(OBJSDIR) $(OBJS)
 	$(CC) -L$(MLXDIR) -lmlx -framework OpenGL -framework AppKit -lz -L$(LIBFTDIR) -lft $(OBJS) -o $(NAME)
 
-$(LIBFT):
-	make bonus -C $(LIBFTDIR)
-
-$(MLX):
-	make -C $(MLXDIR)
-	cp $(MLXDIR)libmlx.a ./
-
-.c.o: $(HEADER)
-	$(CC) $(FLAGS) -I ./mlx.h -c $< -o $@
+$(OBJSDIR):
+	@mkdir -p $(OBJSDIR)
 
 bonus: $(NAME)
 
 clean:
 	rm -f $(OBJS)
+	rm -rf $(OBJSDIR)
 	make clean -C $(LIBFTDIR)
-	make clean -C $(MLXDIR)
 
 fclean:	clean
 	rm -f $(NAME)
-	rm -f libmlx.a
 	make fclean -C $(LIBFTDIR)
+	make clean -C $(MLXDIR)
 
 re:		fclean all
 

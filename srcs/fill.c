@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 23:42:01 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 20:02:07 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/08 21:24:20 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	fill_solid(t_all *all)
 	int		y;
 	int		x;
 
-	ceiling_end = all->res_y / 2;
+	ceiling_end = all->res_y / 2 - 1;
 	y = -1;
 	while (++y < ceiling_end)
 	{

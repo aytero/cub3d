@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 18:50:51 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/08 21:12:57 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void		read_map(t_all *all, int fd)
 		str = 0;
 	}
 	free(str);
+	str = 0;
 }
 
 static void		read_config(t_all *all, int fd)
@@ -49,7 +50,7 @@ static void		read_config(t_all *all, int fd)
 		if (*str == 'C')
 			all->fc_color[1] = get_fc_colors(all, str);
 		if (*str == 'R')
-			get_res(all, str + 1);
+			get_res(all, str);
 		if (*str == 'N' || *str == 'S' || *str == 'W' || *str == 'E')
 			get_texture(all, str);
 		get_map_size(all, str);
@@ -59,6 +60,7 @@ static void		read_config(t_all *all, int fd)
 		str = 0;
 	}
 	free(str);
+	str = 0;
 }
 
 void			parse_file(t_all *all, char *file)

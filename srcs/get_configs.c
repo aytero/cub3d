@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 20:55:52 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 19:06:09 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/08 21:12:52 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char		*get_texture_path(t_all *all, char *str)
 {
 	char	*texture;
 
-	while (*str == ' ')
+	while (*str == ' ' && *str)
 		str++;
 	if (!(ft_strchr(".", *str)) || !(ft_strchr("/", *(str + 1))))
 		exit_cube(all, "Invalid texture path\n");
@@ -50,17 +50,18 @@ void		get_res(t_all *all, char *str)
 	int		screen_res_x;
 	int		screen_res_y;
 
+	str++;
 	if (*str != ' ' || all->res_x || all->res_y)
 		exit_cube(all, "Invalid resolution config\n");
 	all->res_x = atoi_res(str);
-	while (*str == ' ')
+	while (*str == ' ' && *str)
 		str++;
-	while (ft_isdigit(*str))
+	while (ft_isdigit(*str) && *str)
 		str++;
 	all->res_y = atoi_res(str);
-	while (*str == ' ')
+	while (*str == ' ' && *str)
 		str++;
-	while (ft_isdigit(*str))
+	while (ft_isdigit(*str) && *str)
 		str++;
 	if (*str || all->res_x < 1 || all->res_y < 1)
 		exit_cube(all, "Invalid resolution config\n");
@@ -86,9 +87,9 @@ int			get_fc_colors(t_all *all, char *str)
 	while (++i < 3)
 	{
 		c[i] = atoi_color(str);
-		while (*str == ' ')
+		while (*str == ' ' && *str)
 			str++;
-		while (ft_isdigit(*str))
+		while (ft_isdigit(*str) && *str)
 			str++;
 		if (*str == ',' && (*(str + 1) == ' ' || ft_isdigit(*(str + 1))))
 			str++;

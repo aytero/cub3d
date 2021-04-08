@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 19:11:54 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/09 00:32:14 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int			hook_frame(t_all *all)
 {
+	move(all, SPEED);
+	move_sideways(all, SPEED);
+	rotate(all, SPEED);
 	all->x = 0;
 	fill_solid(all);
 	while (all->x < all->res_x)
@@ -32,9 +35,6 @@ int			hook_frame(t_all *all)
 		exit_cube(all, 0);
 	}
 	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
-	move(all, SPEED);
-	move_sideways(all, SPEED);
-	rotate(all, SPEED);
 	return (0);
 }
 
@@ -54,9 +54,11 @@ void		init_mlx(t_all *all)
 	if (!(all->win = mlx_new_window(all->mlx, all->res_x,
 					all->res_y, "yume")))
 		exit_cube(all, "Failed to create window\n");
-	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
-	all->img.addr = (int *)mlx_get_data_addr(all->img.img,
-				&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian);
+	if (!(all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y)))
+		exit_cube(all, "Failed to create image\n");
+	if (!(all->img.addr = (int *)mlx_get_data_addr(all->img.img,
+			&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian)))
+		exit_cube(all, "Failed to create image\n");
 	if (all->save)
 		hook_frame(all);
 	mlx_hook(all->win, 2, 1L, key_press, all);

@@ -6,13 +6,13 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 18:18:08 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/03/29 20:42:52 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/09 00:42:22 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	sprite_sort(t_all *all, t_sprite *sprt)
+void		sprite_sort(t_all *all, t_sprite *sprt)
 {
 	int		i;
 	int		j;
@@ -37,7 +37,7 @@ void	sprite_sort(t_all *all, t_sprite *sprt)
 	}
 }
 
-void	sprite_calc(t_all *all, t_sprite *sprt, int i)
+void		sprite_calc(t_all *all, t_sprite *sprt, int i)
 {
 	double	inv;
 
@@ -66,50 +66,51 @@ void	sprite_calc(t_all *all, t_sprite *sprt, int i)
 		sprt->end_x = all->res_x - 1;
 }
 
-void	sprite_draw(t_all *all, t_sprite *sprt)
+static void	sprite_draw_line(t_all *all, t_sprite *sprt, int tex_x, int line)
 {
-	int				tex_x;
-	int				tex_y;
-	int				d;
-	int				color;
-	int				i;
+	int		tex_y;
+	int		d;
+	int		color;
+	int		i;
 
-	while (sprt->start_x++ < sprt->end_x)
+	i = sprt->start_y;
+	while (i < sprt->end_y)
 	{
-		tex_x = (int)(256 * (sprt->start_x - (-sprt->width / 2
-				+ sprt->screen_x)) * all->tex[4].width / sprt->width) / 256;
-		if (sprt->modif_y > 0 && sprt->start_x < all->res_x && sprt->start_x > 0
-				&& sprt->modif_y < all->depth_buf[sprt->start_x])
-		{
-			i = sprt->start_y;
-			while (i++ < (sprt->end_y - 1))
-			{
-				d = i * 256 - all->res_y * 128 + sprt->height * 128;
-				tex_y = ((d * all->tex[4].height) / sprt->height) / 256;
-				color = all->tex[4].addr[all->tex[4].height * tex_y + tex_x];
-				if ((color & 0x00FFFF) != 0)
-					all->buf[i][sprt->start_x] = color;
-			}
-		}
+		d = i * 256 - all->res_y * 128 + sprt->height * 128;
+		tex_y = ((d * all->tex[4].height) / sprt->height) / 256;
+		color = all->tex[4].addr[all->tex[4].height * tex_y + tex_x];
+		if ((color & 0x00FFFF) != 0)
+			all->buf[i][line] = color;
+		i++;
 	}
 }
 
-void	sprite(t_all *all)
+void		sprite_draw(t_all *all, t_sprite *sprt)
+{
+	int		tex_x;
+
+	while (sprt->start_x < sprt->end_x)
+	{
+		tex_x = (int)(256 * (sprt->start_x - (-sprt->width / 2
+				+ sprt->screen_x)) * all->tex[4].width / sprt->width) / 256;
+		if (sprt->modif_y > 0 && sprt->start_x < all->res_x
+		&& sprt->start_x >= 0 && sprt->modif_y < all->depth_buf[sprt->start_x])
+			sprite_draw_line(all, sprt, tex_x, sprt->start_x);
+		sprt->start_x++;
+	}
+}
+
+void		sprite(t_all *all)
 {
 	int			i;
 	t_sprite	sprt;
 
+	ft_bzero(&sprt, sizeof(sprt));
 	if (!(sprt.order = malloc(sizeof(int) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
 	if (!(sprt.dist = malloc(sizeof(double) * all->nbr_sprt)))
 		exit_cube(all, "Memory allocation failed\n");
-	i = -1;
-	while (++i < all->nbr_sprt)
-	{
-		sprt.order[i] = i;
-		sprt.dist[i] = pow(all->plr_x - all->sprt_pos[i].x, 2)
-							+ pow(all->plr_y - all->sprt_pos[i].y, 2);
-	}
+	init_sprites_utils(all, &sprt);
 	sprite_sort(all, &sprt);
 	i = -1;
 	while (++i < all->nbr_sprt)
