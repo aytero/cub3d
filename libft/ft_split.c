@@ -6,13 +6,13 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 22:03:18 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/22 19:28:27 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:41:47 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		*ft_malloc_free(char **strs, size_t l)
+static void	*ft_malloc_free(char **strs, size_t l)
 {
 	size_t	i;
 
@@ -26,7 +26,7 @@ static void		*ft_malloc_free(char **strs, size_t l)
 	return (NULL);
 }
 
-static int		ft_count_lines(char const *s, char c)
+static int	ft_count_lines(char const *s, char c)
 {
 	size_t	i;
 	size_t	lines;
@@ -45,7 +45,7 @@ static int		ft_count_lines(char const *s, char c)
 	return (lines);
 }
 
-static int		ft_strlen_c(char const *s, char c)
+static int	ft_strlen_c(char const *s, char c)
 {
 	int	len;
 
@@ -55,7 +55,7 @@ static int		ft_strlen_c(char const *s, char c)
 	return (len);
 }
 
-static char		**ft_make_strings(char const *s, size_t l, char c, char **strs)
+static char	**ft_make_strings(char const *s, size_t l, char c, char **strs)
 {
 	size_t	y;
 	size_t	x;
@@ -67,7 +67,8 @@ static char		**ft_make_strings(char const *s, size_t l, char c, char **strs)
 		while (*s == c)
 			s++;
 		len = ft_strlen_c(s, c);
-		if (!(strs[y] = (char *)malloc(sizeof(char *) * (len + 1))))
+		strs[y] = (char *)malloc(sizeof(char *) * (len + 1));
+		if (!strs[y])
 			return (ft_malloc_free(strs, l));
 		x = 0;
 		while (x < len)
@@ -79,7 +80,7 @@ static char		**ft_make_strings(char const *s, size_t l, char c, char **strs)
 	return (strs);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	size_t	lines;
 	char	**strs;
@@ -87,7 +88,8 @@ char			**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	lines = ft_count_lines(s, c);
-	if (!(strs = (char **)malloc(sizeof(char *) * (lines + 1))))
+	strs = (char **)malloc(sizeof(char *) * (lines + 1));
+	if (!strs)
 		return (NULL);
 	strs = ft_make_strings(s, lines, c, strs);
 	return (strs);

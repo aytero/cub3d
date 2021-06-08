@@ -6,11 +6,18 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 16:42:12 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/25 15:31:55 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:49:59 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	return_val(int reader)
+{
+	if (reader == 0)
+		return (0);
+	return (1);
+}
 
 static char	*sf_add_line(char *reminder)
 {
@@ -23,7 +30,8 @@ static char	*sf_add_line(char *reminder)
 	len = 0;
 	while (reminder[len] != '\n' && reminder[len] != '\0')
 		len++;
-	if (!(line = (char *)malloc(sizeof(char) * (len + 1))))
+	line = (char *)malloc(sizeof(char) * (len + 1));
+	if (!line)
 		return (0);
 	i = 0;
 	while (reminder[i] != '\n' && reminder[i] != '\0')
@@ -51,7 +59,8 @@ static char	*sf_update_reminder(char *reminder)
 		free(reminder);
 		return (0);
 	}
-	if (!(new = (char *)malloc(sizeof(char) * (ft_strlen(reminder) - len + 1))))
+	new = (char *)malloc(sizeof(char) * (ft_strlen(reminder) - len + 1));
+	if (!new)
 		return (0);
 	len++;
 	i = 0;
@@ -67,7 +76,8 @@ static int	sf_read_line(int fd, char **line, char **reminder, t_lst **hd)
 	char		*buffer;
 	int			reader;
 
-	if (!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
 		return (-1);
 	reader = 1;
 	while (reader != 0 && !ft_strchr_n(*reminder))
@@ -87,10 +97,10 @@ static int	sf_read_line(int fd, char **line, char **reminder, t_lst **hd)
 	free(buffer);
 	if (reader == 0)
 		ft_cleanlst_fd(hd, fd);
-	return ((reader == 0) ? 0 : 1);
+	return (return_val(reader));
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static t_lst	*head;
 	t_lst			*tmp;

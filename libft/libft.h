@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 15:28:02 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/11 16:32:58 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:45:57 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
 
-typedef struct		s_lst
+typedef struct s_lst
 {
 	int				fd;
 	char			*reminder;

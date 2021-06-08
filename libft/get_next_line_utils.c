@@ -6,13 +6,13 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:25:59 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/25 15:19:45 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:46:46 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_strchr_n(char *s)
+int	ft_strchr_n(char *s)
 {
 	if (!s)
 		return (0);
@@ -25,11 +25,12 @@ int			ft_strchr_n(char *s)
 	return (0);
 }
 
-t_lst		*ft_lstnew_fd(int fd)
+t_lst	*ft_lstnew_fd(int fd)
 {
 	t_lst	*elem;
 
-	if (!(elem = (t_lst *)malloc(sizeof(t_lst))))
+	elem = (t_lst *)malloc(sizeof(t_lst));
+	if (!elem)
 		return (NULL);
 	if (elem)
 	{
@@ -40,7 +41,7 @@ t_lst		*ft_lstnew_fd(int fd)
 	return (elem);
 }
 
-void		ft_cleanlst_fd(t_lst **head, int fd)
+void	ft_cleanlst_fd(t_lst **head, int fd)
 {
 	t_lst	*del;
 	t_lst	*prev;

@@ -1,28 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <lpeggy@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/21 15:56:27 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/08 23:55:36 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-void		init_buf(t_all *all)
+void	init_buf(t_all *all)
 {
 	int		j;
 	int		i;
 
-	if (!(all->buf = ft_calloc(sizeof(int *), all->res_y)))
+	all->buf = ft_calloc(sizeof(int *), all->res_y);
+	if (!all->buf)
 		exit_cube(all, "Memory allocation failed\n");
 	i = 0;
 	while (i < all->res_y)
 	{
-		if (!(all->buf[i] = malloc(sizeof(int) * all->res_x)))
+		all->buf[i] = malloc(sizeof(int) * all->res_x);
+		if (!all->buf[i])
 			exit_cube(all, "Memory allocation failed\n");
 		i++;
 	}
@@ -33,16 +23,16 @@ void		init_buf(t_all *all)
 		while (++j < all->res_x)
 			all->buf[i][j] = 0;
 	}
-	all->coef = (double)(all->res_x) / (double)(all->res_y) * 0.75;
+	all->coef = (double)(all->res_x) / (double)(all->res_y) *0.75;
 }
 
-void		init_rc(t_all *all)
+void	init_rc(t_all *all)
 {
 	all->camera_x = 2 * all->x / (double)all->res_x - 1;
-	all->ray_dir_x = all->plr_dir_x + all->plane_x * all->camera_x;
-	all->ray_dir_y = all->plr_dir_y + all->plane_y * all->camera_x;
-	all->map_x = (int)(all->plr_x);
-	all->map_y = (int)(all->plr_y);
+	all->ray_dir[X_SIDE] = all->plr_dir[X_SIDE] + all->plane[X_SIDE] * all->camera_x;
+	all->ray_dir[Y_SIDE] = all->plr_dir[Y_SIDE] + all->plane[Y_SIDE] * all->camera_x;
+	all->map_cur[X_SIDE] = (int)(all->plr[X_SIDE]);
+	all->map_cur[Y_SIDE] = (int)(all->plr[Y_SIDE]);
 	all->hit = 0;
 	all->wall_dist = 0;
 }
@@ -71,7 +61,7 @@ static void	init_sprites_pos(t_all *all)
 	}
 }
 
-void		init_sprites(t_all *all)
+void	init_sprites(t_all *all)
 {
 	int		i;
 	int		j;
@@ -86,12 +76,13 @@ void		init_sprites(t_all *all)
 				all->nbr_sprt++;
 		}
 	}
-	if (!(all->sprt_pos = ft_calloc(sizeof(t_sprt_pos), all->nbr_sprt)))
+	all->sprt_pos = ft_calloc(sizeof(t_sprt_pos), all->nbr_sprt);
+	if (!all->sprt_pos)
 		exit_cube(all, "Memory allocation failed\n");
 	init_sprites_pos(all);
 }
 
-void		init_sprites_utils(t_all *all, t_sprite *sprt)
+void	init_sprites_utils(t_all *all, t_sprite *sprt)
 {
 	int		i;
 
@@ -99,7 +90,7 @@ void		init_sprites_utils(t_all *all, t_sprite *sprt)
 	while (++i < all->nbr_sprt)
 	{
 		sprt->order[i] = i;
-		sprt->dist[i] = pow(all->plr_x - all->sprt_pos[i].x, 2)
-							+ pow(all->plr_y - all->sprt_pos[i].y, 2);
+		sprt->dist[i] = pow(all->plr[X_SIDE] - all->sprt_pos[i].x, 2)
+			+ pow(all->plr[Y_SIDE] - all->sprt_pos[i].y, 2);
 	}
 }

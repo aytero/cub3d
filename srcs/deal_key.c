@@ -1,97 +1,89 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   deal_key.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/03 04:23:32 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/08 20:55:38 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-void		rotate(t_all *all, double ang)
+void	rotate(t_all *all, double ang)
 {
-	double old_plane_x;
-	double old_dir_x;
+	double	old_plane_x;
+	double	old_dir_x;
 
-	if (all->keys[4] || all->keys[5])
+	if (all->keys[LEFT_KEY] || all->keys[Q_KEY] || all->keys[RIGHT_KEY] || all->keys[E_KEY])
 	{
-		if (all->keys[5])
+		if (all->keys[RIGHT_KEY] || all->keys[E_KEY])
 			ang *= -1;
-		old_plane_x = all->plane_x;
-		old_dir_x = all->plr_dir_x;
-		all->plr_dir_x = all->plr_dir_x * cos(ang) - all->plr_dir_y * sin(ang);
-		all->plr_dir_y = old_dir_x * sin(ang) + all->plr_dir_y * cos(ang);
-		all->plane_x = all->plane_x * cos(ang) - all->plane_y * sin(ang);
-		all->plane_y = old_plane_x * sin(ang) + all->plane_y * cos(ang);
+		old_plane_x = all->plane[X_SIDE];
+		old_dir_x = all->plr_dir[X_SIDE];
+		all->plr_dir[X_SIDE] = all->plr_dir[X_SIDE] * cos(ang) - all->plr_dir[Y_SIDE] * sin(ang);
+		all->plr_dir[Y_SIDE] = old_dir_x * sin(ang) + all->plr_dir[Y_SIDE] * cos(ang);
+		all->plane[X_SIDE] = all->plane[X_SIDE] * cos(ang) - all->plane[Y_SIDE] * sin(ang);
+		all->plane[Y_SIDE] = old_plane_x * sin(ang) + all->plane[Y_SIDE] * cos(ang);
 	}
 }
 
-void		move(t_all *all, double angle)
+void	move(t_all *all, double angle)
 {
-	if (all->keys[0] || all->keys[1])
+	if (all->keys[UP_KEY] || all->keys[DOWN_KEY] || all->keys[W_KEY] || all->keys[S_KEY])
 	{
-		if (all->keys[1])
+		if (all->keys[DOWN_KEY] || all->keys[S_KEY])
 			angle *= -1;
-		if (all->map[(int)(all->plr_x + all->plr_dir_x * angle)]
-		[(int)(all->plr_y)] != '1')
-			all->plr_x += all->plr_dir_x * angle;
-		if (all->map[(int)(all->plr_x)]
-		[(int)(all->plr_y + all->plr_dir_y * angle)] != '1')
-			all->plr_y += all->plr_dir_y * angle;
+		if (all->map[(int)(all->plr[X_SIDE] + all->plr_dir[X_SIDE] * angle)]
+		[(int)(all->plr[Y_SIDE])] != '1')
+			all->plr[X_SIDE] += all->plr_dir[X_SIDE] * angle;
+		if (all->map[(int)(all->plr[X_SIDE])]
+		[(int)(all->plr[Y_SIDE] + all->plr_dir[Y_SIDE] * angle)] != '1')
+			all->plr[Y_SIDE] += all->plr_dir[Y_SIDE] * angle;
 	}
 }
 
-void		move_sideways(t_all *all, double angle)
+void	move_sideways(t_all *all, double angle)
 {
-	if (all->keys[2] || all->keys[3])
+	if (all->keys[A_KEY] || all->keys[D_KEY])
 	{
-		if (all->keys[3])
+		if (all->keys[D_KEY])
 			angle *= -1;
-		if (all->map[(int)(all->plr_x - all->plr_dir_y * angle)]
-		[(int)(all->plr_y)] != '1')
-			all->plr_x -= all->plr_dir_y * angle;
-		if (all->map[(int)(all->plr_x)]
-		[(int)(all->plr_y + all->plr_dir_x * angle)] != '1')
-			all->plr_y += all->plr_dir_x * angle;
+		if (all->map[(int)(all->plr[X_SIDE] - all->plr_dir[Y_SIDE] * angle)]
+		[(int)(all->plr[Y_SIDE])] != '1')
+			all->plr[X_SIDE] -= all->plr_dir[Y_SIDE] * angle;
+		if (all->map[(int)(all->plr[X_SIDE])]
+		[(int)(all->plr[Y_SIDE] + all->plr_dir[X_SIDE] * angle)] != '1')
+			all->plr[Y_SIDE] += all->plr_dir[X_SIDE] * angle;
 	}
 }
 
-int			key_press(int keycode, t_all *all)
+int	key_press(int keycode, t_all *all)
 {
-	if (keycode == UP || keycode == W)
-		all->keys[0] = 1;
-	else if (keycode == DOWN || keycode == S)
-		all->keys[1] = 1;
-	else if (keycode == A)
-		all->keys[2] = 1;
-	else if (keycode == D)
-		all->keys[3] = 1;
-	else if (keycode == LEFT)
-		all->keys[4] = 1;
-	else if (keycode == RIGHT)
-		all->keys[5] = 1;
-	else if (keycode == ESC)
+	if (keycode == ESC_KEY)
 		exit_cube(all, 0);
+	all->keys[keycode] = 1;
+//	if (keycode == UP_KEY || keycode == W_KEY)
+//		all->keys[0] = 1;
+//	else if (keycode == DOWN_KEY || keycode == S_KEY)
+//		all->keys[1] = 1;
+//	else if (keycode == A_KEY)
+//		all->keys[2] = 1;
+//	else if (keycode == D_KEY)
+//		all->keys[3] = 1;
+//	else if (keycode == LEFT_KEY)
+//		all->keys[4] = 1;
+//	else if (keycode == RIGHT_KEY)
+//		all->keys[5] = 1;
+//	else if (keycode == ESC_KEY)
+//		exit_cube(all, 0);
 	return (0);
 }
 
-int			key_release(int keycode, t_all *all)
+int	key_release(int keycode, t_all *all)
 {
-	if (keycode == UP || keycode == W)
-		all->keys[0] = 0;
-	else if (keycode == DOWN || keycode == S)
-		all->keys[1] = 0;
-	else if (keycode == A)
-		all->keys[2] = 0;
-	else if (keycode == D)
-		all->keys[3] = 0;
-	else if (keycode == LEFT)
-		all->keys[4] = 0;
-	else if (keycode == RIGHT)
-		all->keys[5] = 0;
+	all->keys[keycode] = 0;
+//	if (keycode == UP_KEY || keycode == W_KEY)
+//		all->keys[0] = 0;
+//	else if (keycode == DOWN_KEY || keycode == S_KEY)
+//		all->keys[1] = 0;
+//	else if (keycode == A_KEY)
+//		all->keys[2] = 0;
+//	else if (keycode == D_KEY)
+//		all->keys[3] = 0;
+//	else if (keycode == LEFT_KEY)
+//		all->keys[4] = 0;
+//	else if (keycode == RIGHT_KEY)
+//		all->keys[5] = 0;
 	return (0);
 }

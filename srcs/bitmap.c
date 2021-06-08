@@ -1,36 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   bitmap.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 19:22:14 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 18:08:22 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-static int		get_color(t_all *all, int x, int y)
+static int	get_color(t_all *all, int x, int y)
 {
 	char	*dst;
 	int		color;
 
 	dst = (char *)all->img.addr + (y * all->img.line_len
-								+ x * (all->img.bits_per_pixel / 8));
+			+ x * (all->img.bits_per_pixel / 8));
 	color = *(int *)dst;
 	return (color);
 }
 
-static void		bmp_colors(t_all *all, int img_size, int fd)
+static void	bmp_colors(t_all *all, int img_size, int fd)
 {
 	int		x;
 	int		y;
 	int		*colors;
 	int		i;
 
-	if (!(colors = malloc(sizeof(int) * img_size)))
+	colors = malloc(sizeof(int) * img_size);
+	if (!colors)
 		exit_cube(all, "Memory allocation failed\n");
 	i = 0;
 	y = all->res_y - 1;
@@ -48,7 +37,7 @@ static void		bmp_colors(t_all *all, int img_size, int fd)
 	free(colors);
 }
 
-static void		cast(int val, unsigned char *dst)
+static void	cast(int val, unsigned char *dst)
 {
 	int		i;
 
@@ -57,11 +46,12 @@ static void		cast(int val, unsigned char *dst)
 		dst[i] = (unsigned char)(val >> (i * 8));
 }
 
-static void		bmp_header(t_all *all, int img_size, int fd)
+static void	bmp_header(t_all *all, int img_size, int fd)
 {
 	unsigned char	*bmp;
 
-	if (!(bmp = malloc(sizeof(unsigned char) * 54)))
+	bmp = malloc(sizeof(unsigned char) * 54);
+	if (!bmp)
 		exit_cube(all, "Memory allocation failed\n");
 	ft_memset(bmp, 0, 54);
 	bmp[0] = 'B';
@@ -78,13 +68,14 @@ static void		bmp_header(t_all *all, int img_size, int fd)
 	free(bmp);
 }
 
-void			create_bmp(t_all *all)
+void	create_bmp(t_all *all)
 {
 	int		fd;
 	int		img_size;
 
 	img_size = all->res_x * all->res_y * 4;
-	if ((fd = open("screenshot.bmp", O_WRONLY | O_TRUNC | O_CREAT, 0664)) < 0)
+	fd = open("screenshot.bmp", O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	if (fd < 0)
 		exit_cube(all, "Failed to create .bmp file\n");
 	bmp_header(all, img_size, fd);
 	bmp_colors(all, img_size, fd);

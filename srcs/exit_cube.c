@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit_cube.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/03 04:24:15 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 18:44:43 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-static void		memory_clean_array(char **arr, int len)
+static void	memory_clean_array(char **arr, int len)
 {
 	int		i;
 
@@ -27,7 +15,7 @@ static void		memory_clean_array(char **arr, int len)
 	}
 }
 
-static void		memory_clean(t_all *all)
+static void	memory_clean(t_all *all)
 {
 	int		i;
 
@@ -53,7 +41,7 @@ static void		memory_clean(t_all *all)
 		free(all->tex);
 }
 
-void			exit_cube(t_all *all, char *str)
+void	exit_cube(t_all *all, char *str)
 {
 	if (str)
 	{

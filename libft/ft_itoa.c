@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 19:46:18 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/12 21:53:04 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:51:09 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,30 @@ static int	findlen(int n)
 	return (len);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int		i;
 	char	*str;
-	long	nbr;
 
-	nbr = n;
-	i = findlen(nbr);
-	if (!(str = (char *)malloc(sizeof(char) * i + 1)))
+	i = findlen(n);
+	str = (char *)malloc(sizeof(char) * i + 1);
+	if (!str)
 		return (NULL);
 	str[i] = '\0';
-	if (nbr == 0)
+	if (n == 0)
 	{
 		str[0] = '0';
 		return (str);
 	}
-	if (nbr < 0)
+	if (n < 0)
 	{
 		str[0] = '-';
-		nbr = -nbr;
+		n = -n;
 	}
-	while (nbr != 0)
+	while (n != 0)
 	{
-		str[--i] = nbr % 10 + '0';
-		nbr /= 10;
+		str[--i] = n % 10 + '0';
+		n /= 10;
 	}
 	return (str);
 }

@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/03 04:23:17 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/08 21:12:57 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "parser.h"
 
-#include "cub3d.h"
-
-static void		read_map(t_all *all, int fd)
+static void	read_map(t_all *all, int fd)
 {
 	char	*str;
 
@@ -20,7 +8,8 @@ static void		read_map(t_all *all, int fd)
 	if (!all->map_height || !all->map_width)
 		exit_cube(all, "No map\n");
 	str = 0;
-	if (!(all->map = ft_calloc(sizeof(char *), all->map_height)))
+	all->map = ft_calloc(sizeof(char *), all->map_height);
+	if (!all->map)
 		exit_cube(all, "Memory allocation failed\n");
 	all->map_flag = 0;
 	while (get_next_line(fd, &str) > 0)
@@ -34,7 +23,7 @@ static void		read_map(t_all *all, int fd)
 	str = 0;
 }
 
-static void		read_config(t_all *all, int fd)
+static void	read_config(t_all *all, int fd)
 {
 	char	*str;
 
@@ -63,15 +52,17 @@ static void		read_config(t_all *all, int fd)
 	str = 0;
 }
 
-void			parse_file(t_all *all, char *file)
+void	parse_file(t_all *all, char *file)
 {
 	int		fd;
 
-	if ((fd = open(file, O_RDONLY)) < 0)
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
 		exit_cube(all, "Failed to read map file\n");
 	read_config(all, fd);
 	close(fd);
-	if ((fd = open(file, O_RDONLY)) < 0)
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
 		exit_cube(all, "Failed to read map file\n");
 	read_map(all, fd);
 	close(fd);

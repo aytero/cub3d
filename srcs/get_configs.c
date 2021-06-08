@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_configs.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 20:55:52 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/08 21:12:52 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "parser.h"
 
-#include "cub3d.h"
-
-char		*get_texture_path(t_all *all, char *str)
+char	*get_texture_path(t_all *all, char *str)
 {
 	char	*texture;
 
@@ -20,24 +8,25 @@ char		*get_texture_path(t_all *all, char *str)
 		str++;
 	if (!(ft_strchr(".", *str)) || !(ft_strchr("/", *(str + 1))))
 		exit_cube(all, "Invalid texture path\n");
-	if (!(texture = ft_strdup(str)))
+	texture = ft_strdup(str);
+	if (!texture)
 		exit_cube(all, "Failed to get texture path\n");
 	return (texture);
 }
 
-void		get_texture(t_all *all, char *str)
+void	get_texture(t_all *all, char *str)
 {
 	if (*str == 'N' && *(str + 1) == 'O' && *(str + 2) == ' '
-					&& !all->tex_path[0])
+		&& !all->tex_path[0])
 		all->tex_path[0] = get_texture_path(all, str + 2);
 	else if (*str == 'S' && *(str + 1) == 'O' && *(str + 2) == ' '
-					&& !all->tex_path[1])
+		&& !all->tex_path[1])
 		all->tex_path[1] = get_texture_path(all, str + 2);
 	else if (*str == 'W' && *(str + 1) == 'E' && *(str + 2) == ' '
-					&& !all->tex_path[2])
+		&& !all->tex_path[2])
 		all->tex_path[2] = get_texture_path(all, str + 2);
 	else if (*str == 'E' && *(str + 1) == 'A' && *(str + 2) == ' '
-					&& !all->tex_path[3])
+		&& !all->tex_path[3])
 		all->tex_path[3] = get_texture_path(all, str + 2);
 	else if (*str == 'S' && *(str + 1) == ' ' && !all->tex_path[4])
 		all->tex_path[4] = get_texture_path(all, str + 1);
@@ -45,7 +34,7 @@ void		get_texture(t_all *all, char *str)
 		exit_cube(all, "Invalid textures configuration\n");
 }
 
-void		get_res(t_all *all, char *str)
+void	get_res(t_all *all, char *str)
 {
 	int		screen_res_x;
 	int		screen_res_y;
@@ -72,7 +61,7 @@ void		get_res(t_all *all, char *str)
 		all->res_y = screen_res_y;
 }
 
-int			get_fc_colors(t_all *all, char *str)
+int	get_fc_colors(t_all *all, char *str)
 {
 	int		i;
 	int		c[3];

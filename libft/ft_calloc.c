@@ -6,7 +6,7 @@
 /*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 14:54:24 by lpeggy            #+#    #+#             */
-/*   Updated: 2020/11/10 15:28:59 by lpeggy           ###   ########.fr       */
+/*   Updated: 2021/04/15 19:23:25 by lpeggy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;
 
-	if (!(ptr = (void *)malloc(size * count)))
+	ptr = (void *)malloc(size * count);
+	if (!ptr)
 		return (NULL);
 	ft_bzero(ptr, size * count);
 	return (ptr);

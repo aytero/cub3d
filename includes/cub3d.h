@@ -1,45 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 17:38:40 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/08 23:55:59 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
 # include <math.h>
 # include "../minilibx_opengl/mlx.h"
 # include "../libft/libft.h"
+# include <fcntl.h>
 
 # define SPEED 0.08
-# define DOWN 125
-# define UP 126
-# define LEFT 123
-# define RIGHT 124
-# define W 13
-# define A 0
-# define S 1
-# define D 2
-# define ESC 53
+# define DOWN_KEY 125
+# define UP_KEY 126
+# define LEFT_KEY 123
+# define RIGHT_KEY 124
+# define W_KEY 13
+# define A_KEY 0
+# define S_KEY 1
+# define D_KEY 2
+# define Q_KEY 12
+# define E_KEY 14
+# define ESC_KEY 53
 
-typedef struct	s_sprt_pos
+# define X_SIDE 0
+# define Y_SIDE 1
+
+typedef struct s_sprt_pos
 {
 	double		x;
 	double		y;
 }				t_sprt_pos;
 
-typedef struct	s_sprite
+typedef struct s_sprite
 {
-	int			nbr_sprt;
+	//int			nbr_sprt;
 	int			*order;
 	double		*dist;
 	double		sprite_x;
@@ -55,7 +48,12 @@ typedef struct	s_sprite
 	int			width;
 }				t_sprite;
 
-typedef struct	s_img
+typedef struct s_rc
+{
+	double		plr[2];
+}				t_rc;
+
+typedef struct s_img
 {
 	void		*img;
 	int			width;
@@ -66,12 +64,12 @@ typedef struct	s_img
 	int			endian;
 }				t_img;
 
-typedef struct	s_all
+typedef struct s_all
 {
 	void		*mlx;
 	void		*win;
 	int			x;
-	int			keys[6];
+	int			keys[256];
 	int			save;
 	double		coef;
 	int			res_x;
@@ -84,24 +82,36 @@ typedef struct	s_all
 	char		**map;
 	int			plr_flag;
 	int			map_flag;
-	double		plr_x;
-	double		plr_y;
-	double		plr_dir_x;
-	double		plr_dir_y;
-	double		plane_x;
-	double		plane_y;
+//	double		plr_x;
+//	double		plr_y;
+//	double		plr_dir_x;
+//	double		plr_dir_y;
+//	double		plane_x;
+//	double		plane_y;
+
+	double		plr[2];
+	double		plr_dir[2];
+	double		plane[2];
+	double		ray_dir[2];
+//	int			map_cur[2];
+	double		side_dist[2];
+	double		delta_dist[2];
+	int 		step[2];
+
+
 	double		camera_x;
-	double		ray_dir_x;
-	double		ray_dir_y;
-	int			map_x;
-	int			map_y;
-	double		side_dist_x;
-	double		side_dist_y;
-	double		delta_dist_x;
-	double		delta_dist_y;
+//	double		ray_dir_x;
+//	double		ray_dir_y;
+//	int			map_x;
+//	int			map_y;
+	int 		map_cur[2];
+//	double		side_dist_x;
+//	double		side_dist_y;
+//	double		delta_dist_x;
+//	double		delta_dist_y;
 	double		wall_dist;
-	int			step_x;
-	int			step_y;
+//	int			step_x;
+//	int			step_y;
 	int			hit;
 	int			side;
 	t_img		*tex;
@@ -116,18 +126,6 @@ typedef struct	s_all
 	t_sprt_pos	*sprt_pos;
 }				t_all;
 
-void			map_copy(t_all *all, char *str);
-void			get_map_size(t_all *all, char *str);
-int				map(t_all *all, char *str);
-int				get_fc_colors(t_all *all, char *str);
-char			*get_texture_path(t_all *all, char *str);
-void			get_texture(t_all *all, char *str);
-void			check_res(t_all *all);
-void			get_res(t_all *all, char *str);
-void			parse_file(t_all *all, char *file);
-void			check_args(t_all *all, int argc, char **argv);
-void			map_validate(t_all *all);
-int				find_plr(t_all *all, int y, int x);
 void			init_sprites(t_all *all);
 void			init_sprites_utils(t_all *all, t_sprite *sprt);
 void			sprite_calc(t_all *all, t_sprite *sprt, int i);

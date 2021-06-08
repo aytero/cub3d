@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 17:38:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/09 00:32:14 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
+#include "parser.h"
 
-int			hook_frame(t_all *all)
+int	hook_frame(t_all *all)
 {
 	move(all, SPEED);
 	move_sideways(all, SPEED);
@@ -44,20 +33,24 @@ static int	cross_press(t_all *all)
 	return (0);
 }
 
-void		init_mlx(t_all *all)
+void	init_mlx(t_all *all)
 {
-	if (!(all->mlx = mlx_init()))
+	all->mlx = mlx_init();
+	if (!all->mlx)
 		exit_cube(all, "Mlx init failed\n");
-	if (!(all->depth_buf = malloc(sizeof(double) * all->res_x)))
+	all->depth_buf = malloc(sizeof(double) * all->res_x);
+	if (!all->depth_buf)
 		exit_cube(all, "Memory allocation failed\n");
 	load_texture(all);
-	if (!(all->win = mlx_new_window(all->mlx, all->res_x,
-					all->res_y, "yume")))
+	all->win = mlx_new_window(all->mlx, all->res_x, all->res_y, "yume");
+	if (!all->win)
 		exit_cube(all, "Failed to create window\n");
-	if (!(all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y)))
+	all->img.img = mlx_new_image(all->mlx, all->res_x, all->res_y);
+	if (!all->img.img)
 		exit_cube(all, "Failed to create image\n");
-	if (!(all->img.addr = (int *)mlx_get_data_addr(all->img.img,
-			&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian)))
+	all->img.addr = (int *)mlx_get_data_addr(all->img.img,
+			&all->img.bits_per_pixel, &all->img.line_len, &all->img.endian);
+	if (!all->img.addr)
 		exit_cube(all, "Failed to create image\n");
 	if (all->save)
 		hook_frame(all);
@@ -68,7 +61,7 @@ void		init_mlx(t_all *all)
 	mlx_loop(all->mlx);
 }
 
-void		check_args(t_all *all, int argc, char **argv)
+void	check_args(t_all *all, int argc, char **argv)
 {
 	int		len;
 
@@ -76,7 +69,7 @@ void		check_args(t_all *all, int argc, char **argv)
 		exit_cube(all, "Invalid number of arguments\n");
 	len = ft_strlen(argv[1]);
 	if (!((argv[1][len - 1] == 'b' && argv[1][len - 2] == 'u'
-			&& argv[1][len - 3] == 'c' && argv[1][len - 4] == '.')))
+		&& argv[1][len - 3] == 'c' && argv[1][len - 4] == '.')))
 		exit_cube(all, "Invalid map file extension\n");
 	if (argc == 3)
 	{
@@ -87,9 +80,9 @@ void		check_args(t_all *all, int argc, char **argv)
 	}
 }
 
-int			main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_all all;
+	t_all	all;
 
 	ft_bzero(&all, sizeof(all));
 	check_args(&all, argc, argv);

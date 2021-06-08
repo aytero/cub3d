@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lpeggy <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/05 16:29:33 by lpeggy            #+#    #+#             */
-/*   Updated: 2021/04/05 17:08:36 by lpeggy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-int		atoi_res(const char *str)
+int	atoi_res(const char *str)
 {
 	int		res;
 
@@ -33,7 +21,7 @@ int		atoi_res(const char *str)
 	return (res);
 }
 
-int		atoi_color(const char *str)
+int	atoi_color(const char *str)
 {
 	int		color;
 
