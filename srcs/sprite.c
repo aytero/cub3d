@@ -31,7 +31,8 @@ void	sprite_calc(t_all *all, t_sprite *sprt, int i)
 
 	sprt->sprite_x = all->sprt_pos[sprt->order[i]].x - all->plr[X_SIDE];
 	sprt->sprite_y = all->sprt_pos[sprt->order[i]].y - all->plr[Y_SIDE];
-	inv = 1.0 / (all->plane[X_SIDE] * all->plr_dir[Y_SIDE] - all->plr_dir[X_SIDE] * all->plane[Y_SIDE]);
+	inv = 1.0 / (all->plane[X_SIDE] * all->plr_dir[Y_SIDE]
+			- all->plr_dir[X_SIDE] * all->plane[Y_SIDE]);
 	sprt->modif_x = inv * (all->plr_dir[Y_SIDE] * sprt->sprite_x
 			- all->plr_dir[X_SIDE] * sprt->sprite_y);
 	sprt->modif_y = inv * (-all->plane[Y_SIDE] * sprt->sprite_x

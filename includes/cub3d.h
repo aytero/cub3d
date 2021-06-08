@@ -32,7 +32,6 @@ typedef struct s_sprt_pos
 
 typedef struct s_sprite
 {
-	//int			nbr_sprt;
 	int			*order;
 	double		*dist;
 	double		sprite_x;
@@ -82,36 +81,16 @@ typedef struct s_all
 	char		**map;
 	int			plr_flag;
 	int			map_flag;
-//	double		plr_x;
-//	double		plr_y;
-//	double		plr_dir_x;
-//	double		plr_dir_y;
-//	double		plane_x;
-//	double		plane_y;
-
 	double		plr[2];
 	double		plr_dir[2];
 	double		plane[2];
 	double		ray_dir[2];
-//	int			map_cur[2];
 	double		side_dist[2];
 	double		delta_dist[2];
 	int 		step[2];
-
-
 	double		camera_x;
-//	double		ray_dir_x;
-//	double		ray_dir_y;
-//	int			map_x;
-//	int			map_y;
 	int 		map_cur[2];
-//	double		side_dist_x;
-//	double		side_dist_y;
-//	double		delta_dist_x;
-//	double		delta_dist_y;
 	double		wall_dist;
-//	int			step_x;
-//	int			step_y;
 	int			hit;
 	int			side;
 	t_img		*tex;

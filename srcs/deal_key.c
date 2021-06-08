@@ -53,37 +53,11 @@ int	key_press(int keycode, t_all *all)
 	if (keycode == ESC_KEY)
 		exit_cube(all, 0);
 	all->keys[keycode] = 1;
-//	if (keycode == UP_KEY || keycode == W_KEY)
-//		all->keys[0] = 1;
-//	else if (keycode == DOWN_KEY || keycode == S_KEY)
-//		all->keys[1] = 1;
-//	else if (keycode == A_KEY)
-//		all->keys[2] = 1;
-//	else if (keycode == D_KEY)
-//		all->keys[3] = 1;
-//	else if (keycode == LEFT_KEY)
-//		all->keys[4] = 1;
-//	else if (keycode == RIGHT_KEY)
-//		all->keys[5] = 1;
-//	else if (keycode == ESC_KEY)
-//		exit_cube(all, 0);
 	return (0);
 }
 
 int	key_release(int keycode, t_all *all)
 {
 	all->keys[keycode] = 0;
-//	if (keycode == UP_KEY || keycode == W_KEY)
-//		all->keys[0] = 0;
-//	else if (keycode == DOWN_KEY || keycode == S_KEY)
-//		all->keys[1] = 0;
-//	else if (keycode == A_KEY)
-//		all->keys[2] = 0;
-//	else if (keycode == D_KEY)
-//		all->keys[3] = 0;
-//	else if (keycode == LEFT_KEY)
-//		all->keys[4] = 0;
-//	else if (keycode == RIGHT_KEY)
-//		all->keys[5] = 0;
 	return (0);
 }

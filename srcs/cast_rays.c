@@ -24,9 +24,10 @@ static int	calc_hit(t_all *all)
 
 void	cast_rays(t_all *all)
 {
-	init_rc(all);
+	int i;
 
-	int i = X_SIDE;
+	init_rc(all);
+	i = X_SIDE;
 	while (i < 2)
 	{
 		all->delta_dist[i] = fabs(1 / all->ray_dir[i]);
@@ -43,30 +44,6 @@ void	cast_rays(t_all *all)
 		}
 		i++;
 	}
-
-
-//	all->delta_dist[Y_SIDE] = fabs(1 / all->ray_dir[Y_SIDE]);
-//	all->delta_dist[X_SIDE] = fabs(1 / all->ray_dir[X_SIDE]);
-//	if (all->ray_dir[X_SIDE] >= 0)
-//	{
-//		all->side_dist[X_SIDE] = (all->map_x + 1.0 - all->plr[X_SIDE]) * all->delta_dist[X_SIDE];
-//		all->step[X_SIDE] = 1;
-//	}
-//	else
-//	{
-//		all->side_dist[X_SIDE] = (all->plr[X_SIDE] - all->map_x) * all->delta_dist[X_SIDE];
-//		all->step[X_SIDE] = -1;
-//	}
-//	if (all->ray_dir[Y_SIDE] >= 0)
-//	{
-//		all->side_dist[Y_SIDE] = (all->map_y + 1.0 - all->plr[Y_SIDE]) * all->delta_dist[Y_SIDE];
-//		all->step[Y_SIDE] = 1;
-//	}
-//	else
-//	{
-//		all->side_dist[Y_SIDE] = (all->plr[Y_SIDE] - all->map_y) * all->delta_dist[Y_SIDE];
-//		all->step[Y_SIDE] = -1;
-//	}
 	if (!calc_hit(all))
 		return ;
 }
@@ -76,13 +53,6 @@ void	wall_draw_calc(t_all *all)
 
 	all->wall_dist = (all->map_cur[all->side] - all->plr[all->side]
 		+ (1.0 - all->step[all->side]) / 2.0) / all->ray_dir[all->side];
-
-//	if (all->side == X_SIDE)
-//		all->wall_dist = (all->map_x - all->plr[X_SIDE] + (1.0 - all->step[X_SIDE])
-//				/ 2.0) / all->ray_dir[X_SIDE];
-//	else
-//		all->wall_dist = (all->map_y - all->plr[Y_SIDE] + (1.0 - all->step[Y_SIDE])
-//				/ 2.0) / all->ray_dir[Y_SIDE];
 	all->line_height = (int)(all->res_y * all->coef / all->wall_dist);
 	all->draw_start = all->res_y / 2 - all->line_height / 2;
 	all->draw_end = all->res_y / 2 + all->line_height / 2;
@@ -99,12 +69,7 @@ void	tex_calc(t_all *all)
 	int		tex_x;
 
 	find_tex_id(all);
-
-//	wall_x = all->plr[all->side] + all->wall_dist * all->ray_dir[all->side];
-	if (all->side == X_SIDE)
-		wall_x = all->plr[Y_SIDE] + all->wall_dist * all->ray_dir[Y_SIDE];
-	else
-		wall_x = all->plr[X_SIDE] + all->wall_dist * all->ray_dir[X_SIDE];
+	wall_x = all->plr[!all->side] + all->wall_dist * all->ray_dir[!all->side];
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)all->tex[all->tex_id].width);
 	if (all->side == X_SIDE && all->ray_dir[X_SIDE] > 0)
