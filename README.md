@@ -13,7 +13,7 @@ Maze-game made with a custom raycasting engine. Inspired by Wolfenstein 3D.
 ## Movement:
 WASD, Up, Down to move\
 Left, Right to rotate\
-Esc to exit\
+Esc to exit
 
 
 ### Some generative art made with the program
