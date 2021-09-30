@@ -9,6 +9,6 @@ To launch: make && ./cub3D maps/map.cub
 
 
 # Movement:
-WASD, Up, Down to move
-Left, Right to rotate
+WASD, Up, Down to move\
+Left, Right to rotate\
 Esc to exit
